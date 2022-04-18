@@ -91,7 +91,7 @@ namespace CMS
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                     webBuilder.UseIISIntegration();
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseKestrel(options => options.Limits.MaxRequestBodySize = 107374182400);
+                   
                 });
     }
 }

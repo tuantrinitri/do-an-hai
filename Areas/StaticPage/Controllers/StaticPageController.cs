@@ -82,9 +82,8 @@ namespace CMS.Areas.StaticPages.Controllers
         {
             if (ModelState.IsValid)
             {
-                SlugHelper.Config slugConfig = new SlugHelper.Config();
-                slugConfig.StringReplacements.Add("đ", "d");
-                SlugHelper helper = new SlugHelper(slugConfig);
+                SlugHelper slugConfig = new SlugHelper();
+                SlugHelper helper = new SlugHelper();
                 staticPage.Title = staticPage.Title.FullTrim();
                 staticPage.ShortDesc = staticPage.ShortDesc.FullTrim();
                 string slug = helper.GenerateSlug(staticPage.Title);
@@ -149,9 +148,8 @@ namespace CMS.Areas.StaticPages.Controllers
                     StaticPage page = _context.StaticPages.FirstOrDefault(d => d.Id == id);
                     StaticPage pageToUpdate = _mapper.Map<UpdatePageDTO, StaticPage>(updatePageDTO, page);
 
-                    SlugHelper.Config slugConfig = new SlugHelper.Config();
-                    slugConfig.StringReplacements.Add("đ", "d");
-                    SlugHelper helper = new SlugHelper(slugConfig);
+                    SlugHelper slugConfig = new SlugHelper();
+                    SlugHelper helper = new SlugHelper();
                     string slug = helper.GenerateSlug(pageToUpdate.Title);
                     var slugCount = await _context.StaticPages.Where(dc => dc.Slug == slug && dc.Id != page.Id).CountAsync();
                     pageToUpdate.Slug = slugCount > 0 ? slug + "-" + page.Id.ToString() : slug;

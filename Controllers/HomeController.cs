@@ -26,6 +26,8 @@ namespace CMS.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            return Redirect("Admincp");
+
             var globalSetting = await _context.GlobalSettings.FirstOrDefaultAsync();
             if (globalSetting == null)
             {

@@ -78,9 +78,8 @@ namespace CMS.Areas.PostManager.Controllers
                 PostCategory category = _mapper.Map<PostCategory>(postCategoryDTO);
 
                 // generate slug
-                SlugHelper.Config slugConfig = new SlugHelper.Config();
-                slugConfig.StringReplacements.Add("đ", "d");
-                SlugHelper _slugHelper = new SlugHelper(slugConfig);
+                SlugHelper slugConfig = new SlugHelper();
+                SlugHelper _slugHelper = new SlugHelper();
                 string slug = _slugHelper.GenerateSlug(category.Name.FullTrim());
                 var slugCount = await _context.PostCategories.Where(p => p.Slug == slug).CountAsync();
                 category.Slug = slugCount > 0 ? slug + "-" + Math.Round((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds) : slug;
@@ -135,9 +134,8 @@ namespace CMS.Areas.PostManager.Controllers
                     PostCategory postCategory = _context.PostCategories.FirstOrDefault(pc => pc.Id == id);
                     PostCategory postCategoryToUpdate = _mapper.Map<UpdatePostCategoryDTO, PostCategory>(postCategoryDTO, postCategory);
                     // generate slug
-                    SlugHelper.Config slugConfig = new SlugHelper.Config();
-                    slugConfig.StringReplacements.Add("đ", "d");
-                    SlugHelper _slugHelper = new SlugHelper(slugConfig);
+                    SlugHelper slugConfig = new SlugHelper();
+                    SlugHelper _slugHelper = new SlugHelper();
                     string slug = _slugHelper.GenerateSlug(postCategory.Name.FullTrim());
                     var slugCount = await _context.PostCategories.Where(p => p.Slug == slug && p.Id != postCategory.Id).CountAsync();
                     postCategoryToUpdate.Slug = slugCount > 0 ? slug + "-" + Math.Round((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds) : slug;

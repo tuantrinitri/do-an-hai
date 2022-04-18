@@ -326,9 +326,8 @@ namespace CMS.Areas.PostManager.Controllers
                 post.CreatedById = User.GetId();
                 post.UpdatedById = User.GetId();
                 // generate slug
-                SlugHelper.Config slugConfig = new SlugHelper.Config();
-                slugConfig.StringReplacements.Add("đ", "d");
-                SlugHelper _slugHelper = new SlugHelper(slugConfig);
+                SlugHelper slugConfig = new SlugHelper();
+                SlugHelper _slugHelper = new SlugHelper();
                 string slug = _slugHelper.GenerateSlug(post.Title.FullTrim());
                 var slugCount = await _context.Posts.Where(p => p.Slug == slug).CountAsync();
                 post.Slug = slugCount > 0 ? slug + "-" + Math.Round((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds) : slug;
@@ -439,9 +438,8 @@ namespace CMS.Areas.PostManager.Controllers
                     postToUpdate.UpdatedAt = DateTime.Now;
                     postToUpdate.UpdatedById = User.GetId();
 
-                    SlugHelper.Config slugConfig = new SlugHelper.Config();
-                    slugConfig.StringReplacements.Add("đ", "d");
-                    SlugHelper helper = new SlugHelper(slugConfig);
+                    SlugHelper slugConfig = new SlugHelper();
+                    SlugHelper helper = new SlugHelper();
                     string slug = helper.GenerateSlug(postToUpdate.Title);
                     var slugCount = await _context.StaticPages.Where(dc => dc.Slug == slug && dc.Id != post.Id).CountAsync();
                     postToUpdate.Slug = slugCount > 0 ? slug + "-" + post.Id.ToString() : slug;

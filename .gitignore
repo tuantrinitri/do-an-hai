@@ -12,12 +12,7 @@
 
 # MITECH
 ScaffoldingReadMe.txt
-appsettings.*
-Properties/
-Migrations/
-Migrations/*
 .vscode
-Migrations
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)
