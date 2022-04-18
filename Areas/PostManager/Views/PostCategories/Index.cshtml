@@ -1,0 +1,69 @@
+﻿@model IEnumerable<CMS.Areas.PostManager.Models.PostCategory>
+
+@{
+    ViewData["Title"] = "Danh sách danh mục bài viết";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header bg-white header-elements-inline">
+        <h6 class="card-title">@ViewData["Title"]</h6>
+        <div class="header-elements">
+            <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        @if (Model.Count() > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Activated)
+                        </th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-truncate" style="max-width: 120px;">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td td class="text-truncate" style="max-width: 300px;">
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td class="text-truncate" style="max-width: 30px;">
+                                @if (item.Activated)
+                                {
+                                    <span class="text-success">Hiển thị</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger">Ẩn</span>
+                                }
+                            </td>
+                            <td class="text-center text-truncate" style="max-width: 60px;">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="text-primary ml-2" data-popup="tooltip" title="Sửa"><i class="fa fa-edit"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" onclick="askToDelete(this); return false;" class="text-danger ml-2" data-popup="tooltip" title="Xóa"><i class="fa fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="p-3">
+                <div class="alert alert-info alert-sm">Không tìm thấy dữ liệu</div>
+            </div>
+        }
+    </div>
+</div>

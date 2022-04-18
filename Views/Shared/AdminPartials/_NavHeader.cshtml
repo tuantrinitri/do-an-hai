@@ -1,0 +1,53 @@
+@using Microsoft.AspNetCore.Identity
+@using CMS.Areas.Identity.Models
+@using CMS.Helpers
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<div class="navbar navbar-expand-md navbar-dark bg-indigo navbar-slide-top navbar-topheader">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block">
+                <i class="icon-paragraph-justify3"></i>
+            </a>
+        </li>
+    </ul>
+    <span class="navbar-text ml-md-3">
+        <i class="icon-alarm font-size-sm mr-1 font-weight-semibold"></i>
+        <span id="timer_header"></span>
+    </span>
+    <div class="navbar-brand d-flex justify-content-center">
+        <a asp-area="AdminCP" asp-action="Index" asp-controller="Dashboard" class="d-block">
+            <strong style="text-transform: uppercase;">HỆ THỐNG QUẢN LÝ</strong>
+        </a>
+    </div>
+    <div class="d-md-none">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
+            <i class="icon-tree5"></i>
+        </button>
+        <button class="navbar-toggler sidebar-mobile-main-toggle" type="button">
+            <i class="icon-paragraph-justify3"></i>
+        </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar-mobile">
+
+        <ul class="navbar-nav ml-md-auto">
+            <li class="nav-item">
+                <a asp-area="" asp-action="Index" asp-controller="Home" class="navbar-nav-link" target="_blank" data-popup="tooltip" title="Xem website">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown dropdown-user">
+                <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle legitRipple" data-toggle="dropdown" aria-expanded="false">
+                    <span><strong>@User.GetFullName()</strong></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a asp-action="Index" asp-controller="Profile" asp-area="Identity" class="dropdown-item">Thông tin tài khoản</a>
+                    <div class="dropdown-divider opacity-75"></div>
+                    <a href="javascript:;" onclick="askToLogout(); return false;" class="dropdown-item text-danger">Đăng xuất</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

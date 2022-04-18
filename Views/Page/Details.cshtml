@@ -1,0 +1,45 @@
+@using CMS.Helpers
+@model CMS.Areas.StaticPages.Models.StaticPage
+@{
+    Layout = "~/Views/Shared/Public/_Layout_Page.cshtml";
+    ViewData["Title"] = Model.Title;
+    ViewData["Description"] = Model.ShortDesc;
+    ViewData["Url"] = "http://daotao.mitechcenter.vn/trang/" + Model.Slug;
+    ViewData["Image"] = "http://daotao.mitechcenter.vn/assets/web/images/logo.png";
+}
+            <nav class="nav-breadcrumb pt-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/">Trang chủ</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <span>@Model.Title</span>
+                    </li>
+                </ol>
+            </nav>
+            <section class="page" id="detail">
+                <h1 style="font-size: 18px;color: #dc2f27;line-height: 22px;"><strong>@Html.DisplayFor(model => model.Title)</strong></h1>
+                @Html.DisplayFor(model => model.Content)
+            </section>
+            <div class="list-social pt-3">
+                    <ul>
+                        <li class="item">
+                            <a href="" onclick="window.history.back();" class="back-link" title="Về trang trước">
+                                <img src="/assets/web/images/ion_arrow-back-circle-outline.png" alt="alt-icon">
+                                <span>Về trang trước</span>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="javascript:void(0)" id="share" title="Chia sẻ">
+                                <img src="/assets/web/images/ant-design_share-alt-outlined.png" alt="alt-icon">
+                                <span>Chia sẻ</span>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="javascript:void(0)" id="printnew" title="In Trang">
+                                <img src="/assets/web/images/ion_print-outline.png" alt="alt-icon">
+                                <span>In Trang</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>

@@ -1,0 +1,159 @@
+﻿@using Microsoft.Extensions.Options
+@inject IOptions<CMS.Models.ReCAPTCHASettings_V2> GooglereCAPTCHA
+@using CMS.Helpers
+@inject ContextHelper ctxHelper
+@model CMS.Areas.ContactManager.Models.Contact
+@{
+    ViewData["Title"] = "Liên hệ";
+    Layout = "~/Views/Shared/Public/_Layout_Home.cshtml";
+    var globalSettings = ctxHelper._context.GlobalSettings.FirstOrDefault();
+    if (globalSettings == null) globalSettings = DefaultGlobalSettings._DefaultSettings;
+    else globalSettings = globalSettings.MapSettings();
+}
+<main>
+    <div class="container">
+        <nav class="nav-breadcrumb pt-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item ">
+                    <a asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <span>Liên hệ</span>
+                </li>
+            </ol>
+        </nav>
+        <section class="contact">
+            <div class="row">
+                <div class="col-xs-12 col-md-6 col-lg-5">
+                    <div class="contact-information">
+                        <fieldset>
+                            <legend>Thông tin liên hệ</legend>
+                            <div class="box-text">
+                                <h2>
+                                    @globalSettings.UnitName
+                                </h2>
+                                <ul class="list-contact">
+                                    <li class="item-contact">
+                                        <i class="fas fa-phone icon-contact"></i>
+                                        Điện thoại: <a href="tel:@globalSettings.PhoneNumber"><strong>@globalSettings.PhoneNumber</strong></a>
+                                    </li>
+                                    <li class="item-contact">
+                                        <i class="fas fa-fax icon-contact"></i>
+                                        Fax: <strong>@globalSettings.Fax</strong>
+                                    </li>
+                                    <li class="item-contact">
+                                        <i class="fas fa-envelope icon-contact"></i>
+                                        @{
+                                            var emails = globalSettings.Email.Trim().Split(";");
+                                        }
+                                        Email: @for (int i = 0; i < emails.Count(); i++)
+                                        {<a href="mailto:@emails[i]"><strong>@emails[i]</strong></a> var or = i == emails.Count() - 1 ? "" : "hoặc"; @or}
+                                    </li>
+                                </ul>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="contact-map">
+                        <div class="box-text">
+                            @Html.Raw(System.Web.HttpUtility.HtmlDecode(globalSettings.EmbedMapURL))
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-7">
+                    <div class="contact-form">
+                        <form asp-action="Index" method="post">
+                            <fieldset class="mb-3">
+                                <legend>Gửi liên hệ cho chúng tôi</legend>
+                                <div class="box">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-user icon"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control" placeholder="Họ và tên" asp-for="Fullname">
+                                                </div>
+                                                <span asp-validation-for="Fullname" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><i class="fas fa-envelope icon"></i></div>
+                                                    </div>
+                                                    <input class="form-control" placeholder="Email" asp-for="Email">
+                                                </div>
+                                                <span asp-validation-for="Email" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="fas fa-phone icon"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" class="form-control" placeholder="Số điện thoại" asp-for="PhoneNumber">
+                                                </div>
+                                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><i class="fas fa-file-alt icon"></i></div>
+                                                    </div>
+                                                    <input type="text" class="form-control" placeholder="Tiêu đề" asp-for="Title" id="title">
+                                                </div>
+                                                <span asp-validation-for="Title" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        <div class="input-group">
+                                            <textarea class="form-control" placeholder="Nội dung" asp-for="Content" rows="5"></textarea>
+                                        </div>
+                                        <span asp-validation-for="Content" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="box-bottom">
+                                <div class="form-group">
+                                    <input type="hidden" id="captcha_token" name="captcha_token" />
+                                    @Html.ValidationMessage("BotVerify")
+                                    <div class="form-group text-center">
+                                        <div class="box" style="display: inline-block;" id="my_captcha">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center mb-0">
+                                        <button type="submit" class="btn" value="Submit">
+                                            Gửi liên hệ
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=vi"
+        async defer>
+</script>
+<script type="text/javascript">
+        var onloadCallback = function () {
+            grecaptcha.render('my_captcha', {
+                'sitekey': '@GooglereCAPTCHA.Value.ReCAPTCHA_Site_Key'
+            });
+        };
+</script>

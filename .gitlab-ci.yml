@@ -1,0 +1,67 @@
+variables:
+    DOTNET_PATH: 'C:\Program Files\dotnet\dotnet.exe'
+    EF_PATH: 'C:\Users\Administrator\.dotnet\tools\dotnet-ef.exe'
+
+stages:
+    - pullcode  
+    - build
+    - deploy
+pullcode:
+    stage: pullcode
+    tags:
+        - windows-gitlab-runner
+    before_script:
+        - git clean -fd
+    script:
+        - echo "this is pull code stage"
+        - Stop-Service -Name "TcuWebApp"
+        - robocopy "C:\Gitlab-runner\builds\ow21nAzo\0\project\tcu-cms" 
+          "C:\dotnet-projects\tcu-cms" /COPYALL /B /SEC /MIR /R:0 /W:0 /NFL /NDL 
+          /XD "C:\Gitlab-runner\builds\ow21nAzo\0\project\tcu-cms\.git" 
+          "C:\Gitlab-runner\builds\ow21nAzo\0\project\tcu-cms\Migrations"
+          "C:\dotnet-projects\tcu-cms\Migrations"
+          /XF ".env" ".htaccess" "appsettings.json" "appsettings.Development.json" "deploy.ps1" "Program.cs"; exit 0
+        - echo "xong"
+    only:
+       - master
+build:
+    stage: build
+    tags:
+        - windows-gitlab-runner
+    script:
+        - echo "this is build stage"
+        - cd "C:\dotnet-projects\tcu-cms"
+        # - powershell -File deploy.ps1
+        #- '& "$env:DOTNET_PATH" restore'
+        #- '& "$env:EF_PATH" database drop -f'
+        #- '& "$env:EF_PATH" migrations add init'
+        #- '& "$env:EF_PATH" database update'
+        #- '& "$env:DOTNET_PATH" run /seed'
+        #- '& "$env:EF_PATH" migrations remove'
+        - '& "$env:DOTNET_PATH" publish -c Release'
+        - robocopy "C:\dotnet-projects\tcu-cms\bin\Release\netcoreapp3.1\publish" 
+          "C:\dotnet-projects\tcu-publised" /COPYALL /B /SEC /MIR /R:0 /W:0 /NFL /NDL 
+           /XD "C:\dotnet-projects\tcu-publised\wwwroot\public"
+            "C:\dotnet-projects\tcu-cms\bin\Release\netcoreapp3.1\publish\wwwroot\public" ; exit 0
+        - echo "xong"
+    only:
+        - master
+
+deploy:
+    stage: deploy
+    tags:
+        - windows-gitlab-runner
+    script:
+        - echo "this is deploy stage"
+        - cd "C:\dotnet-projects\tcu-cms"
+        #- powershell -File deploy.ps1
+        #- '& "$env:DOTNET_PATH" restore'
+        #- '& "$env:EF_PATH" database drop -f'
+        #- '& "$env:EF_PATH" migrations add init'
+        #- '& "$env:EF_PATH" database update'
+        #- '& "$env:DOTNET_PATH" run /seed'
+        #- '& "$env:EF_PATH" migrations remove'
+        - Start-Service -Name "TcuWebApp"
+        - echo "xong"
+    only:
+        - master

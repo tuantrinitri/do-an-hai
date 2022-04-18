@@ -1,0 +1,108 @@
+@using CMS.Helpers
+@model IList<CMS.Models.RightWidgetViewModel>
+
+<div class="sidebar pt-3">
+    <aside class="banner">
+        <ul class="intro__list">
+            <li class="intro__item">
+                <a href="http://elearning.mitechcenter.vn" target="_blank" title="E-Learning">
+                    <img data-src="/assets/web/images/e-Learning-tcu.jpg" class="lazyload" alt="alt-image">
+                </a>
+            </li>
+            <li class="intro__item">
+                <a href="http://thisinh.thithptquocgia.edu.vn/" target="_blank" title="Tra cứu điểm thi">
+                    <img data-src="/assets/web/images/tra-cuu-diem-thi-tcu.jpg" class="lazyload" alt="alt-image">
+                </a>
+            </li>
+          
+            <li class="intro__item">
+                <a href="/trang/ho-so-tuyen-sinh" title="Hồ sơ tuyển sinh">
+                    <img data-src="/assets/web/images/ho-so-tuyen-sinh-tcu.jpg" class="lazyload" alt="alt-image">
+                </a>
+            </li>
+        </ul>
+    </aside>
+    @foreach(var item in Model)
+    {
+        if(item.IsPreview)
+        {
+        <aside class="aside-featured">
+            <div class="d-flex aside-title">
+                <div class="flex-grow-1">
+                    <h4><span>@item.Name</span></h4>
+                </div>
+                <div class="align-self-center">
+                    <a class="read-more" href="/chuyen-muc/@item.CategorySlug" title="">Xem thêm<span>[+]</span></a>
+                </div>
+            </div>
+            <div class="list-post">
+            @if(item.Posts.Count > 0)
+            {
+                <article class="item full-thumb">
+                    <div class="image">
+                        <a href="/bai-viet/@item.Posts.First().Slug" title="@item.Posts.First().Title">
+                            <img data-src="@item.Posts.FirstOrDefault().AvatarUrl" class="lazyload" alt="alt-image">
+                        </a>
+                    </div>
+                    <div class="title">
+                        <h3>
+                            <a href="/bai-viet/@item.Posts.First().Slug" title="@item.Posts.First().Title">
+                                @item.Posts.First().Title
+                            </a>
+                        </h3>
+                    </div>
+                </article>
+                @foreach(var post in item.Posts)
+                {
+                    <article class="item">
+                        <div class="image">
+                            <a href="/bai-viet/@post.Slug" title="@post.Title">
+                                <img data-src="@post.AvatarUrl" class="lazyload" alt="@post.Title">
+                            </a>
+                        </div>
+                        <div class="title">
+                            <h3>
+                                <a href="/bai-viet/@post.Slug" title="@post.Title">
+                                    @post.Title
+                                </a>
+                            </h3>
+                        </div>
+                    </article>
+                }
+            }
+            </div>
+        </aside>  
+        }
+        else 
+        {
+        <aside class="aside-notice">
+            <div class="d-flex aside-title">
+                <div class="flex-grow-1">
+                    <h4><span>@item.Name</span></h4>
+                </div>
+                <div class="align-self-center">
+                    <a class="read-more" href="/chuyen-muc/@item.CategorySlug" title="@item.Name">Xem thêm<span>[+]</span></a>
+                </div>
+            </div>
+            <div class="list-post">
+            @if(item.Posts.Count > 0)
+            {
+                foreach( var post in item.Posts)
+                {
+                    <article class="item">
+                        <div class="title">
+                            <h3>
+                                <a href="/bai-viet/@post.Slug" title="@post.Title">
+                                    @post.ShortDesc
+                                </a>
+                            </h3>
+                        </div>
+                    </article>                    
+                }
+            }              
+            </div>
+        </aside>        
+        }                                 
+    }
+</div>
+

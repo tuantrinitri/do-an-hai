@@ -1,0 +1,130 @@
+﻿@model CMS.Helpers.PaginatedList<CMS.Areas.MenuManager.DTOs.MenuItemTree>
+
+@{
+    ViewData["Title"] = ViewData["MenuTitle"];
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<a asp-action="Index" asp-controller="Menus" class="btn btn-dark mb-2">&larr; Danh sách menu</a>
+
+<div class="card">
+    <div class="card-header bg-white header-elements-inline">
+        <h6 class="card-title">Quản lý Menu Item / <small>@ViewData["Title"]</small></h6>
+        <div class="header-elements">
+            <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        @if (Model.Count() > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:100px;">
+                            Thứ tự
+                        </th>
+                        <th>
+                            Tiêu đề
+                        </th>
+                        <th style="width:20%">
+                            Liên kết
+                        </th>
+                        <th class="text-center" style="width:150px;">
+                            Trạng thái
+                        </th>
+                        <th class="text-center" style="width:120px;">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <input type="number" data-id="@item.Id" value="@item.Order" class="form-control" onchange="changeOrder(this); return false;" />
+                            </td>
+                            <td>
+                                @item.Prefix <strong>@item.Title</strong>
+                            </td>
+                            <td>
+                                <a href="@item.Link" target="_blank">@item.Link</a>
+                            </td>
+                            <td class="text-center">
+                                @if (item.Published)
+                                {
+                                    <span class="text-success">Hiển thị</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger">Ẩn</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="text-primary ml-2" data-popup="tooltip" title="Sửa"><i class="fa fa-edit"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" onclick="askToDelete(this); return false;" class="text-danger ml-2" data-popup="tooltip" title="Xóa"><i class="fa fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="p-3">
+                <div class="alert alert-info alert-sm">Không tìm thấy dữ liệu</div>
+            </div>
+        }
+    </div>
+    @if (Model.TotalPages > 0)
+    {
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+            }
+            <div>
+                Hiển thị <b>@Model.Count()</b> trên tổng số <b>@ViewBag.totalitem</b> kết quả
+            </div>
+            <paginate info="@Model" page-action="Index" page-route-q="@ViewBag.filter_q" page-route-categoryId="@ViewBag.filter_categoryId" page-route-published="@ViewBag.filter_published" class="pagination pagination-flat pagination-sm justify-content-between mt-2 mt-sm-0"></paginate>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        var inProcess = false;
+        function changeOrder(el) {
+            if (!inProcess) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ChangeOrder")",
+                    data: {
+                        __RequestVerificationToken: _token(),
+                        id: $(el).data("id"),
+                        order: $(el).val()
+                    },
+                    dataType: "JSON",
+                    success: function (res) {
+                        inProcess = false;
+                        if (res.status) {
+                            if (typeof res.reload !== typeof undefined && res.reload) {
+                                showNotify(res.message, "success");
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 1500);
+                            } else {
+                                showNotify(res.message, "success");
+                            }
+                        } else {
+                            showNotify(res.message, "error");
+                        }
+                    },
+                    error: function (res) {
+                        showNotify("Lỗi không xác định. Không thể cập nhật!", "error");
+                    }
+                });
+            }
+        }
+    </script>
+}

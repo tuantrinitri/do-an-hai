@@ -1,0 +1,106 @@
+﻿[
+  {
+    "ShortName": "bgh",
+    "Title": "Ban giám hiệu"
+  },
+  {
+    "ShortName": "p1",
+    "Title": "Phòng Đào tạo"
+  },
+  {
+    "ShortName": "p2",
+    "Title": "Phòng Chính trị"
+  },
+  {
+    "ShortName": "p3",
+    "Title": "Phòng Tham mưu hành chính"
+  },
+  {
+    "ShortName": "p4",
+    "Title": "Phòng Khoa học quân sự"
+  },
+  {
+    "ShortName": "p5",
+    "Title": "Phòng Hậu cần"
+  },
+  {
+    "ShortName": "p6",
+    "Title": "Phòng Kỹ thuật"
+  },
+  {
+    "ShortName": "b1",
+    "Title": "Ban Khảo thí"
+  },
+  {
+    "ShortName": "b2",
+    "Title": "Ban Tài chính"
+  },
+  {
+    "ShortName": "b3",
+    "Title": "Ban Quản lý dự án"
+  },
+  {
+    "ShortName": "t1",
+    "Title": "Trung tâm Công Nghệ Thông Tin và Ngoại Ngữ"
+  },
+  {
+    "ShortName": "h20",
+    "Title": "Hệ 20"
+  },
+  {
+    "ShortName": "d14",
+    "Title": "Tiểu đoàn 14"
+  },
+  {
+    "ShortName": "d26",
+    "Title": "Tiểu đoàn 26"
+  },
+  {
+    "ShortName": "d28",
+    "Title": "Tiểu đoàn 28"
+  },
+  {
+    "ShortName": "d30",
+    "Title": "Tiểu đoàn 30"
+  },
+  {
+    "ShortName": "c10",
+    "Title": "Đại đội 10"
+  },
+  {
+    "ShortName": "k1",
+    "Title": "Khoa Cơ bản"
+  },
+  {
+    "ShortName": "k2",
+    "Title": "Khoa Cơ sở"
+  },
+  {
+    "ShortName": "k3",
+    "Title": "Khoa Quân sự chung"
+  },
+  {
+    "ShortName": "k4",
+    "Title": "Khoa Công nghệ thông tin"
+  },
+  {
+    "ShortName": "k5",
+    "Title": "Khoa Khoa học xã hội và Nhân văn"
+  },
+  {
+    "ShortName": "k6",
+    "Title": "Khoa Kỹ thuật viễn thông"
+  },
+  {
+    "ShortName": "k7",
+    "Title": "Khoa Nghiệp vụ viễn thông"
+  },
+  {
+    "ShortName": "k8",
+    "Title": "Khoa Binh chủng hợp thành"
+  },
+  {
+    "ShortName": "k9",
+    "Title": "Khoa Tổ chức thông tin"
+  }
+]

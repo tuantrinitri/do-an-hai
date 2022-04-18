@@ -1,0 +1,82 @@
+﻿@model CMS.Areas.GalleryManager.DTOs.GalleryItemForCreateDTO
+
+@{
+    ViewData["Title"] = "Tạo mới " + ((ViewBag.Gallery.Type == "photo") ? "hình ảnh" : "video");
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <form asp-action="Create">
+        <div class="card-header bg-white header-elements-inline">
+            <h6 class="card-title">@ViewData["Title"] / <small>@ViewData["GalleryTitle"]</small></h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Tiêu đề</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input asp-for="Title" class="form-control" placeholder="Nhập tiêu đề" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+            @if (ViewBag.Gallery.Type == "video")
+            {
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label"><strong>Video</strong> <span class="text-danger">*</span></label>
+                    <div class="col-lg-9">
+                        <div class="input-group areaBrowserFile">
+                            <input placeholder="Chưa chọn video" readonly type="text" id="file-video" class="form-control" asp-for="Video">
+                            <div class="input-group-prepend mr-0">
+                                <button class="btn btn-light btn-sm btn-remove-file text-danger" type="button"><i class="fa fa-times"></i></button>
+                                <button class="btn btn-dark btn-sm btn-choose-file" data-id="file-video" type="button"><i class="fa fa-video mr-1"></i> Chọn video</button>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Video" class="text-danger"></span>
+                    </div>
+                </div>
+            }
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label">
+                    <strong>Hình ảnh</strong>
+                    @if (ViewBag.Gallery.Type == "photo")
+                    {
+                        <span class="text-danger">*</span>
+                    }
+                </label>
+                <div class="col-lg-9">
+                    <div class="input-group areaBrowserFile">
+                        <input placeholder="Chưa chọn hình ảnh" readonly type="text" id="file-image" data-preview="true" class="form-control" asp-for="Image">
+                        <div class="input-group-prepend mr-0">
+                            <button class="btn btn-light btn-sm btn-remove-file text-danger" type="button"><i class="fa fa-times"></i></button>
+                            <button class="btn btn-dark btn-sm btn-choose-file" data-id="file-image" type="button"><i class="fa fa-image mr-1"></i> Chọn hình ảnh</button>
+                        </div>
+                    </div>
+                    <div class="previewFileChoosed" data-id="file-image"></div>
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Trạng thái</strong></label>
+                <div class="col-lg-9">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input-styled mt-1" asp-for="Published" value="true">
+                            <span class="text-success ml-1">Hiển thị</span>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input-styled mt-1" asp-for="Published" value="false">
+                            <span class="text-danger ml-1">Ẩn</span>
+                        </label>
+                    </div>
+                    <span asp-validation-for="Published" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            <a asp-action="Index" class="btn btn-light">Quay lại danh sách</a>
+            <button type="submit" class="btn bg-blue legitRipple">Tạo mới</button>
+        </div>
+    </form>
+</div>

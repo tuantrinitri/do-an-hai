@@ -1,0 +1,126 @@
+﻿[
+  {
+    "ShortName": "ht",
+    "Title": "Hiệu trưởng"
+  },
+  {
+    "ShortName": "phtqs",
+    "Title": "Phó hiệu trưởng quân sự"
+  },
+  {
+    "ShortName": "phtdt",
+    "Title": "Phó hiệu trưởng đào tạo"
+  },
+  {
+    "ShortName": "pht",
+    "Title": "Phó hiệu trưởng"
+  },
+  {
+    "ShortName": "cy",
+    "Title": "Chính ủy"
+  },
+  {
+    "ShortName": "pcy",
+    "Title": "Phó chính ủy"
+  },
+  {
+    "ShortName": "gd",
+    "Title": "Giám đốc"
+  },
+  {
+    "ShortName": "cnct",
+    "Title": "Chủ nhiệm chính trị"
+  },
+  {
+    "ShortName": "fcnct",
+    "Title": "Phó Chủ nhiệm chính trị"
+  },
+  {
+    "ShortName": "tp",
+    "Title": "Trưởng phòng"
+  },
+  {
+    "ShortName": "ftp",
+    "Title": "Phó trưởng phòng"
+  },
+  {
+    "ShortName": "cnk",
+    "Title": "Chủ nhiệm khoa"
+  },
+  {
+    "ShortName": "fcnk",
+    "Title": "Phó chủ nhiệm khoa"
+  },
+  {
+    "ShortName": "cnbm",
+    "Title": "Chủ nhiệm bộ môn"
+  },
+  {
+    "ShortName": "gv",
+    "Title": "Giáo viên"
+  },
+  {
+    "ShortName": "tb",
+    "Title": "Trưởng ban"
+  },
+  {
+    "ShortName": "nv",
+    "Title": "Nhân viên"
+  },
+  {
+    "ShortName": "htr",
+    "Title": "Hệ trưởng"
+  },
+  {
+    "ShortName": "hf",
+    "Title": "Hệ phó"
+  },
+  {
+    "ShortName": "ctvh",
+    "Title": "Chính trị viên hệ"
+  },
+  {
+    "ShortName": "dt",
+    "Title": "Tiểu đoàn trưởng"
+  },
+  {
+    "ShortName": "df",
+    "Title": "Tiểu đoàn phó"
+  },
+  {
+    "ShortName": "ctvd",
+    "Title": "Chính trị viên tiểu đoàn"
+  },
+  {
+    "ShortName": "ctvdf",
+    "Title": "Chính trị viên phó tiểu đoàn"
+  },
+  {
+    "ShortName": "ct",
+    "Title": "Đại đội trưởng"
+  },
+  {
+    "ShortName": "cf",
+    "Title": "Phó đại đội trưởng"
+  },
+  {
+    "ShortName": "ctvc",
+    "Title": "Chính trị viên đại đội"
+  },
+  {
+    "ShortName": "ctvcf",
+    "Title": "Chính trị viên phó đại đội"
+  },
+  {
+    "ShortName": "bt",
+    "Title": "Trung đội trưởng"
+  },
+  {
+    "ShortName": "tl",
+    "Title": "Trợ lý"
+  },
+  {
+    "ShortName": "su",
+    "Title": "Super User"
+  }
+]

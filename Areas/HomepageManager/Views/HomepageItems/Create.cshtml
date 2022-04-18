@@ -1,0 +1,82 @@
+﻿@model CMS.Areas.HomepageManager.DTOs.CreateHomepageItemDTO
+@using CMS.Helpers
+
+@{
+    ViewData["Title"] = "Tạo mới ";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <form asp-action="Create">
+        <div class="card-header bg-white header-elements-inline">
+            <h6 class="card-title">@ViewData["Title"] / <small>@ViewData["BlockTitle"]</small></h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-2"><strong>Thuộc</strong></label>
+                <label class="col-form-label col-lg-10"><strong>@ViewData["BlockTitle"]</strong></label>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-2"><strong>Tiêu đề</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-10">
+                    <input asp-for="Title" class="form-control" placeholder="Nhập tiêu đề" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-2">
+                    <strong>Chuyên mục(để trống nếu muốn chọn các bài viết mới nhất)</strong>
+                </label> 
+                @Html.DropDownList("Slug", ViewBag.CategorySlug, "Chọn chuyên mục", new { @class = "form-control" })
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>@Html.DisplayNameFor(model => model.NoPosts)</strong><span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input asp-for="NoPosts" class="form-control" placeholder="Số bài viết" />
+                    <span asp-validation-for="NoPosts" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>@Html.DisplayNameFor(model => model.Order)</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="Order" class="form-control" placeholder="Thứ tự hiển thị" />
+                    <span asp-validation-for="Order" class="text-danger"></span>
+                </div>
+            </div>            
+            <div class="form-group row">
+                <label class="col-form-label col-lg-2"><strong>Hình thức Khối</strong><span class="text-danger">*</span></label>
+                <div class="col-lg-10">
+                    <select asp-for="Type" class="form-control">
+                        <option value="@(HomepageBlockTypes.THUMB)">Slide hình ảnh</option>
+                        <option value="@(HomepageBlockTypes.DATE)">Slide ngày tháng</option>  
+                    </select>
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-2"><strong>Trạng thái</strong></label>
+                <div class="col-lg-10">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input-styled mt-1" asp-for="Published" value="true">
+                            <span class="text-success ml-1">Hiển thị</span>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input-styled mt-1" asp-for="Published" value="false">
+                            <span class="text-danger ml-1">Ẩn</span>
+                        </label>
+                    </div>
+                    <span asp-validation-for="Published" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            <a asp-action="Index" class="btn btn-light">Quay lại danh sách</a>
+            <button type="submit" class="btn bg-blue legitRipple">Tạo mới</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,197 @@
+﻿@model CMS.Areas.PostManager.DTOs.CreatePostDTO
+@using CMS.Helpers
+@{
+    ViewData["Title"] = "Tạo bài viết";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <form asp-action="Create">
+        <div class="card-header bg-white header-elements-inline">
+            <h6 class="card-title">@ViewData["Title"]</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2"><strong>@Html.DisplayNameFor(Model=>Model.Title)</strong> <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <input asp-for="Title" class="form-control" placeholder="Nhập tiêu đề bài viết" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+                <div class="form-group row">
+                   <label class="control-label col-lg-2"><strong>@Html.DisplayNameFor(model => model.ShortDesc)</strong></label>
+                   <div class="col-lg-10">
+                       <textarea asp-for="ShortDesc" class="form-control" maxlength="255" placeholder="Nhập mổ tả ngắn" rows="3"></textarea>
+                       <span asp-validation-for="ShortDesc" class="text-danger"></span>
+                   </div>
+               </div>
+               <div class="form-group row">
+                   <label class="control-label col-lg-2"><strong>@Html.DisplayNameFor(model => model.Content)</strong><span class="text-danger">*</span></label>
+                   <div class="col-lg-10">
+                       @*  <input asp-for="Content" class="form-control" placeholder="Nhập nội dung" /> *@
+                       <textarea asp-for="Content" id="rtxPageContent" placeholder="Nhập nội dung"></textarea>
+                        <span asp-validation-for="Content" class="text-danger"></span>
+                   </div>
+               </div>                             
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label"><strong>@Html.DisplayNameFor( model => model.PostCategories)</strong> <span class="text-danger">*</span></label>
+                        <br/><span asp-validation-for="PostCategories" class="text-danger"></span>
+                        <table class="table table-xs table-borderless table-category">
+                            <tbody style="display: block; max-height: 6rem; overflow: auto;">
+                            @for (int i = 0; i < Model.PostCategories.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.CheckBoxFor(x => x.PostCategories[i].IsSelected)
+                                    </td>
+                                    <td>
+                                        @Html.HiddenFor(x => x.PostCategories[i].Name)
+                                        @Model.PostCategories[i].Name
+                                    </td>
+                                    <td>
+                                        @Html.HiddenFor(x => x.PostCategories[i].Id)
+                                        
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>            
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><strong>@Html.DisplayNameFor( model => model.Keyword)</strong> </label>
+                        <input asp-for="Keyword" class="form-control tokenfield" data-fouc >                          
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><strong>@Html.DisplayNameFor( model => model.Author)</strong></label>
+                        <input asp-for="Author" class="form-control" maxlength="255" placeholder="Nhập bút danh" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><strong>@Html.DisplayNameFor( model => model.InfoSource)</strong> </label>
+                        <input asp-for="InfoSource" maxlength="255" class="form-control" placeholder="Nhập nguồn tin" />
+                    </div>
+                    @if(User.IsInRole(RoleTypes.ADMIN) || User.IsInRole(RoleTypes.TBT) || User.IsInRole(RoleTypes.BTV))
+                    {
+                        <div class="form-group">
+                            <label>
+                                <span class="text-default"><strong>@Html.DisplayNameFor(model => model.IsFeatured)</strong> &nbsp; &nbsp; </span> <input class="form-check-input" asp-for="IsFeatured" /> 
+                            </label>
+                        </div>
+                        <div class="form-group">
+							<label><strong>@Html.DisplayNameFor( model => model.StartDate )</strong></label>
+							<div class="input-group">
+								<input asp-format="{0:dd/MM/yyyy}" id="post-start-date" type="text" class="form-control pickadate" asp-for="StartDate"> 
+                                <span class="input-group-append">
+									<span class="input-group-text"><i class="icon-calendar3"></i></span>
+								</span>
+                                 <span asp-validation-for="StartDate" class="text-danger"></span>
+							</div>
+						</div>
+                        <div class="form-group">
+							<label><strong>@Html.DisplayNameFor( model => model.EndDate )</strong></label>
+							<div class="input-group">
+								<input asp-format="{0:dd/MM/yyyy}" id="post-end-date" type="text" class="form-control pickadate" asp-for="EndDate"> 
+								<span class="input-group-append">
+									<span class="input-group-text"><i class="icon-calendar3"></i></span>
+								</span>
+                                 <span asp-validation-for="EndDate" class="text-danger"></span>
+							</div>
+						</div>                        
+                    }
+                    <div class="form-group">
+                        <label class="control-label"><strong>@Html.DisplayNameFor( model => model.AvatarUrl)</strong> </label>
+                        <input hidden placeholder="Chưa chọn hình ảnh" readonly type="text" id="file-avatar" data-preview="true" class="form-control" asp-for="AvatarUrl">
+                        <div class="previewFileChoosed" data-id="file-avatar"></div>
+                        <br/>
+                        <div class="mr-0 text-center">
+                            <button class="btn btn-info btn-sm btn-choose-file align-center" data-id="file-avatar" type="button"><i class="fa fa-image mr-1"></i> Chọn hình ảnh</button>
+                        </div>
+                         <span asp-validation-for="AvatarUrl" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><strong>@Html.DisplayNameFor( model => model.FileAttachments)</strong> </label>
+                        <input hidden placeholder="Chưa chọn tệp" readonly type="text" id="file-attach" data-attachments="true" class="form-control" asp-for="FileAttachments">
+                        <br/>
+                        <div class="mr-0 text-center">
+                            <button class="btn btn-info btn-sm btn-choose-file align-center" data-id="file-attach" type="button"><i class="fa fa-image"></i> Thêm tệp đính kèm</button>
+                        </div>
+                         <span asp-validation-for="FileAttachments" class="text-danger"></span>
+                        <div class="table-responsive" style="margin-top: 1rem;">
+				    		<table class="table previewAttachments" data-id="file-attach">
+				    		</table>
+				    	</div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            <a asp-action="Index" class="btn btn-outline bg-indigo-400 border-dark"> Quay lại danh sách</a>
+            <div class="d-flex justify-content-end align-items-center">
+                <button name="submitBtn" type="submit" class="btn btn-outline bg-indigo-400 border-dark" value="Draft" >Lưu nháp</button>
+                @if(User.IsInRole(RoleTypes.TBT) || User.IsInRole(RoleTypes.ADMIN)){
+                    <span> &nbsp; &nbsp;</span>
+                    <button name="submitBtn" type="submit" class="btn bg-blue bg-indigo-400 legitRipple" value="Published">Xuất bản</button>
+                }
+                else 
+                {
+                   <span> &nbsp; &nbsp;</span>
+                   <button name="submitBtn" type="submit" class="btn bg-blue legitRipple" value="Pending">Trình duyệt</button>
+                }
+                
+            </div>
+            
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/assets/admin/js/plugins/ckeditor/ckeditor.js"></script>
+    <script src="~/assets/admin/js/plugins/forms/tags/tokenfield.min.js"></script>
+    <script src="~/assets/admin/js/plugins/pickers/pickadate/legacy.js"></script>
+    <script src="~/assets/admin/js/plugins/pickers/pickadate/picker.js"></script>
+    <script src="~/assets/admin/js/plugins/pickers/pickadate/picker.date.js"></script>
+    <script src="~/assets/admin/js/plugins/pickers/pickadate/picker.time.js"></script>
+     <script>     
+        $(document).ready(function() {
+         $('.tokenfield').tokenfield();
+         $('.pickadate').pickadate({
+            monthsFull: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+            weekdaysShort: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'],
+            today: 'Hôm nay',
+            clear: 'Xóa',
+            close: 'Đóng',
+            format: 'dd/mm/yyyy',
+            formatSubmit: 'mm/dd/yyyy',
+            selectYears: 4,
+            selectMonths: true,
+            hiddenName: true
+         });
+         var $startPicker = $('#post-start-date').pickadate('picker');
+         var $endPicker = $('#post-end-date').pickadate('picker');
+
+         $endPicker.set('min', true);
+        if(!$startPicker.get()){
+         $startPicker.set('select', true);
+        }
+         $startPicker.set('min', true);
+         $startPicker.on("set", function(thing) {
+                var minDate = new Date(thing.select);
+                $endPicker.set('min', minDate);
+            });
+        });
+     </script>
+    <script>
+        CKEDITOR.replace("rtxPageContent", {
+            height: 500,
+            extraPlugins: ['videoembed', 'confighelper','image2','tableresize', 'table', 'preview','imageresize'],
+            filebrowserBrowseUrl: "/AdminCP/file-manager/ckeditor-browse"
+        });
+
+    </script>   
+}

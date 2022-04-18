@@ -1,0 +1,105 @@
+﻿@*@model IEnumerable<CMS.Areas.ContactManager.Models.Contact>*@
+@model CMS.Helpers.PaginatedList<CMS.Areas.ContactManager.Models.Contact>
+
+@{
+    ViewData["Title"] = "Danh sách liên hệ";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header bg-white header-elements-inline">
+        <h6 class="card-title">@ViewData["Title"]</h6>
+        <div class="header-elements">
+            <a asp-action="Create" class="btn btn-default">Tạo mới (dùng nhập liệu mẫu)</a>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="p-3">
+            <form asp-action="Index" method="get">
+                <div class="row">
+                    <label class="col-form-label col-md-1">Tìm kiếm:</label>
+                    <div class="col-12 col-md-5">
+                        <input type="text" name="q" placeholder="Nhập nội dung tìm kiếm" class="form-control form-control-sm" value="@ViewBag.filter_q" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        @if (Model.Count() > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Thông tin người gửi
+                        </th>
+                        <th>
+                            Tiêu đề
+                        </th>
+                        <th>
+                            Thời gian gửi liên hệ
+                        </th>
+                        <th>
+                            Trạng thái
+                        </th>
+                        <th class="text-center">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.Fullname
+                                <br />
+                                @item.Email
+                                <br />
+                                @item.PhoneNumber
+                            </td>
+                            <td>
+                                @item.Title
+                            </td>
+                            <td>
+                                @String.Format("{0:HH:mm dd/MM/yyyy}", item.CreatedAt)
+                            </td>
+                            <td>
+                                @if (item.Status)
+                                {
+                                    <span class="text-success">Đã đọc</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger">Mới</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="text-primary ml-2" data-popup="tooltip" title="Xem chi tiết"><i class="fa fa-eye"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" onclick="askToDelete(this); return false;" class="text-danger ml-2" data-popup="tooltip" title="Xóa"><i class="fa fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="p-3">
+                <div class="alert alert-info alert-sm">Không tìm thấy dữ liệu</div>
+            </div>
+        }
+    </div>
+    @if (Model.TotalPages > 0)
+    {
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+            }
+            <div>
+                Hiển thị <b>@Model.Count()</b> trên tổng số <b>@ViewBag.totalitem</b> kết quả
+            </div>
+            <paginate info="@Model" page-action="Index" page-route-q="@ViewBag.filter_q" class="pagination pagination-flat pagination-sm justify-content-between mt-2 mt-sm-0"></paginate>
+        </div>
+    }
+</div>

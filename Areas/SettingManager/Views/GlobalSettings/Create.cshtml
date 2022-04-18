@@ -1,0 +1,89 @@
+﻿@model CMS.Areas.SettingManager.Models.GlobalSetting
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>GlobalSetting</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="URL" class="control-label"></label>
+                <input asp-for="URL" class="form-control" />
+                <span asp-validation-for="URL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UnitName" class="control-label"></label>
+                <input asp-for="UnitName" class="form-control" />
+                <span asp-validation-for="UnitName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UnitNameEn" class="control-label"></label>
+                <input asp-for="UnitNameEn" class="form-control" />
+                <span asp-validation-for="UnitNameEn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LogoHeader" class="control-label"></label>
+                <input asp-for="LogoHeader" class="form-control" />
+                <span asp-validation-for="LogoHeader" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LogoFooter" class="control-label"></label>
+                <input asp-for="LogoFooter" class="form-control" />
+                <span asp-validation-for="LogoFooter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SiteType" class="control-label"></label>
+                <input asp-for="SiteType" class="form-control" />
+                <span asp-validation-for="SiteType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fax" class="control-label"></label>
+                <input asp-for="Fax" class="form-control" />
+                <span asp-validation-for="Fax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MoreInfo" class="control-label"></label>
+                <input asp-for="MoreInfo" class="form-control" />
+                <span asp-validation-for="MoreInfo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastModifiedAt" class="control-label"></label>
+                <input asp-for="LastModifiedAt" class="form-control" />
+                <span asp-validation-for="LastModifiedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

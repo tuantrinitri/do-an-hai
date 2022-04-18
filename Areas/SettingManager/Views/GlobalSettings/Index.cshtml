@@ -1,0 +1,133 @@
+﻿@model CMS.Areas.SettingManager.Models.GlobalSetting
+
+@{
+    ViewData["Title"] = "Thông tin website";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <form asp-action="Index">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="card-header bg-white header-elements-inline">
+            <h6 class="card-title">@ViewData["Title"]</h6>
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>URL website</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="URL" class="form-control" placeholder="Nhập URL website" />
+                    <span asp-validation-for="URL" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Website</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input asp-for="SiteType" class="form-control" placeholder="Nhập website" />
+                    <span asp-validation-for="SiteType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Tên đơn vị</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input asp-for="UnitName" class="form-control" placeholder="Nhập tên đơn vị" />
+                    <span asp-validation-for="UnitName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Tên tiếng Anh</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input asp-for="UnitNameEn" class="form-control" placeholder="Nhập tên tiếng Anh" />
+                    <span asp-validation-for="UnitNameEn" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Logo website Header</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <div class="previewFileChoosed" data-id="logo-header"></div>
+                    <div class="input-group areaBrowserFile">
+                        <input placeholder="Chưa chọn hình ảnh" readonly type="text" id="logo-header" data-preview="true" class="form-control" asp-for="LogoHeader">
+                        <div class="input-group-prepend mr-0">
+                            <button class="btn btn-light btn-sm btn-remove-file text-danger" type="button"><i class="fa fa-times"></i></button>
+                            <button class="btn btn-dark btn-sm btn-choose-file" data-id="logo-header" type="button"><i class="fa fa-image mr-1"></i> Chọn hình ảnh</button>
+                        </div>
+                    </div>
+                    <span asp-validation-for="LogoHeader" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Logo website Footer</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <div class="previewFileChoosed" data-id="logo-footer"></div>
+                    <div class="input-group areaBrowserFile">
+                        <input placeholder="Chưa chọn hình ảnh" readonly type="text" id="logo-footer" data-preview="true" class="form-control" asp-for="LogoFooter">
+                        <div class="input-group-prepend mr-0">
+                            <button class="btn btn-light btn-sm btn-remove-file text-danger" type="button"><i class="fa fa-times"></i></button>
+                            <button class="btn btn-dark btn-sm btn-choose-file" data-id="logo-footer" type="button"><i class="fa fa-image mr-1"></i> Chọn hình ảnh</button>
+                        </div>
+                    </div>
+                    <span asp-validation-for="LogoFooter" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Email</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="Email" class="form-control" placeholder="Nhập email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Địa chỉ</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="Address" class="form-control" placeholder="Nhập địa chỉ" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Điện thoại</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="Nhập điện thoại" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Fax</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="Fax" class="form-control" placeholder="Nhập fax" />
+                    <span asp-validation-for="Fax" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Thông tin thêm</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="MoreInfo" class="form-control" placeholder="Nhập thông tin thêm" />
+                    <span asp-validation-for="MoreInfo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Link nhúng bản đồ</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="EmbedMapURL" class="form-control" placeholder="Nhập link nhúng bản đồ" />
+                    <span asp-validation-for="EmbedMapURL" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Script Chatbot</strong></label>
+                <div class="col-lg-9">
+                    <textarea asp-for="ScriptChatBot" class="form-control" placeholder="Nhập script Chatbot" rows="4"></textarea>
+                    <span asp-validation-for="ScriptChatBot" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Script Google tags manager</strong></label>
+                <div class="col-lg-9">
+                    <textarea asp-for="ScriptGoogleTag" class="form-control" placeholder="Nhập script Google tags manager" rows="4"></textarea>
+                    <span asp-validation-for="ScriptGoogleTag" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white text-center">
+            <button type="submit" class="btn bg-blue legitRipple">Lưu lại</button>
+        </div>
+    </form>
+</div>

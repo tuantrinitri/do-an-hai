@@ -1,0 +1,51 @@
+@using CMS.Helpers
+@using Newtonsoft.Json
+@model CMS.Areas.PostManager.Models.Post
+@{
+    Layout = "~/Views/Shared/Public/_Layout_Post.cshtml";
+    ViewData["Title"] = Model.Title;
+    ViewData["Description"] = Model.ShortDesc;
+    ViewData["Url"] = "http://daotao.mitechcenter.vn/bai-viet/" + Model.Slug;
+    ViewData["Image"] = "http://daotao.mitechcenter.vn" + Model.AvatarUrl;
+    var attachments = Model.FileAttachments != null ? (Newtonsoft.Json.Linq.JArray) Newtonsoft.Json.JsonConvert.DeserializeObject(Model.FileAttachments) : null;  
+}
+
+<nav class="nav-breadcrumb pt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item ">
+            <a href="/">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item ">
+            <a href="/chuyen-muc/@Model.JoinPostCategories.Select( jp => jp.PostCategory.Slug).ToList()[0]">@Model.JoinPostCategories.Select( jp => jp.PostCategory.Name).ToList()[0]</a>
+        </li>
+        <li class="breadcrumb-item active">
+            <span maxlength="50">@(Model.Title.Truncate(30))</span>
+        </li>
+    </ol>
+</nav>
+<section class="single" id="detail">
+    <header>
+        <h1 class="title">@Model.Title</h1>
+        <span class="date"><i class="fa fa-clock"></i>@String.Format("{0:dd/MM/yyyy}", Model.CreatedAt)</span>
+        <span class="time">@String.Format("{0:HH:mm}", Model.CreatedAt)</span>
+    </header>
+    <article>
+        @Html.DisplayFor( model => model.Content)
+        <h5 class="author text-right">
+            @Html.DisplayFor(model => model.Author)
+        </h5>
+    </article>
+    @if(attachments != null && attachments.Count > 0)
+    {
+        <h6 class="author text-left">
+            Tệp đính kèm
+        </h6>
+        <div>
+            @foreach(string attach in attachments )
+            {
+                <a target="_blank" href="@attach">@System.Net.WebUtility.UrlDecode(attach.Substring(attach.LastIndexOf("/") + 1))</a> <br/>
+            }                        
+        </div>
+    }
+    
+</section>

@@ -1,0 +1,12 @@
+@using CMS.Helpers
+@model IList<CMS.Areas.PostManager.Models.Post>
+
+    <ul>
+        @foreach (var item in Model)
+       {
+       <li class="nav-item">
+            <a href="/bai-viet/@item.Slug" title="@item.Title">@item.Title</a>
+       </li>
+       }
+    </ul>
+

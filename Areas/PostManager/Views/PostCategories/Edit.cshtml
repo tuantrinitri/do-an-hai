@@ -1,0 +1,45 @@
+﻿@model CMS.Areas.PostManager.DTOs.UpdatePostCategoryDTO
+
+@{
+    ViewData["Title"] = "Sửa chuyên mục \"" + @Model.Name + "\"";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id" />
+        <div class="card-header bg-white header-elements-inline">
+            <h6 class="card-title">@ViewData["Title"]</h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-2"><strong>@Html.DisplayNameFor(model => model.Name)</strong> <span class="text-danger">(*)</span></label>
+                <div class="col-lg-10">
+                    <input asp-for="Name" class="form-control" placeholder="Nhập tên chuyên mục" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-2"><strong>@Html.DisplayNameFor(model => model.Description)</strong></label>
+                <div class="col-lg-10">
+                    <textarea asp-for="Description" class="form-control" placeholder="Nhập mô tả" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-2"></label>
+                <div class="col-lg-10">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Activated" /> <span class="text-success">@Html.DisplayNameFor(model => model.Activated)</span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            <a asp-action="Index" class="btn btn-outline btn-light">Quay lại danh sách</a>
+            <button type="submit" class="btn bg-blue legitRipple">Cập nhật</button>
+        </div>
+    </form>
+</div>

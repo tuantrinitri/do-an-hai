@@ -1,0 +1,127 @@
+﻿@inject CMS.Helpers.ContextHelper ctxHelper
+@inject CMS.Helpers.MenuExtensions menuHelper
+@using CMS.Helpers
+
+@{
+    var settings = ctxHelper._context.GlobalSettings.FirstOrDefault();
+    var top_menu = ctxHelper._context.Menus.Where(m => m.Alias == "MAIN_MENU").First();
+    var main_menu_items = menuHelper.TreeMenu(top_menu.Id).AsQueryable();
+    var year = DateTime.Now.Year - 1951;
+    var imgsrc = "/assets/web/images/years/" + year.ToString() + "nam.png";
+}
+<header id="header" class="header">
+    <div class="header-head">
+        <div class="container">
+            <div class="box">
+                <div class="d-flex justify-content-start align-items-center">
+                    <div class="logo">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" title="@settings.SiteType - @settings.UnitName">
+                            @if (!String.IsNullOrEmpty(settings.LogoHeader))
+                            {
+                                <img src="@settings.LogoHeader" alt="@settings.SiteType - @settings.UnitName">
+                            }
+                            else
+                            {
+                                <img src="/assets/web/images/huanchuong.png" alt="@settings.SiteType - @settings.UnitName">
+                            }
+                        </a>
+                    </div>
+                    <div class="header-head__info">
+                        <p class="header-head__text">@settings.SiteType</p>
+                        <h3 class="heading-3">@settings.UnitName</h3>
+                        <h4 class="heading-4 heading-4--header">@settings.UnitNameEn</h4>
+                    </div>
+                    <div class="header-head__celebrate">
+                        <img src="@imgsrc" alt="@year-nam">
+                    </div>
+                </div>
+                <div class="header__box-login">
+                    <div class="header__form">
+                        <ul>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li>
+                                    <a asp-area="AdminCP" asp-controller="Dashboard" asp-action="Index" title="Bảng điều khiển" class="m-0"><strong>@User.GetFullName()</strong>,</a>
+                                </li>
+                                <li>
+                                    <a asp-area="Identity" asp-controller="Auth" asp-action="Logout" title="Đăng xuất" class="m-0">Đăng xuất</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a asp-area="Identity" asp-controller="Auth" asp-action="Login" title="Đăng nhập" class="m-0">Đăng nhập</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <form class="form-inline my-2 my-lg-0 mobile" method="get" action="/tim-kiem">
+                <input class="form-control mr-sm-2" type="text" placeholder="Gõ từ khóa để tìm kiếm" aria-label="Tìm kiếm" name="q">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <div class="login d-block d-sm-none">
+                <a asp-area="Identity" asp-controller="Auth" asp-action="Login" title="Đăng nhập" class="m-0"><i class="fas fa-sign-in-alt"></i></a>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                <img src="/assets/web/images/menu-icon.png" alt="icon">
+            </button>
+            <div class="collapse navbar-collapse" id="main-menu">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i></a>
+                    </li>
+                    @foreach (var item_lv1 in main_menu_items)
+                    {
+                        @if (item_lv1.Children.Count() > 0)
+                        {
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="@item_lv1.Link" id="menu-drop-@item_lv1.Id" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @item_lv1.Title
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="menu-drop">
+                                    @foreach (var item_lv2 in item_lv1.Children)
+                                    {
+                                        @if (item_lv2.Children.Count() > 0)
+                                        {
+                                            <li class="dropdown-submenu">
+                                                <a class="dropdown-item dropdown-toggle" href="@item_lv2.Link">@item_lv2.Title</a>
+                                                <ul class="dropdown-menu">
+                                                    @foreach (var item_lv3 in item_lv2.Children)
+                                                    {
+                                                        <li><a class="dropdown-item" href="@item_lv3.Link">@item_lv3.Title</a></li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li><a class="dropdown-item" href="@item_lv2.Link">@item_lv2.Title</a></li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="@item_lv1.Link">@item_lv1.Title</a>
+                            </li>
+                        }
+                    }
+                </ul>
+                <form class="form-inline my-2 my-lg-0" method="get" action="/tim-kiem">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Gõ từ khóa để tìm kiếm" aria-label="Tìm kiếm" name="q">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>

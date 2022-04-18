@@ -1,0 +1,94 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <UserSecretsId>aspnet-CMS-78997DB6-00AC-492E-8B59-DAC9501E744A</UserSecretsId>
+    <AssemblyName>CMS</AssemblyName>
+    <RootNamespace>CMS</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\PostManager\Data\**" />
+    <Content Remove="Areas\PostManager\Data\**" />
+    <EmbeddedResource Remove="Areas\PostManager\Data\**" />
+    <None Remove="Areas\PostManager\Data\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="elFinder.NetCore" Version="1.3.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="Slugify.Core" Version="2.3.0" />
+    <PackageReference Include="SmartBreadcrumbs" Version="3.1.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Areas\AdminCP\Models\" />
+    <Folder Include="wwwroot\public\thumb\" />
+    <Folder Include="wwwroot\public\upload\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Update="wwwroot\favicon.ico">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\QAManager\Views\QAAdmin\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\QAManager\Views\QAAdmin\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\QAManager\Views\QAAdmin\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\QAManager\Views\QAAdmin\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\QAManager\Views\QAAdmin\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\QAManager\Views\QAPublic\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\QAManager\Views\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\QAManager\Data\FAQdata.json" />
+    <_ContentIncludedByDefault Remove="Areas\QAManager\Data\json.json" />
+    <_ContentIncludedByDefault Remove="Areas\QAManager\Data\testData.json" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\DocumentCategories\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\DocumentCategories\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\DocumentCategories\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\DocumentCategories\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\DocumentCategories\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\Documents\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\Documents\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\Documents\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\Documents\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\Documents\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\DocumentsPublic\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\DocumentsPublic\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Views\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\DocumentManager\Data\DocCatData.json" />
+    <_ContentIncludedByDefault Remove="Areas\LinkManager\Views\LinkBlocks\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\LinkManager\Views\LinkBlocks\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\LinkManager\Views\LinkBlocks\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\LinkManager\Views\LinkBlocks\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\LinkManager\Views\LinkBlocks\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\LinkManager\Views\Links\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\LinkManager\Views\Links\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\LinkManager\Views\Links\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\LinkManager\Views\Links\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\LinkManager\Views\Links\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\LinkManager\Views\_ViewImports.cshtml" />
+  </ItemGroup>
+
+</Project>

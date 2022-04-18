@@ -1,0 +1,55 @@
+@using CMS.Helpers
+@model CMS.Helpers.PaginatedList<CMS.Areas.PostManager.Models.Post>
+@{
+    Layout = "~/Views/Shared/Public/_Layout_Category.cshtml";
+    CMS.Areas.PostManager.Models.PostCategory category = (CMS.Areas.PostManager.Models.PostCategory)ViewData["Category"] ;
+    ViewData["Title"] = category.Name;
+    ViewData["Description"] = category.Description;
+    ViewData["Url"] = "http://daotao.mitechcenter.vn/chuyen-muc/" + category.Slug;
+    ViewData["Image"] = "http://daotao.mitechcenter.vn/assets/web/images/logo.png";
+}
+
+<nav class="nav-breadcrumb pt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item ">
+            <a href="/">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item active">
+            <span>@category.Name</span>
+        </li>
+    </ol>
+</nav>
+<section class="news-event-content">
+    @foreach(var item in Model)
+    {
+    <article class="post-news-event">
+        <div class="box-date">
+            <span class="day">
+                @String.Format("{0:dd}", item.CreatedAt)
+            </span>
+            <span class="month">
+                Tháng @String.Format("{0:MM}", item.CreatedAt)
+            </span>
+        </div>
+        <div class="post-news-event__image">
+            <div class="box">
+                <a href="/bai-viet/@item.Slug" title="@item.Title">
+                    <img data-src="@item.AvatarUrl" class="lazyload" alt="@item.Title">
+                </a>
+            </div>
+        </div>
+        <div class="post-news-event__post">
+            <h3 class="title">
+                <a href="/bai-viet/@item.Slug" title="@item.Title">
+                    @item.Title
+                </a>
+            </h3>
+            <p class="post-news-event__text mb-2">@item.ShortDesc</p>
+            <a href="/bai-viet/@item.Slug" class="view-more" title="">Chi tiết<span>[+]</span></a>
+        </div>
+    </article>
+    }    
+</section>
+<nav class="pagination-wrap pt-3">
+    <paginate info="@Model" page-action="Index" class="pagination"></paginate>
+</nav>

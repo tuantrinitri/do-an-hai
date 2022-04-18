@@ -1,0 +1,137 @@
+﻿@model CMS.Areas.MenuManager.DTOs.MenuItemForEditDTO
+
+@{
+    ViewData["Title"] = "Sửa item \"" + ViewData["ItemTitle"] + "\"";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id" />
+        <div class="card-header bg-white header-elements-inline">
+            <h6 class="card-title">@ViewData["Title"]</h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Tên menu</strong></label>
+                <label class="col-form-label col-lg-9"><strong>@ViewData["MenuTitle"]</strong></label>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Thuộc mục</strong></label>
+                <div class="col-lg-9">
+                    @Html.DropDownList("ParentId", ViewBag.ParentId, "Là mục chính", new { @class = "form-control" })
+                    <span asp-validation-for="ParentId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Nguồn cung cấp liên kết</strong></label>
+                <div class="col-lg-9">
+                    <select class="form-control mb-1" onchange="loadSourceItemData(this); return false;">
+                        <option value="0">-- Chưa chọn nguồn cung cấp --</option>
+                        <option value="1">Danh mục tài liệu</option>
+                        <option value="2">Chuyên mục bài viết</option>
+                        <option value="3">Trang</option>
+                        <option value="4">Mục cố định</option>
+                    </select>
+                    <select class="form-control" id="selectItem" onchange="insertItemToInput(); return false;">
+                        <option value="0">-- Chưa chọn mục --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Tiêu đề</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input asp-for="Title" class="form-control" placeholder="Nhập tiêu đề" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Đường dẫn liên kết</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input asp-for="Link" class="form-control" placeholder="Nhập đường dẫn liên kết" />
+                    <span asp-validation-for="Link" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Hình thức mở liên kết</strong></label>
+                <div class="col-lg-9">
+                    <select asp-for="OpenType" class="form-control">
+                        <option value="">Trang hiện tại</option>
+                        <option value="_blank">Mở tab mới</option>
+                    </select>
+                    <span asp-validation-for="OpenType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Trạng thái</strong></label>
+                <div class="col-lg-9">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input-styled mt-1" asp-for="Published" value="true">
+                            <span class="text-success ml-1">Hiển thị</span>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input-styled mt-1" asp-for="Published" value="false">
+                            <span class="text-danger ml-1">Ẩn</span>
+                        </label>
+                    </div>
+                    <span asp-validation-for="Published" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            <a asp-action="Index" class="btn btn-light">Quay lại danh sách</a>
+            <button type="submit" class="btn bg-blue legitRipple">Lưu lại</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        var inProcess = false;
+        function loadSourceItemData(el) {
+            if (!inProcess) {
+                $('#selectItem').attr('readonly', 'readonly');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("LoadDataSource")",
+                    data: {
+                        __RequestVerificationToken: _token(),
+                        type: $(el).val(),
+                    },
+                    dataType: "JSON",
+                    success: function (res) {
+                        inProcess = false;
+                        if (res.status) {
+                            var html = '<option value="0">-- Chưa chọn mục --</option>';
+                            res.data.forEach((e) => {
+                                html += '<option data-link="' + e.link + '" data-title="' + e.title + '">' + e.title + '</option>';
+                            });
+                            $("#selectItem").html(html);
+                            $("#selectItem").trigger('change');
+                            $('#selectItem').removeAttr('readonly');
+                            showNotify(res.message, "success");
+                        } else {
+                            showNotify(res.message, "error");
+                        }
+                    },
+                    error: function (res) {
+                        showNotify("Lỗi không xác định. Không thể lấy danh sách các mục!", "error");
+                    }
+                });
+            }
+        }
+
+        function insertItemToInput() {
+            if ($("#selectItem").val() == 0) {
+            } else {
+                $('#Link').val($("#selectItem :selected").data('link'));
+                $('#Title').val($("#selectItem :selected").data('title'));
+            }
+        }
+
+    </script>
+}

@@ -1,0 +1,9 @@
+@using CMS.Helpers
+@model IList<CMS.Areas.PostManager.DTOs.PartialMenuDTO>
+
+@foreach (var item in Model)
+{
+<li class="nav-item">
+    <a asp-area="PostManager" asp-controller="@item.MiController" asp-action="@item.MiAction" asp-route-status="@item.MiRoute" class="nav-link @Html.IsActive("PostManager", "@item.MiController", "@item.MiAction")">@item.MiTitle &nbsp;<span class="badge badge-@item.MiColor rounded-0"> @item.MiTotal</span></a>
+</li>
+}

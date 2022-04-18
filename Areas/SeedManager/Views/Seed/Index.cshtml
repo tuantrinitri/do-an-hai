@@ -1,0 +1,50 @@
+﻿@using CMS.Data
+@{
+    ViewData["Title"] = "Sinh dữ liệu tự động";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="card">
+    <div class="card-header bg-white header-elements-inline">
+        <h5 class="card-title">Tạo bài viết</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text">Seed dữ liệu bài viết vào Database</p>
+        <div class="p-3">
+            <form action="PostHandle" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-12 col-md-1">
+                        <label class="col-form-label">Chọn tập tin:</label>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <input type="file" placeholder="Chọn tập tin JSON" class="form-control form-control-sm" name="file" />
+                    </div>
+                    <div class="col-12 col-md-1">
+                        <button type="submit" name="btnSubmit" value="clear" class="btn btn-danger btn-sm">Xóa bảng</button>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <button type="submit" name="btnSubmit" value="seed" class="btn btn-primary btn-sm">Seed!</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<div class="card">
+    <div class="card-header bg-white header-elements-inline">
+        <h5 class="card-title">Card title</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header bg-white header-elements-inline">
+        <h5 class="card-title">Card title</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    </div>
+</div>

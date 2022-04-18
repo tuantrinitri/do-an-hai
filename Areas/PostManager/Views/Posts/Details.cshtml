@@ -1,0 +1,131 @@
+﻿@model CMS.Areas.PostManager.DTOs.UpdatePostDTO
+@using CMS.Helpers
+@{
+    ViewData["Title"] = "Chi tiết bài viết";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <form asp-action="Edit">
+         <input type="hidden" asp-for="Id" />
+        <div class="card-header bg-white header-elements-inline">
+            <h6 class="card-title">@ViewData["Title"]</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2"><strong>@Html.DisplayNameFor(Model=>Model.Title)</strong> <span class="text-danger">*</span></label>
+                        <div class="col-lg-10">
+                            <input readonly asp-for="Title" class="form-control" placeholder="Nhập tiêu đề bài viết" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+                <div class="form-group row">
+                   <label class="control-label col-lg-2"><strong>@Html.DisplayNameFor(model => model.ShortDesc)</strong></label>
+                   <div class="col-lg-10">
+                       <textarea readonly asp-for="ShortDesc" class="form-control" maxlength="255" placeholder="Nhập mổ tả ngắn" rows="3"></textarea>
+                       <span asp-validation-for="ShortDesc" class="text-danger"></span>
+                   </div>
+               </div>
+               <div class="form-group row">
+                   <label class="control-label col-lg-2"><strong>@Html.DisplayNameFor(model => model.Content)</strong><span class="text-danger">*</span></label>
+                   <div class="col-lg-10">
+                       @*  <input asp-for="Content" class="form-control" placeholder="Nhập nội dung" /> *@
+                       <textarea readonly asp-for="Content" id="rtxPageContent" placeholder="Nhập nội dung"></textarea>
+                   </div>
+               </div> 
+               @if(Model.ApprovalStatus == ApprovalStatuses.REFUSED && !String.IsNullOrEmpty(Model.ApprovalReason))
+               {
+                <div class="form-group row">
+                   <label class="control-label col-lg-2 text-danger"><strong>Lý do từ chối duyệt</strong></label>
+                   <div class="col-lg-10">
+                       <textarea readonly asp-for="ApprovalReason" class="form-control" readonly rows="3"></textarea>
+                   </div>
+               </div>
+               }
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label"><strong>@Html.DisplayNameFor( model => model.PostCategories)</strong> <span class="text-danger">*</span></label>
+                        <input hidden type="text"/>
+                        <br/><span asp-validation-for="PostCategories" class="text-danger"></span>
+                        <table class="table table-xs table-borderless table-category">
+                            <tbody style="display: block; height: 10rem; overflow: scroll">
+                            @for (int i = 0; i < Model.PostCategories.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.CheckBoxFor(x => x.PostCategories[i].IsSelected)
+                                    </td>
+                                    <td>
+                                        @Html.HiddenFor(x => x.PostCategories[i].Name)
+                                        @Model.PostCategories[i].Name
+                                    </td>
+                                    <td>
+                                        @Html.HiddenFor(x => x.PostCategories[i].Id)
+                                        
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>            
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><strong>@Html.DisplayNameFor( model => model.Keyword)</strong> </label>
+                        <input readonly asp-for="Keyword" class="form-control tokenfield" data-fouc >
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><strong>@Html.DisplayNameFor( model => model.Author)</strong></label>
+                        <input readonly asp-for="Author" class="form-control" placeholder="Nhập bút danh" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><strong>@Html.DisplayNameFor( model => model.InfoSource)</strong> </label>
+                        <input readonly asp-for="InfoSource" class="form-control" placeholder="Nhập nguồn tin" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><strong>@Html.DisplayNameFor( model => model.AvatarUrl)</strong> </label>
+                        <input hidden placeholder="Chưa chọn hình ảnh" readonly type="text" id="file-image" data-preview="true" class="form-control" asp-for="AvatarUrl">
+                        <div class="previewFileChoosed" data-id="file-image"></div>
+                        <br/>
+                    </div> 
+                    <div class="form-group">
+                        <label class="control-label"><strong>@Html.DisplayNameFor( model => model.FileAttachments)</strong> </label>
+                        <input hidden placeholder="Chưa chọn tệp" readonly type="text" id="file-attach" data-attachments="true" class="form-control" asp-for="FileAttachments">
+                        <br/>
+                        <div class="table-responsive" style="margin-top: 1rem;">
+				    		<table class="table table-borderless previewAttachments" data-id="file-attach">
+				    		</table>
+				    	</div>
+                    </div>                                 
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            <a asp-action="Index" class="btn btn-light">&larr; Quay lại danh sách</a>
+            <div class="d-flex justify-content-end align-items-center">
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/assets/admin/js/plugins/ckeditor/ckeditor.js"></script>
+    <script src="~/assets/admin/js/plugins/forms/tags/tokenfield.min.js"></script>
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $('.tokenfield').tokenfield();
+        });
+     </script>
+    <script>
+        CKEDITOR.replace("rtxPageContent", {
+            height: 300,
+            removePlugins: 'toolbar',
+            filebrowserBrowseUrl: "/AdminCP/file-manager/ckeditor-browse"
+        });
+    </script>
+       
+}

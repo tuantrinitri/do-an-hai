@@ -1,0 +1,80 @@
+@using CMS.Helpers
+@model CMS.Helpers.PaginatedList<CMS.Areas.PostManager.Models.Post>
+@{
+    Layout = "~/Views/Shared/Public/_Layout_Category.cshtml";
+    CMS.Areas.PostManager.Models.PostCategory category = (CMS.Areas.PostManager.Models.PostCategory)ViewData["Category"];
+}
+
+<nav class="nav-breadcrumb pt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item ">
+            <a href="/">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item active">
+            <span>Tìm Kiếm</span>
+        </li>
+    </ol>
+</nav>
+<section class="box-search">
+    <h3>TÌM KIẾM</h3>
+    <form method="get" action="/tim-kiem" class="form-inline">
+        <div class="form-group">
+            <input name="q" type="text" class="form-control" value="@ViewBag.q" placeholder="Gõ từ khóa để tìm kiếm">
+        </div>
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </form>
+</section>
+<section class="result news-event-content">
+    @if (Model.Count() > 0)
+    {
+        <div class="title-result">
+            <p>
+                <strong>Kết quả tìm kiếm cho</strong>: <i>@ViewBag.q</i>
+            </p>
+        </div>
+        @foreach (var item in Model)
+        {
+            <article class="post-news-event">
+                <div class="box-date">
+                    <span class="day">
+                        @String.Format("{0:dd}", item.CreatedAt)
+                    </span>
+                    <span class="month">
+                        Tháng @String.Format("{0:MM}", item.CreatedAt)
+                    </span>
+                </div>
+                <div class="post-news-event__image">
+                    <div class="box">
+                        <a href="/bai-viet/@item.Slug" title="@item.Title">
+                            <img data-src="@item.AvatarUrl" class="lazyload" alt="@item.Title">
+                        </a>
+                    </div>
+                </div>
+                <div class="post-news-event__post">
+                    <h3 class="title">
+                        <a href="/bai-viet/@item.Slug" title="@item.Title">
+                            @item.Title
+                        </a>
+                    </h3>
+                    <p class="post-news-event__text mb-2">@item.ShortDesc</p>
+                    <a href="/bai-viet/@item.Slug" class="view-more" title="">Chi tiết<span>[+]</span></a>
+                </div>
+            </article>
+        }
+    }
+    else
+    {
+        <div class="title-result">
+            <p>
+                <strong>Không tìm thấy kết quả nào cho</strong>: <i>@ViewBag.q</i>
+            </p>
+        </div>
+    }
+
+</section>
+@if (Model.Count() > 0)
+{
+    <nav class="pagination-wrap pt-3">
+        <paginate info="@Model" page-route-q="@ViewBag.q" page-action="Index" class="pagination"></paginate>
+    </nav>
+}

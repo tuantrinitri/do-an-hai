@@ -1,0 +1,114 @@
+﻿@model CMS.Helpers.PaginatedList<CMS.Areas.Identity.Models.User>
+
+@{ ViewData["Title"] = "Danh sách tài khoản";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+
+<div class="card">
+    <div class="card-header bg-white header-elements-inline">
+        <h6 class="card-title">@ViewData["Title"]</h6>
+        <div class="header-elements">
+            <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="p-3">
+            <form asp-action="Index" method="get">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <input type="text" name="q" placeholder="Nhập từ khóa họ tên hoặc tài khoản" class="form-control form-control-sm" value="@ViewBag.filter_q" />
+                    </div>
+                    <div class="col-12 col-md-3">
+                        @Html.DropDownList("unitId", ViewBag.UnitId, "Tất cả đơn vị", new { @class = "form-control form-control-sm" })
+                    </div>
+                    <div class="col-12 col-md-3">
+                        @Html.DropDownList("jobTitleId", ViewBag.JobTitleId, "Tất cả chức vụ", new { @class = "form-control form-control-sm" })
+                    </div>
+                    <div class="col-12 col-md-2 text-center">
+                        <button type="submit" class="btn btn-sm btn-info"><i class="fa fa-filter"></i></button>
+                        <a asp-action="Index" class="btn btn-sm btn-defaul ml-1"><i class="fa fa-eraser"></i></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        @if (Model.Count() > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Họ tên
+                        </th>
+                        <th>
+                            Phân quyền
+                        </th>
+                        <th>
+                            Đơn vị
+                        </th>
+                        <th>
+                            Chức vụ
+                        </th>
+                        <th>
+                            Tài khoản
+                        </th>
+                        <th>
+                            Trạng thái
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fullname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserRoles.FirstOrDefault().Role.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Unit.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.JobTitle.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserName)
+                            </td>
+                            <td>
+                                @if (item.Activated)
+                                {
+                                    <span class="text-success">Hoạt động</span> }
+                                else
+                                {
+                                    <span class="text-danger">Tạm khóa</span>}
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="text-primary ml-2" data-popup="tooltip" title="Sửa"><i class="fa fa-edit"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" onclick="askToDelete(this); return false;" class="text-danger ml-2" data-popup="tooltip" title="Xóa"><i class="fa fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table> }
+        else
+        {
+            <div class="p-3">
+                <div class="alert alert-info alert-sm">Không tìm thấy dữ liệu</div>
+            </div>}
+    </div>
+    @if (Model.TotalPages > 0)
+    {
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            @{ var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : ""; }
+            <div>
+                Hiển thị
+                <b>@Model.Count()</b> trên tổng số
+                <b>@ViewBag.totalitem</b> kết quả
+            </div>
+            <paginate info="@Model" page-action="Index" page-route-q="@ViewBag.filter_q" page-route-unitId="@ViewBag.filter_unitId" page-route-jobTitleId="@ViewBag.filter_jobTitleId" class="pagination pagination-flat pagination-sm justify-content-between mt-2 mt-sm-0"></paginate>
+        </div>
+    }
+</div>
+

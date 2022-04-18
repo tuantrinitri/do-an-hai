@@ -1,0 +1,27 @@
+﻿@inject CMS.Helpers.ContextHelper ctxHelper
+
+@{
+    var settings = ctxHelper._context.GlobalSettings.FirstOrDefault();
+}
+
+<link rel="shortcut icon" type="image/x-icon" href="~/assets/web/images/favicon.ico" />
+<link rel="stylesheet" href="~/assets/web/libs/bootstrap/bootstrap.min.css" />
+<link rel="stylesheet" href="~/assets/web/libs/rvslider/rvslider.min.css" />
+<link rel="stylesheet" href="~/assets/web/libs/desoslide/jquery.desoslide.css" />
+<link rel="stylesheet" href="~/assets/web/libs/slick-master/slick/slick.css" />
+<link rel="stylesheet" href="~/assets/web/libs/slick-master/slick/slick-theme.css" />
+<link rel="stylesheet" href="~/assets/web/libs/owl-carousel/owl.carousel.min.css" />
+<link rel="stylesheet" href="~/assets/web/libs/owl-carousel/owl.theme.default.min.css" />
+<link rel="stylesheet" href="~/assets/web/libs/font-awesome/css/fontawesome.min.css" />
+<link rel="stylesheet" href="~/assets/web/libs/font-awesome/css/brands.min.css" />
+<link rel="stylesheet" href="~/assets/web/libs/font-awesome/css/solid.min.css" />
+<link rel="stylesheet" href="~/assets/web/libs/fancy-box/fancy-box.css" />
+<link rel="stylesheet" href="~/assets/web/css/style.css" />
+<link rel="stylesheet" href="~/assets/web/css/tcu.site.css" />
+<link href="~/assets/admin/css/noty.min.css" rel="stylesheet" type="text/css">
+
+@if (!String.IsNullOrEmpty(settings.ScriptGoogleTag))
+{
+
+    @Html.Raw(System.Web.HttpUtility.HtmlDecode(settings.ScriptGoogleTag))
+}

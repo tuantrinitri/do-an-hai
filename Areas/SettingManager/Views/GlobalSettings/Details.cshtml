@@ -1,0 +1,91 @@
+﻿@model CMS.Areas.SettingManager.Models.GlobalSetting
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>GlobalSetting</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.URL)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.URL)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UnitName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitNameEn)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UnitNameEn)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LogoHeader)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LogoHeader)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LogoFooter)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LogoFooter)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SiteType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SiteType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Fax)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fax)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MoreInfo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MoreInfo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastModifiedAt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastModifiedAt)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,105 @@
+﻿@{
+    var flashData = new FlashData();
+    if (!String.IsNullOrEmpty((string)TempData["FlashData"]))
+    {
+        flashData = Newtonsoft.Json.JsonConvert.DeserializeObject<FlashData>((string)TempData["FlashData"]);
+    }
+}
+@using CMS.Helpers
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"]</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="~/assets/admin/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/admin/css/icons/fontawesome/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/admin/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/admin/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/admin/css/layout.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/admin/css/components.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/admin/css/colors.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/admin/css/noty.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/admin/css/tcu.site.css" rel="stylesheet" type="text/css">
+    @RenderSection("Styles", false)
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script src="~/assets/admin/js/main/jquery.min.js"></script>
+    <script src="~/assets/admin/js/main/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/admin/js/plugins/loaders/blockui.min.js"></script>
+    <script src="~/assets/admin/js/plugins/ui/ripple.min.js"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    <script src="~/assets/admin/js/noty.min.js"></script>
+    <script src="~/assets/admin/js/plugins/visualization/d3/d3.min.js"></script>
+    <script src="~/assets/admin/js/plugins/visualization/d3/d3_tooltip.js"></script>
+    <script src="~/assets/admin/js/plugins/forms/styling/switchery.min.js"></script>
+    <script src="~/assets/admin/js/plugins/notifications/sweet_alert.min.js"></script>
+    <script src="~/assets/admin/js/plugins/ui/moment/moment.min.js"></script>
+    <script src="~/assets/admin/js/plugins/pickers/daterangepicker.js"></script>
+    <script src="~/assets/admin/js/app.js"></script>
+    <script>
+        function _token() {
+            var token = '@Html.AntiForgeryToken()';
+            token = $(token).val();
+            return token;
+        }
+
+        $(document).ready(() => {
+            if ($('ol.breadcrumb > li.breadcrumb-item:first').hasClass("active")) {
+                $('ol.breadcrumb > li.breadcrumb-item:first').html('<i class="icon-home2 mr-2"></i>Bảng điều khiển');
+            } else {
+                $('ol.breadcrumb > li.breadcrumb-item:first').html('<a href="@Url.Action("Index", "Dashboard", new { area = "AdminCP"})"><i class="icon-home2 mr-2"></i>Bảng điều khiển</a>');
+            }
+
+        });
+
+    </script>
+    <script src="~/assets/admin/js/tcu.site.js"></script>
+    <!-- /theme JS files -->
+
+</head>
+
+<body>
+<partial name="AdminPartials/_NavHeader"/>
+        <div class="page-content">
+            <partial name="AdminPartials/_SidebarMenu"/>
+                <div class="content-wrapper">
+                    <div class="page-header page-header-light">
+                        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+                            <breadcrumb></breadcrumb>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        @RenderBody()
+                    </div>
+                    <partial name="AdminPartials/_Footer"/>
+                </div>
+        </div>
+        <div id="modalSelectFile" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-full">
+                <div class="modal-content" style="height:90vh">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Chọn tệp tin</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" style="padding:0 2px 10px;"></div>
+                </div>
+            </div>
+        </div>
+        @if (!String.IsNullOrEmpty((string)TempData["FlashData"]))
+        {
+            <script>
+                showNotify("@flashData.Message", "@flashData.Type");
+            </script>
+        }
+        @RenderSection("Scripts", false)
+</body>
+
+</html>

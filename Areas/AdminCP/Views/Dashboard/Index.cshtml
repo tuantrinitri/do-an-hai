@@ -1,0 +1,165 @@
+﻿@using CMS.Helpers
+@using CMS.Areas.AdminCP.DTOs
+@model IEnumerable<CMS.Areas.PostManager.Models.Post>
+
+@{
+    ViewData["Title"] = "Bảng điều khiển";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<DashboardItemDTO> dItems = (List<DashboardItemDTO>) ViewData["DashBoard"];
+    string title = (string) ViewData["ActionTitle"];
+}
+
+ <div class="card dashboard-tcu">
+    <div class="card-header bg-white">
+        <h6 class="card-title text-left">
+            <strong>
+                @title
+            </strong>
+        </h6>
+    </div>
+    <div class="card-body pb-0">
+        <div class="row">
+    @foreach(DashboardItemDTO item in dItems)
+    {
+             <div class="col-sm-8 col-xl-4">
+                <div class="card card-body @item.BgColorClass has-bg-image" style="min-height: 95px;">
+                    <a asp-area=@item.Area asp-controller="@item.Controller" asp-action="@item.Action" asp-route-status="@item.Route" title="" class="text-white">
+                        <div class="media">
+                            <div class="media-body align-self-center">
+                                <i class="@item.IconClass icon-3x opacity-1"></i>
+                            </div>
+
+                            <div class="text-right">
+                                <h3 class="mb-0">@item.Total</h3>
+                                <span class="text-uppercase font-size-lg">@item.Title</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+    }
+        </div>
+    </div>
+ </div>  
+<!-- danh sach bai viet -->
+@if(!User.IsInRole(RoleTypes.ADMIN))
+{
+    <div class="card">
+        <div class="card-header bg-white header-elements-inline">
+            <h6 class="card-title">@ViewData["TableTitle"]</h6>            
+        </div>
+        <div class="card-body p-0">          
+            @if (Model.Count() > 0)
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th >
+                                Tiêu đề
+                            </th>
+                            <th style="width:30%;">
+                                Chuyên mục
+                            </th>
+                             @if(User.IsInRole(RoleTypes.BTV) || User.IsInRole(RoleTypes.TBT)|| User.IsInRole(RoleTypes.TT))
+                             {
+                                <th >
+                                    Tác giả
+                                </th>
+                             }
+                             @if(User.IsInRole(RoleTypes.BTV) || User.IsInRole(RoleTypes.TBT)) 
+                             {
+                                <th>
+                                    Đơn vị
+                                </th> 
+                             }
+                            <th>
+                                Ngày tạo
+                            </th>
+                            @if(User.IsInRole(RoleTypes.CTV))
+                            {
+                                <th>
+                                    Ngày trả về
+                                </th>
+                            }
+                            <th class="text-center">
+                                Thao tác
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                   @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                @if(item.JoinPostCategories.Count > 0)
+                                {
+                                    var Names = (List<string>)item.JoinPostCategories.Select( jpc => jpc.PostCategory.Name).ToList();
+                                    var CategoryName = Names[0];
+                                    for(int i=1; i<Names.Count; i++){
+                                        CategoryName += " - " + Names[i];
+                                    }
+                                    <td class="text-truncate" style="max-width: 100px;" title="@CategoryName">
+                                       @CategoryName
+                                    </td>
+                                    } else {
+                                         <td class="text-truncate" style="max-width: 100px;" >
+                                           Chưa có chuyên mục
+                                        </td>
+                                }
+                                @if(User.IsInRole(RoleTypes.BTV) || User.IsInRole(RoleTypes.TBT)|| User.IsInRole(RoleTypes.TT))
+                                {                                   
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreatedBy.Fullname)
+                                    </td>
+                                }
+                               @if(User.IsInRole(RoleTypes.BTV) || User.IsInRole(RoleTypes.TBT)) 
+                               {  
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreatedBy.Unit.Title)
+                                    </td>
+                                }
+                                <td>
+                                    @String.Format("{0:dd/MM/yyyy}", item.CreatedAt)
+                                </td>
+                                @if(User.IsInRole(RoleTypes.CTV)){                                  
+                                    <td>
+                                        @String.Format("{0:dd/MM/yyyy}", item.ApprovalAt)
+                                    </td>
+                                }                                
+                                <td class="text-center">
+                                    @if(item.ApprovalStatus == ApprovalStatuses.REFUSED){
+                                        <a asp-area="PostManager" asp-controller="Posts" asp-action="Edit" asp-route-id="@item.Id" class="badge badge-success">Sửa</a>
+                                        <a asp-area="PostManager" asp-controller="Posts" asp-action="Delete" asp-route-id="@item.Id" onclick="askToDelete(this); return false;" class="badge badge-danger">Xóa</a>
+                                    }
+                                    else 
+                                    {
+                                        <a asp-area="PostManager" asp-controller="Posts" asp-action="Edit" asp-route-id="@item.Id" class="badge badge-success">Chi tiết</a>
+                                    }
+                                    
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="text-center" style="margin-bottom:20px;">
+                    @if(User.IsInRole(RoleTypes.CTV)){
+                        <a asp-area="PostManager" asp-controller="Posts" asp-action="Index" asp-route-status="Refused" class="btn btn-outline-info btn-sm legitRipple">Xem Thêm</a>
+                    }
+                    else
+                    {
+                        <a asp-area="PostManager" asp-controller="Posts" asp-action="Index" asp-route-status="Pending" class="btn btn-outline-info btn-sm legitRipple">Xem thêm</a>
+                    }
+		        	
+	            </div>
+            }
+            else
+            {
+                <div class="p-3">
+                    <div class="alert alert-info alert-sm">Không có bài viết nào cần xử lý</div>
+                </div>
+            }
+        </div>
+    </div>
+}

@@ -1,0 +1,103 @@
+@using CMS.Helpers
+
+<div class="sidebar sidebar-light sidebar-main sidebar-expand-md">
+
+    <!-- Sidebar mobile toggler -->
+    <div class="sidebar-mobile-toggler text-center">
+        <a href="#" class="sidebar-mobile-main-toggle">
+            <i class="icon-arrow-left8"></i>
+        </a>
+        <span class="font-weight-semibold">Menu</span>
+        <a href="#" class="sidebar-mobile-expand">
+            <i class="icon-screen-full"></i>
+            <i class="icon-screen-normal"></i>
+        </a>
+    </div>
+    <!-- /sidebar mobile toggler -->
+    <!-- Sidebar content -->
+    <div class="sidebar-content">
+        <!-- Main navigation -->
+        <div class="card card-sidebar-mobile">
+            <ul class="nav nav-sidebar" data-nav-type="accordion">
+                <li class="nav-item">
+                    <a asp-area="AdminCP" asp-action="Index" asp-controller="Dashboard" class="nav-link @Html.IsActive("AdminCP", "Dashboard", "Index")">
+                        <i class="icon-home4"></i>
+                        <span>Bảng điều khiển</span>
+                    </a>
+                </li>
+                <li class="nav-item-header">
+                    <div class="text-uppercase font-size-xs line-height-xs">Danh mục chức năng</div> <i class="icon-menu" title="Danh mục chức năng"></i>
+                </li>
+                <!-- Post menus -->
+                <li class="nav-item nav-item-submenu @Html.IsActive("PostManager", "Posts,PostCategories", "Index,Create,Edit", "nav-item-expanded nav-item-open")">
+                    <a href="#" class="nav-link"><i class="icon-newspaper"></i> <span>Quản lý Bài viết</span></a>
+                    <ul class="nav nav-group-sub" data-submenu-title="Quản lý Bài viết">
+                        @if (User.IsInRole(RoleTypes.ADMIN) || User.IsInRole(RoleTypes.BTV) || User.IsInRole(RoleTypes.TBT))
+                        {
+                            <li class="nav-item">
+                                <a asp-area="PostManager" asp-controller="PostCategories" asp-action="Index" class="nav-link @Html.IsActive("PostManager", "PostCategories", "Index,Create")">Chuyên mục</a>
+                            </li>
+
+                        }
+                        <li class="nav-item">
+                            <a asp-area="PostManager" asp-controller="Posts" asp-action="Create" class="nav-link @Html.IsActive("PostManager", "Posts", "Create")">Tạo bài viết mới</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="PostManager" asp-controller="Posts" asp-action="Index" class="nav-link @Html.IsActive("PostManager", "Posts", "Index,Edit")">Tất cả bài viết</a>
+                        </li>
+                        @(await Component.InvokeAsync("PartialMenu"))
+                    </ul>
+                </li>
+
+             
+                <!-- Static Page menus -->
+                @if (User.IsInRole(RoleTypes.ADMIN) || User.IsInRole(RoleTypes.TBT))
+                {
+                    <li class="nav-item nav-item-submenu @Html.IsActive("StaticPage", "StaticPage", "Index,Create,Edit", "nav-item-expanded nav-item-open")">
+                        <a href="#" class="nav-link"><i class="icon-newspaper"></i> <span>Quản lý Trang</span></a>
+                        <ul class="nav nav-group-sub" data-submenu-title="Quản lý Trang">
+                            <li class="nav-item">
+                                <a asp-area="StaticPage" asp-controller="StaticPage" asp-action="Index" class="nav-link @Html.IsActive("StaticPage", "StaticPage", "Index")">Danh sách trang</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="StaticPage" asp-controller="StaticPage" asp-action="Create" class="nav-link @Html.IsActive("StaticPage", "StaticPage", "Create")">Thêm trang mới</a>
+                            </li>
+                        </ul>
+                    </li>                 
+                }
+
+                <!-- File manager menus -->
+                <li class="nav-item">
+                    <a asp-area="AdminCP" asp-action="Index" asp-controller="FileManager" class="nav-link @Html.IsActive("AdminCP", "FileManager", "Index")">
+                        <i class="icon-home4"></i>
+                        <span>Quản lý file</span>
+                    </a>
+                </li>
+
+                <!-- Account menus -->
+                @if (User.IsInRole("admin"))
+                {
+                    <li class="nav-item nav-item-submenu @Html.IsActive("Identity", "Users,Units,JobTitles", "Index,Create", "nav-item-expanded nav-item-open")">
+                        <a href="#" class="nav-link"><i class="icon-users"></i> <span>Quản lý Người dùng</span></a>
+                        <ul class="nav nav-group-sub" data-submenu-title="Quản lý Người dùng">
+                            <li class="nav-item">
+                                <a asp-area="Identity" asp-controller="Users" asp-action="Index" class="nav-link @Html.IsActive("Identity", "Users", "Index,Create")">Tài khoản</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="Identity" asp-controller="Units" asp-action="Index" class="nav-link @Html.IsActive("Identity", "Units", "Index,Create")">Đơn vị</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="Identity" asp-controller="JobTitles" asp-action="Index" class="nav-link @Html.IsActive("Identity", "JobTitles", "Index,Create")">Chức vụ</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+              
+            </ul>
+        </div>
+        <!-- /main navigation -->
+
+    </div>
+    <!-- /sidebar content -->
+
+</div>

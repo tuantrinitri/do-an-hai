@@ -1,0 +1,115 @@
+﻿@model IEnumerable<CMS.Areas.WidgetManager.Models.RightWidget>
+
+@{
+    ViewData["Title"] = "Danh sách widget";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header bg-white header-elements-inline">
+        <h6 class="card-title">@ViewData["Title"]</h6>
+        <div class="header-elements">
+            <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        @if (Model.Count() > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:100px;">
+                            Vị trí
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NoPosts)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Activated)
+                        </th>
+                        <th class="text-center">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <input type="number" min="1" data-id="@item.Id" value="@item.Priority" class="form-control" onchange="changeOrder(this); return false;" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NoPosts)
+                            </td>
+                            <td>
+                                @if (item.Activated)
+                                {
+                                    <span class="text-success">Hoạt động</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger">Tạm ngưng</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="text-primary ml-2" data-popup="tooltip" title="Sửa"><i class="fa fa-edit"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" onclick="askToDelete(this); return false;" class="text-danger ml-2" data-popup="tooltip" title="Xóa"><i class="fa fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="p-3">
+                <div class="alert alert-info alert-sm">Không tìm thấy dữ liệu</div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var inProcess = false;
+        function changeOrder(el) {
+            if (!inProcess) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ChangeOrder")",
+                    data: {
+                        __RequestVerificationToken: _token(),
+                        id: $(el).data("id"),
+                        order: $(el).val()
+                    },
+                    dataType: "JSON",
+                    success: function (res) {
+                        inProcess = false;
+                        if (res.status) {
+                            if (typeof res.reload !== typeof undefined && res.reload) {
+                                showNotify(res.message, "success");
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 1500);
+                            } else {
+                                showNotify(res.message, "success");
+                            }
+                        } else {
+                            showNotify(res.message, "error");
+                        }
+                    },
+                    error: function (res) {
+                        showNotify("Lỗi không xác định. Không thể cập nhật!", "error");
+                    }
+                });
+            }
+        }
+    </script>
+}

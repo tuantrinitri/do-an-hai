@@ -1,0 +1,84 @@
+﻿@model CMS.Areas.Identity.DTOs.ProfileForEditDTO
+
+@{
+    ViewData["Title"] = "Thông tin tài khoản";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="card">
+    <form asp-action="Index">
+        <input type="hidden" asp-for="Id" />
+        <div class="card-header bg-white header-elements-inline">
+            <h6 class="card-title">@ViewData["Title"]</h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label class="control-label col-lg-3"><strong>Họ tên</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9 control-label">
+                    @ViewBag.Profile.Fullname
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-lg-3"><strong>Đơn vị</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9 control-label">
+                    @ViewBag.Profile.Unit.Title
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-lg-3"><strong>Chức vụ</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9 control-label">
+                    @ViewBag.Profile.JobTitle.Title
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-lg-3"><strong>Tài khoản</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9 control-label">
+                    @ViewBag.Profile.UserName
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-lg-3"><strong>Email</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="Email" class="form-control" placeholder="Nhập email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-lg-3"><strong>Điện thoại</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="Nhập điện thoại" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <hr />
+            <h5 class="text-center mb-0"><strong>ĐỔI MẬT KHẨU</strong></h5>
+            <p class="text-center mb-3"><em>Nếu không đổi mật khẩu vui lòng bỏ trống những ô bên dưới</em></p>
+            <div class="form-group row">
+                <label class="control-label col-lg-3"><strong>Mật khẩu cũ</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="OldPassword" type="password" class="form-control" placeholder="Nhập mật khẩu cũ" />
+                    <span asp-validation-for="OldPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-lg-3"><strong>Mật khẩu mới</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="NewPassword" type="password" class="form-control" placeholder="Nhập mật khẩu mới" />
+                    <span asp-validation-for="NewPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-lg-3"><strong>Nhập lại mật khẩu mới</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="RePassword" type="password" class="form-control" placeholder="Nhập lại mật khẩu mới" />
+                    <span asp-validation-for="RePassword" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white text-center">
+            <button type="submit" class="btn bg-blue legitRipple">Lưu lại</button>
+        </div>
+    </form>
+</div>

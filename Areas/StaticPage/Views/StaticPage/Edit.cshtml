@@ -1,0 +1,73 @@
+@model CMS.Areas.StaticPages.DTOs.UpdatePageDTO
+@using CMS.Helpers
+
+@{
+ViewData["Title"] = "Sửa trang";
+Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <form asp-action="Edit">
+        <div class="card-header bg-white header-elements-inline">
+            <h6 class="card-title">@ViewData["Title"]</h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group row">
+                <label class="control-label col-lg-2"><strong>@Html.DisplayNameFor(model => model.Title)</strong> <span
+                        class="text-danger">*</span></label>
+                <div class="col-lg-10">
+                    <input asp-for="Title" maxlength="255" class="form-control" placeholder="Nhập tiêu đề trang" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-lg-2"><strong>@Html.DisplayNameFor(model => model.Slug)</strong></label>
+                <div class="col-lg-10">
+                    <input readonly asp-for="Slug" class="form-control" placeholder="Liên kết tĩnh" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-lg-2"><strong>@Html.DisplayNameFor(model => model.ShortDesc)</strong></label>
+                <div class="col-lg-10">
+                    <textarea asp-for="ShortDesc" maxlength="255" class="form-control" placeholder="Nhập mổ tả ngắn" rows="3"></textarea>
+                    <span asp-validation-for="ShortDesc" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-lg-2"><strong>@Html.DisplayNameFor(model => model.Content)</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-10">
+                    <textarea asp-for="Content" id="rtxPageContent" placeholder="Nhập nội dung"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+            </div>          
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            <a asp-action="Index" class="btn btn-outline bg-indigo-400 border-dark"> Quay lại danh sách</a>
+            <div class="d-flex justify-content-end align-items-center">
+			    
+                @if(Model.Status == ApprovalStatuses.PUBLISHED){
+                    <button name="submitBtn" type="submit" class="btn bg-blue legitRipple" value="Published" >Lưu lại</button>
+                } else {
+                    <button name="submitBtn" type="submit" class="btn btn-outline bg-indigo-400 border-dark" value="Draft" >Lưu nháp</button>
+                    <span> &nbsp; &nbsp;</span>
+                    <button name="submitBtn" type="submit" class="btn bg-blue legitRipple" value="Published" >Xuất bản</button>
+                }           
+			</div>
+            
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/assets/admin/js/plugins/ckeditor/ckeditor.js"></script>
+    <script>
+           CKEDITOR.replace('Content',{
+            language: 'vi',
+            extraPlugins: ['videoembed', 'confighelper','image2','tableresize', 'table', 'preview','imageresize'],
+            filebrowserBrowseUrl: "/AdminCp/file-manager/ckeditor-browse"
+        });
+    </script>
+}

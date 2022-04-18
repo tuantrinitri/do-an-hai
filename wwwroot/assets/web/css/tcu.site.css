@@ -1,0 +1,10 @@
+#popover-goto-page {
+    position: absolute;
+    background: #fff;
+    padding: 5px;
+    width: 75px;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    margin-top: 5px;
+    left: -16px;
+}

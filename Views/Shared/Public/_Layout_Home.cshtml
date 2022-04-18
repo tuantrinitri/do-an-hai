@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <!-- open-graph -->
+    <meta property="og:site_name" content="CỔNG THÔNG TIN ĐIỆN TỬ - TRƯỜNG ĐẠI HỌC THÔNG TIN LIÊN LẠC" />
+    <meta property="og:title" content="@ViewData["Title"]" />
+    <meta property="og:description" content="@ViewData["Description"]" />
+    <meta property="og:url" content="http://daotao.mitechcenter.vn/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="http://daotao.mitechcenter.vn/assets/web/images/logo.png" />
+    <partial name="~/Views/Shared/Public/_Partial_Styles.cshtml" />
+</head>
+
+<body>
+    <partial name="~/Views/Shared/Public/_Partial_Header.cshtml" />
+    <main>
+        @RenderBody()
+    </main>
+    <partial name="~/Views/Shared/Public/_Partial_Footer.cshtml" />
+    <partial name="~/Views/Shared/Public/_Partial_Scripts.cshtml" />
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+﻿@model CMS.Areas.Identity.DTOs.UnitForCreateDTO
+
+@{
+    ViewData["Title"] = "Tạo mới đơn vị";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <form asp-action="Create">
+        <div class="card-header bg-white header-elements-inline">
+            <h6 class="card-title">@ViewData["Title"]</h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Tên đơn vị</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input asp-for="Title" class="form-control" placeholder="Nhập tên đơn vị" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Tên viết tắt</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input asp-for="ShortName" class="form-control" placeholder="Nhập tên viết tắt" />
+                    <span asp-validation-for="ShortName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Mô tả</strong></label>
+                <div class="col-lg-9">
+                    <textarea asp-for="Description" class="form-control" placeholder="Nhập mô tả" rows="5"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Trạng thái</strong></label>
+                <div class="col-lg-9">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input-styled mt-1" asp-for="Activated" value="true">
+                            <span class="text-success ml-1">Hoạt động</span>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input-styled mt-1" asp-for="Activated" value="false">
+                            <span class="text-danger ml-1">Tạm khóa</span>
+                        </label>
+                    </div>
+                    <span asp-validation-for="Activated" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            <a asp-action="Index" class="btn btn-light">Quay lại danh sách</a>
+            <button type="submit" class="btn bg-blue legitRipple">Tạo mới</button>
+        </div>
+    </form>
+</div>

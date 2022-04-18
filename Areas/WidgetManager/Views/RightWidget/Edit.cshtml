@@ -1,0 +1,65 @@
+﻿@model CMS.Areas.WidgetManager.DTOs.UpdateRightWidgetDTO
+
+@{
+    ViewData["Title"] = "Sửa widget \"" + @Model.Name + "\"";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id" />
+        <div class="card-header bg-white header-elements-inline">
+            <h6 class="card-title">@ViewData["Title"]</h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>@Html.DisplayNameFor(model => model.Name)</strong> <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input asp-for="Name" class="form-control" placeholder="Nhập tên" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>@Html.DisplayNameFor(model => model.NoPosts)</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="NoPosts" class="form-control" placeholder="Số bài viết" />
+                    <span asp-validation-for="NoPosts" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>@Html.DisplayNameFor(model => model.Priority)</strong></label>
+                <div class="col-lg-9">
+                    <input asp-for="Priority" class="form-control" placeholder="Thứ tự hiển thị" />
+                    <span asp-validation-for="Priority" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"><strong>Chuyên mục</strong></label>
+                @Html.DropDownList("CategorySlug", ViewBag.CategorySlug, "Chọn chuyên mục", new { @class = "form-control" })
+                <span asp-validation-for="CategorySlug" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"></label>
+                <div class="col-lg-9">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsPreview" /> <span class="text-success">@Html.DisplayNameFor(model => model.IsPreview)</span>
+                    </label>
+                </div>
+            </div>             
+            <div class="form-group row">
+                <label class="col-form-label col-lg-3"></label>
+                <div class="col-lg-9">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Activated" /> <span class="text-success">@Html.DisplayNameFor(model => model.Activated)</span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            <a asp-action="Index" class="btn btn-light">Quay lại danh sách</a>
+            <button type="submit" class="btn bg-blue legitRipple">Lưu lại</button>
+        </div>
+    </form>
+</div>
