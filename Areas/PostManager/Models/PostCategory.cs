@@ -8,6 +8,9 @@ using CMS.Areas.Identity.Models;
 
 namespace CMS.Areas.PostManager.Models
 {
+    /// <summary>
+    /// Model của Chuyên Mục bài viết
+    /// </summary>
     public class PostCategory
     {
         [Display(Name = "Mã chuyên mục")]

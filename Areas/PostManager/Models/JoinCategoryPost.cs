@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace CMS.Areas.Identity.Models
 {
+    /// <summary>
+    /// Convert table => join 2 bảng Pots và Category
+    /// Phục vụ 1 bài post có nhiều category
+    /// </summary>
     public class JoinPostCategory
     {
         public Post Post { get; set; }

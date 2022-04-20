@@ -8,6 +8,9 @@ using System.ComponentModel;
 
 namespace CMS.Areas.PostManager.Models
 {
+    /// <summary>
+    /// Model của bài viết
+    /// </summary>
     public class Post
     {
         [Display(Name = "Mã bài viết")]

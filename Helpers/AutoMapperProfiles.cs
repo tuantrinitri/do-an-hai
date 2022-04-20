@@ -21,15 +21,14 @@ using CMS.Areas.StaticPages.Models;
 using CMS.Areas.WidgetManager.DTOs;
 using CMS.Areas.WidgetManager.Models;
 using CMS.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CMS.Helpers
 {
     public class AutoMapperProfiles : Profile
     {
+        /// <summary>
+        /// Map dữ liệu giứa DTOs và Model
+        /// </summary>
         public AutoMapperProfiles()
         {
          
@@ -50,7 +49,6 @@ namespace CMS.Helpers
             CreateMap<MenuItem, MenuItemForEditDTO>();
             CreateMap<MenuItemForEditDTO, MenuItem>();
 
- 
 
             CreateMap<GalleryItemForCreateDTO, GalleryItem>();
             CreateMap<GalleryItem, GalleryItemForEditDTO>();

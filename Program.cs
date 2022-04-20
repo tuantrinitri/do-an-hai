@@ -24,6 +24,8 @@ namespace CMS
         {
             Console.OutputEncoding = Encoding.UTF8;
             //CreateHostBuilder(args).Build().Run();
+
+            // log hệ thống mặc định của microsoft
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
@@ -31,13 +33,7 @@ namespace CMS
                 .MinimumLevel.Override("System", LogEventLevel.Warning)
                 .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
                 .Enrich.FromLogContext()
-                // uncomment to write to Azure diagnostics stream
-                //.WriteTo.File(
-                //    @"D:\<path_to_log_file>\log.txt",
-                //    fileSizeLimitBytes: 1_000_000,
-                //    rollOnFileSizeLimit: true,
-                //    shared: true,
-                //    flushToDiskInterval: TimeSpan.FromSeconds(1))
+              
                 .WriteTo.Console(
                     outputTemplate:
                     "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
@@ -46,14 +42,15 @@ namespace CMS
 
             try
             {
+                // tạo dữ liệu tới db dulich
                 var seed = args.Contains("FirstDb");
                 if (seed)
                 {
-                    args = args.Except(new[] {"FirstDb"}).ToArray();
+                    args = args.Except(new[] { "FirstDb" }).ToArray();
                 }
-
+                // tạo host => khai báo với hệ thống chương trình sẽ chạy 
                 var host = CreateHostBuilder(args).Build();
-
+                // tạo dữ liệu ảo từ các file json lấy từ /Data/SeeData.cs
                 if (seed)
                 {
                     Log.Information("Seeding database...");
@@ -79,6 +76,16 @@ namespace CMS
             }
         }
 
+        /// <summary>
+        /// Biến môi trường khởi tạo cho chương trình. Lấy biến môi trường từ appsettings.json
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        /// 
+
+        /*
+        * Function khai báo với win chương trình sẽ lấy port 5000 làm port chạy chương trình
+        */
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 //.UseWindowsService()
@@ -87,11 +94,11 @@ namespace CMS
                 {
                     var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
                     var isDevelopment = environment == Environments.Development;
-                    webBuilder.UseUrls("https://*:5000");
+                    webBuilder.UseUrls("https://localhost:5000");
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                     webBuilder.UseIISIntegration();
                     webBuilder.UseStartup<Startup>();
-                   
+
                 });
     }
 }

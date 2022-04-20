@@ -55,7 +55,6 @@ namespace CMS.Data
                     var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                     var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
                     SeedRoles(roleMgr);
-                    SeedJobTitles(context);
                     SeedUnits(context);
                     SeedUser(userMgr, context);
                     SeedMenu(context);

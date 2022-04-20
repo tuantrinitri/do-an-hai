@@ -14,6 +14,10 @@ using CMS.Areas.HomepageManager.Models;
 
 namespace CMS.Data
 {
+
+    /// <summary>
+    /// Lớp kết nối SQL Server với Model 
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<User, Role, int,
         IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>,
         IdentityRoleClaim<int>, IdentityUserToken<int>>
@@ -22,6 +26,8 @@ namespace CMS.Data
             : base(options)
         {
         }
+
+    // public DbSet<model> tên bảng trong CSDL { get; set; } CRUD Creat
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostCategory> PostCategories { get; set; }
