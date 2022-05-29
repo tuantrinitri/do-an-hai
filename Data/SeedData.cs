@@ -56,6 +56,7 @@ namespace CMS.Data
                     var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
                     SeedRoles(roleMgr);
                     SeedUnits(context);
+                    SeedJobTitles(context);
                     SeedUser(userMgr, context);
                     SeedMenu(context);
                     SeedGalleries(context);
@@ -71,7 +72,6 @@ namespace CMS.Data
                 {
                     new Role { Name="admin", Title="Administrator"},
                     new Role { Name="btv", Title="Biên tập viên"},
-                    new Role { Name="tt", Title="Thủ trưởng"},
                     new Role { Name="ctv", Title="Cộng tác viên"},
                     new Role { Name="tbt", Title="Tổng biên tập"}
                 };
@@ -107,7 +107,7 @@ namespace CMS.Data
             {
                 var dataJson = System.IO.File.ReadAllText("Areas/Identity/Data/unit.json");
                 var units = JsonConvert.DeserializeObject<List<Unit>>(dataJson);
-
+        
                 foreach (var unit in units)
                 {
                     unit.Activated = true;

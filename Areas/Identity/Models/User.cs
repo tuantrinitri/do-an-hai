@@ -16,9 +16,9 @@ namespace CMS.Areas.Identity.Models
 
         public string Role { get; set; }
 
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
 
-        public int JobTitleId { get; set; }
+        public int? JobTitleId { get; set; }
 
         public Unit Unit { get; set; }
 

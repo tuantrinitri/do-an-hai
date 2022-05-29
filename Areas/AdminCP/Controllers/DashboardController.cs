@@ -414,17 +414,17 @@ namespace CMS.Areas.AdminCP.Controllers
                        BgColorClass = "bg-indigo-300"
                    },
                     // card tai lieu
-                   new DashboardItemDTO()
-                   {
-                       Area = "DocumentManager",
-                       Controller = "Documents",
-                       Action = "Index",
-                       Route = "",
-                       IconClass = "icon-files-empty",
-                       Title = "Tài liệu",
-                       Total = documents.ToString(),
-                       BgColorClass = "bg-teal-400"
-                   },
+                   // new DashboardItemDTO()
+                   // {
+                   //     Area = "DocumentManager",
+                   //     Controller = "Documents",
+                   //     Action = "Index",
+                   //     Route = "",
+                   //     IconClass = "icon-files-empty",
+                   //     Title = "Tài liệu",
+                   //     Total = documents.ToString(),
+                   //     BgColorClass = "bg-teal-400"
+                   // },
                     // card tai khoan
                    new DashboardItemDTO()
                    {
@@ -450,17 +450,17 @@ namespace CMS.Areas.AdminCP.Controllers
                        BgColorClass = "bg-blue-400"
                    },
                      // card cau hoi
-                   new DashboardItemDTO()
-                   {
-                       Area = "QAManager",
-                       Controller = "QAAdmin",
-                       Action = "Index",
-                       Route = "",
-                       IconClass = "icon-question7",
-                       Title = "Nội dung hỏi đáp",
-                       Total = questions.ToString(),
-                       BgColorClass = "bg-indigo-400"
-                   },
+                   // new DashboardItemDTO()
+                   // {
+                   //     Area = "QAManager",
+                   //     Controller = "QAAdmin",
+                   //     Action = "Index",
+                   //     Route = "",
+                   //     IconClass = "icon-question7",
+                   //     Title = "Nội dung hỏi đáp",
+                   //     Total = questions.ToString(),
+                   //     BgColorClass = "bg-indigo-400"
+                   // },
                 };
             }
             return View(model);
