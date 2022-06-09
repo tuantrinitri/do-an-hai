@@ -28,16 +28,16 @@ namespace CMS.Controllers
             _context = context;
         }
 
-        [HttpGet("{*slug}")] 
+        [HttpGet("{*slug}")]
         public IActionResult Index(string slug, int page = 1)
         {
             var posts = _context.Posts
-                        .Include(post => post.JoinPostCategories)
-                        .ThenInclude(jp => jp.PostCategory)
-                        .Where( p => p.ApprovalStatus == ApprovalStatuses.PUBLISHED)
-                        .Where(p => p.IsDeleted != true)
-                        .OrderByDescending(p => p.CreatedAt);
-            var category = new PostCategory() {
+                .Include(post => post.JoinPostCategories)
+                .ThenInclude(jp => jp.PostCategory)
+                .Where(p => p.IsDeleted != true)
+                .OrderByDescending(p => p.CreatedAt);
+            var category = new PostCategory()
+            {
                 Name = "Tất cả bài viết",
                 Slug = ""
             };
@@ -46,13 +46,12 @@ namespace CMS.Controllers
             {
                 category = _context.PostCategories.Where(c => c.Slug == slug).FirstOrDefault();
                 posts = _context.Posts
-                        .Include(post => post.JoinPostCategories)
-                        .ThenInclude(jp => jp.PostCategory)
-                        .Where(p => p.IsDeleted != true)
-                        .Where( p => p.ApprovalStatus == ApprovalStatuses.PUBLISHED)
-                        .Where(p => p.JoinPostCategories.Any(j => j.PostCategory.Slug == slug))
-                        .OrderByDescending(p => p.CreatedAt);
-            }           
+                    .Include(post => post.JoinPostCategories)
+                    .ThenInclude(jp => jp.PostCategory)
+                    .Where(p => p.IsDeleted != true)
+                    .Where(p => p.JoinPostCategories.Any(j => j.PostCategory.Slug == slug))
+                    .OrderByDescending(p => p.CreatedAt);
+            }
 
             if (posts == null)
             {

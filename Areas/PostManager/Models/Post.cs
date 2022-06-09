@@ -59,19 +59,13 @@ namespace CMS.Areas.PostManager.Models
         public DateTime CreatedAt { get; set; }
 
         public User CreatedBy { get; set; }
-
         public int? CreatedById { get; set; }
 
         // updated properties
         public DateTime UpdatedAt { get; set; }
-
         public int? UpdatedById { get; set; }
 
         public User UpdatedBy { get; set; }
-
-        // approval properties
-        [Display(Name = "Trạng thái duyệt")]
-        public string ApprovalStatus { get; set; }
 
         [Display(Name = "Ngày phê duyệt")]
         public DateTime? ApprovalAt { get; set; }
@@ -81,13 +75,6 @@ namespace CMS.Areas.PostManager.Models
 
         [Display(Name = "Ngày hết hạn")]
         public DateTime? EndDate { get; set; }
-
-        public int? ApprovalById { get; set; }
-
-        public User ApprovalBy { get; set; }
-
-        public string ApprovalReason { get; set; }
-
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
 

@@ -30,14 +30,15 @@
                 </li>
                 <!-- Post menus -->
                 <li class="nav-item nav-item-submenu @Html.IsActive("PostManager", "Posts,PostCategories", "Index,Create,Edit", "nav-item-expanded nav-item-open")">
-                    <a href="#" class="nav-link"><i class="icon-newspaper"></i> <span>Quản lý Bài viết</span></a>
+                    <a href="#" class="nav-link">
+                        <i class="icon-newspaper"></i> <span>Quản lý Bài viết</span>
+                    </a>
                     <ul class="nav nav-group-sub" data-submenu-title="Quản lý Bài viết">
                         @if (User.IsInRole(RoleTypes.ADMIN) || User.IsInRole(RoleTypes.BTV) || User.IsInRole(RoleTypes.TBT))
                         {
                             <li class="nav-item">
                                 <a asp-area="PostManager" asp-controller="PostCategories" asp-action="Index" class="nav-link @Html.IsActive("PostManager", "PostCategories", "Index,Create")">Chuyên mục</a>
                             </li>
-
                         }
                         <li class="nav-item">
                             <a asp-area="PostManager" asp-controller="Posts" asp-action="Create" class="nav-link @Html.IsActive("PostManager", "Posts", "Create")">Tạo bài viết mới</a>
@@ -45,16 +46,18 @@
                         <li class="nav-item">
                             <a asp-area="PostManager" asp-controller="Posts" asp-action="Index" class="nav-link @Html.IsActive("PostManager", "Posts", "Index,Edit")">Tất cả bài viết</a>
                         </li>
-                        @(await Component.InvokeAsync("PartialMenu"))
+                        @* @(await Component.InvokeAsync("PartialMenu")) *@
                     </ul>
                 </li>
 
-             
+
                 <!-- Static Page menus -->
                 @if (User.IsInRole(RoleTypes.ADMIN) || User.IsInRole(RoleTypes.TBT))
                 {
                     <li class="nav-item nav-item-submenu @Html.IsActive("StaticPage", "StaticPage", "Index,Create,Edit", "nav-item-expanded nav-item-open")">
-                        <a href="#" class="nav-link"><i class="icon-newspaper"></i> <span>Quản lý Trang</span></a>
+                        <a href="#" class="nav-link">
+                            <i class="icon-newspaper"></i> <span>Quản lý Trang</span>
+                        </a>
                         <ul class="nav nav-group-sub" data-submenu-title="Quản lý Trang">
                             <li class="nav-item">
                                 <a asp-area="StaticPage" asp-controller="StaticPage" asp-action="Index" class="nav-link @Html.IsActive("StaticPage", "StaticPage", "Index")">Danh sách trang</a>
@@ -63,7 +66,7 @@
                                 <a asp-area="StaticPage" asp-controller="StaticPage" asp-action="Create" class="nav-link @Html.IsActive("StaticPage", "StaticPage", "Create")">Thêm trang mới</a>
                             </li>
                         </ul>
-                    </li>                 
+                    </li>
                 }
 
                 <!-- File manager menus -->
@@ -73,26 +76,55 @@
                         <span>Quản lý file</span>
                     </a>
                 </li>
+                <!-- Contact menus -->
+                <li class="nav-item">
+                    <a asp-area="ContactManager" asp-controller="Contacts" asp-action="Index" class="nav-link @Html.IsActive("ContactManager", "Contacts", "Index,Details,Create,Edit,Delete")">
+                        <i class="icon-envelope"></i> <span>Quản lý Liên hệ</span>
+                    </a>
+                </li>
+
+                <!-- Gallery menus -->
+                <li class="nav-item">
+                    <a asp-area="GalleryManager" asp-controller="Galleries" asp-action="Index" class="nav-link @Html.IsActive("GalleryManager", "Galleries,GalleryItems", "Index,Create,Edit,Delete")">
+                        <i class="fa fa-video"></i> <span>Quản lý Thư viện media</span>
+                    </a>
+                </li>
+
+                <!-- Link menus -->
+                @* <li class="nav-item"> *@
+                @*     <a asp-area="LinkManager" asp-controller="LinkBlocks" asp-action="Index" class="nav-link @Html.IsActive("LinkManager", "LinkBlocks,Links", "Index,Create,Edit,Delete")"> *@
+                @*         <i class="icon-link"></i> <span>Quản lý Banner/Liên kết</span> *@
+                @*     </a> *@
+                @* </li> *@
+
+                <!-- Menu Management -->
+                <li class="nav-item">
+                    <a asp-area="MenuManager" asp-controller="Menus" asp-action="Index" class="nav-link @Html.IsActive("MenuManager", "Menus,MenuItems", "Index,Create,Edit,Delete")">
+                        <i class="icon-tree6"></i> <span>Quản lý menu</span>
+                    </a>
+                </li>
 
                 <!-- Account menus -->
                 @if (User.IsInRole("admin"))
                 {
                     <li class="nav-item nav-item-submenu @Html.IsActive("Identity", "Users,Units,JobTitles", "Index,Create", "nav-item-expanded nav-item-open")">
-                        <a href="#" class="nav-link"><i class="icon-users"></i> <span>Quản lý Người dùng</span></a>
+                        <a href="#" class="nav-link">
+                            <i class="icon-users"></i> <span>Quản lý Người dùng</span>
+                        </a>
                         <ul class="nav nav-group-sub" data-submenu-title="Quản lý Người dùng">
                             <li class="nav-item">
                                 <a asp-area="Identity" asp-controller="Users" asp-action="Index" class="nav-link @Html.IsActive("Identity", "Users", "Index,Create")">Tài khoản</a>
                             </li>
-                                    @* <li class="nav-item"> *@
-                                    @*     <a asp-area="Identity" asp-controller="Units" asp-action="Index" class="nav-link @Html.IsActive("Identity", "Units", "Index,Create")">Đơn vị</a> *@
-                                    @* </li> *@
-                                    @* <li class="nav-item"> *@
-                                    @*     <a asp-area="Identity" asp-controller="JobTitles" asp-action="Index" class="nav-link @Html.IsActive("Identity", "JobTitles", "Index,Create")">Chức vụ</a> *@
-                                    @* </li> *@
+                            @* <li class="nav-item"> *@
+                            @*     <a asp-area="Identity" asp-controller="Units" asp-action="Index" class="nav-link @Html.IsActive("Identity", "Units", "Index,Create")">Đơn vị</a> *@
+                            @* </li> *@
+                            @* <li class="nav-item"> *@
+                            @*     <a asp-area="Identity" asp-controller="JobTitles" asp-action="Index" class="nav-link @Html.IsActive("Identity", "JobTitles", "Index,Create")">Chức vụ</a> *@
+                            @* </li> *@
                         </ul>
                     </li>
                 }
-              
+
             </ul>
         </div>
         <!-- /main navigation -->

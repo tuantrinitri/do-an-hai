@@ -37,7 +37,6 @@ namespace CMS.Areas.AdminCP.Controllers
         {
             var identity = (ClaimsIdentity)User.Identity;
             IEnumerable<Claim> claims = identity.Claims;
-            var unit = claims.Where(cl => cl.Type == "Unit").FirstOrDefault().Value;
             IQueryable<Post> posts = null;
             IQueryable<Post> model = null;
             int documents = 0;
@@ -50,10 +49,9 @@ namespace CMS.Areas.AdminCP.Controllers
             {
                 posts = _context.Posts
                 .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
-                .Include(u => u.CreatedBy).ThenInclude(u => u.Unit)
+                .Include(u => u.CreatedBy)
                 .Where(p => p.IsDeleted != true)
-                .Where(p => p.CreatedBy.Unit.ShortName == unit)
-                .Where(p => !(p.ApprovalStatus == ApprovalStatuses.DRAFT && p.CreatedBy.UserName != User.Identity.Name))
+                .Where(p => !(p.CreatedBy.UserName != User.Identity.Name))
                 .OrderByDescending(u => u.CreatedAt)
                 .AsNoTracking();
                 ViewData["ActionTitle"] = "Chức năng";
@@ -93,48 +91,12 @@ namespace CMS.Areas.AdminCP.Controllers
                        Route = ApprovalStatuses.PENDING,
                        IconClass = "icon-file-text2",
                        Title = "Bài viết đã trình duyệt",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.PENDING_TT || p.ApprovalStatus == ApprovalStatuses.PENDING_BTV ).Count().ToString(),
+                       Total = posts.Count().ToString(),
                        BgColorClass = "bg-teal-400"
                    }                   ,
-                    // bài viết bị từ chối
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.REFUSED,
-                       IconClass = "icon-blocked",
-                       Title = "Bài bị từ chối",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.REFUSED && p.CreatedBy.UserName == User.Identity.Name)
-                       .Count().ToString(),
-                       BgColorClass = "bg-danger-600"
-                   },
-                    // bài viết đã xuất bản
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.PUBLISHED,
-                       IconClass = "icon-file-text2",
-                       Title = "Bài viết đã xuất bản",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.PUBLISHED ).Count().ToString(),
-                       BgColorClass = "bg-teal-400"
-                   },
-                    // bài viết nháp
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.DRAFT,
-                       IconClass = "icon-file-text2",
-                       Title = "Bài viết đã xuất bản",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.DRAFT && p.CreatedBy.UserName == User.Identity.Name ).Count().ToString(),
-                       BgColorClass = "bg-blue-400"
-                   }
+                  
                 };
-                model = posts.Where(p => p.ApprovalStatus == ApprovalStatuses.PENDING_CTV);
+            
             }
 
             // Cộng tác viên chỉ xem bài viết của mình
@@ -142,7 +104,7 @@ namespace CMS.Areas.AdminCP.Controllers
             {
                 posts = _context.Posts
                .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
-               .Include(u => u.CreatedBy).ThenInclude(u => u.Unit)
+               .Include(u => u.CreatedBy)
                .Where(p => p.IsDeleted != true)
                .Where(p => p.CreatedBy.UserName == User.Identity.Name)
                .OrderByDescending(u => u.ApprovalAt)
@@ -175,54 +137,19 @@ namespace CMS.Areas.AdminCP.Controllers
                        Total = posts.Count().ToString(),
                        BgColorClass = "bg-indigo-300"
                    },
-                    // Bài viết đã trình duyệt
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.PENDING,
-                       IconClass = "icon-file-text2",
-                       Title = "Bài viết đã trình duyệt",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.PENDING_BTV || p.ApprovalStatus == ApprovalStatuses.PENDING_BTV || p.ApprovalStatus == ApprovalStatuses.PENDING_TT ).Count().ToString(),
-                       BgColorClass = "bg-success-400"
-                   },
-                    // bài viết bị từ chối
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.REFUSED,
-                       IconClass = "icon-blocked",
-                       Title = "Bài viết bị từ chối",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.REFUSED ).Count().ToString(),
-                       BgColorClass = "bg-danger-600"
-                   },
-                    // bài viết đã xuất bản
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.PUBLISHED,
-                       IconClass = "icon-file-text2",
-                       Title = "Bài viết đã xuất bản",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.PUBLISHED ).Count().ToString(),
-                       BgColorClass = "bg-teal-400"
-                   }
+                  
                 };
-                model = posts.Where(p => p.ApprovalStatus == ApprovalStatuses.REFUSED);
+   
             }
             // BTV 
             else if (User.IsInRole(RoleTypes.BTV))
             {
                 posts = _context.Posts
                .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
-               .Include(u => u.CreatedBy).ThenInclude(u => u.Unit)
+               .Include(u => u.CreatedBy)
                .Where(p => p.IsDeleted != true)
-               .Where(p => !(p.ApprovalStatus == ApprovalStatuses.DRAFT && p.CreatedBy.UserName != User.Identity.Name))
-               .Where(p => !(p.ApprovalStatus == ApprovalStatuses.REFUSED && p.CreatedBy.UserName != User.Identity.Name))
+               
+               .Where(p => !(p.CreatedBy.UserName != User.Identity.Name))
                .OrderByDescending(u => u.CreatedAt)
                .AsNoTracking();
                 ViewData["ActionTitle"] = "Chức năng";
@@ -262,57 +189,21 @@ namespace CMS.Areas.AdminCP.Controllers
                        Route = ApprovalStatuses.PENDING,
                        IconClass = "icon-file-text2",
                        Title = "Bài viết đã trình duyệt",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.PENDING_TT || p.ApprovalStatus == ApprovalStatuses.PENDING_BTV ).Count().ToString(),
+                       Total = posts.Count().ToString(),
                        BgColorClass = "bg-teal-400"
                    }                   ,
-                    // bài viết bị từ chối
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.REFUSED,
-                       IconClass = "icon-blocked",
-                       Title = "Bài bị từ chối",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.REFUSED ).Count().ToString(),
-                       BgColorClass = "bg-danger-600"
-                   },
-                    // bài viết đã xuất bản
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.PUBLISHED,
-                       IconClass = "icon-file-text2",
-                       Title = "Bài viết đã xuất bản",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.PUBLISHED ).Count().ToString(),
-                       BgColorClass = "bg-teal-400"
-                   },
-                    // bài viết nháp
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.DRAFT,
-                       IconClass = "icon-file-text2",
-                       Title = "Bài viết đã xuất bản",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.DRAFT && p.CreatedBy.UserName == User.Identity.Name ).Count().ToString(),
-                       BgColorClass = "bg-blue-400"
-                   }
+        
                 };
-                model = posts.Where(p => p.ApprovalStatus == ApprovalStatuses.PENDING_TT);
+            
             }
             // menu của tổng biên tập
             else if (User.IsInRole(RoleTypes.TBT))
             {
                 posts = _context.Posts
                .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
-               .Include(u => u.CreatedBy).ThenInclude(u => u.Unit)
+               .Include(u => u.CreatedBy)
                .Where(p => p.IsDeleted != true)
-               .Where(p => !(p.ApprovalStatus == ApprovalStatuses.DRAFT && p.CreatedBy.UserName != User.Identity.Name))
-               .Where(p => !(p.ApprovalStatus == ApprovalStatuses.REFUSED && p.CreatedBy.UserName != User.Identity.Name))
+               .Where(p =>p.CreatedBy.UserName != User.Identity.Name)
                .OrderByDescending(u => u.CreatedAt)
                .AsNoTracking();
                 ViewData["ActionTitle"] = "Chức năng";
@@ -352,7 +243,7 @@ namespace CMS.Areas.AdminCP.Controllers
                        Route = ApprovalStatuses.PUBLISHED,
                        IconClass = "icon-file-text2",
                        Title = "Bài viết đã xuất bản",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.PUBLISHED ).Count().ToString(),
+                       Total = posts.Count().ToString(),
                        BgColorClass = "bg-teal-400"
                    }                   ,
                     // bài viết nháp
@@ -364,7 +255,7 @@ namespace CMS.Areas.AdminCP.Controllers
                        Route = ApprovalStatuses.DRAFT,
                        IconClass = "icon-file-text2",
                        Title = "Bài viết nháp",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.DRAFT ).Count().ToString(),
+                       Total = posts.Count().ToString(),
                        BgColorClass = "bg-blue-400"
                    },
                     // bài viết chờ duyệt
@@ -376,21 +267,20 @@ namespace CMS.Areas.AdminCP.Controllers
                        Route = ApprovalStatuses.PENDING,
                        IconClass = "icon-file-text2",
                        Title = "Bài viết chờ duyệt",
-                       Total = posts.Where( p=>p.ApprovalStatus == ApprovalStatuses.PENDING_TT || p.ApprovalStatus == ApprovalStatuses.PENDING_BTV ).Count().ToString(),
+                       Total = posts.Count().ToString(),
                        BgColorClass = "bg-orange-400"
                    }
                 };
-                model = posts.Where(p => p.ApprovalStatus == ApprovalStatuses.PENDING_TT || p.ApprovalStatus == ApprovalStatuses.PENDING_BTV);
+               
             }
             // menu của admin
             else
             {
                 posts = _context.Posts
                //  .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
-               //  .Include(u => u.CreatedBy).ThenInclude(u => u.Unit)
+               //  .Include(u => u.CreatedBy)
                .Where(p => p.IsDeleted != true)
-               .Where(p => !(p.ApprovalStatus == ApprovalStatuses.DRAFT && p.CreatedBy.UserName != User.Identity.Name))
-               .Where(p => !(p.ApprovalStatus == ApprovalStatuses.REFUSED && p.CreatedBy.UserName != User.Identity.Name))
+               .Where(p => p.CreatedBy.UserName != User.Identity.Name)
                //   .OrderByDescending(u => u.Id)
                .AsNoTracking();
 
@@ -413,19 +303,7 @@ namespace CMS.Areas.AdminCP.Controllers
                        Total = posts.Count().ToString(),
                        BgColorClass = "bg-indigo-300"
                    },
-                    // card tai lieu
-                   // new DashboardItemDTO()
-                   // {
-                   //     Area = "DocumentManager",
-                   //     Controller = "Documents",
-                   //     Action = "Index",
-                   //     Route = "",
-                   //     IconClass = "icon-files-empty",
-                   //     Title = "Tài liệu",
-                   //     Total = documents.ToString(),
-                   //     BgColorClass = "bg-teal-400"
-                   // },
-                    // card tai khoan
+                 
                    new DashboardItemDTO()
                    {
                        Area = "Identity",

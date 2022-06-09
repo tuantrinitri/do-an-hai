@@ -21,7 +21,8 @@ namespace CMS.Areas.Identity.Controllers
 {
     [Area("Identity")]
     [Route("AdminCP/Users/{action=index}/{id?}")]
-    [Authorize(Roles = "admin")] // Can use multi roles by example: "admin,btv,.etc...", view more role at \Data\SeedData.cs
+    [Authorize(Roles =
+        "admin")] // Can use multi roles by example: "admin,btv,.etc...", view more role at \Data\SeedData.cs
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -29,7 +30,8 @@ namespace CMS.Areas.Identity.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
 
-        public UsersController(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager, RoleManager<Role> roleManager)
+        public UsersController(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager,
+            RoleManager<Role> roleManager)
         {
             _context = context;
             _mapper = mapper;
@@ -42,32 +44,30 @@ namespace CMS.Areas.Identity.Controllers
         public async Task<IActionResult> Index(string q, int? unitId, int? jobTitleId, int? page)
         {
             var users = _context.Users
-                .Include(u => u.JobTitle)
-                .Include(u => u.Unit)
                 .Include(u => u.UserRoles)
-                    .ThenInclude(ur => ur.Role)
+                .ThenInclude(ur => ur.Role)
                 .OrderByDescending(u => u.Id);
 
             if (!String.IsNullOrEmpty(q))
             {
                 ViewData["filter_q"] = q;
-                users = (IOrderedQueryable<User>)users.Where(u => u.UserName.Contains(q) || u.Fullname.Contains(q));
+                users = (IOrderedQueryable<User>) users.Where(u => u.UserName.Contains(q) || u.Fullname.Contains(q));
             }
-            if(unitId != null)
+
+            if (unitId != null)
             {
                 ViewData["filter_unitId"] = unitId;
-                users = (IOrderedQueryable<User>)users.Where(u => u.UnitId == unitId);
+                users = (IOrderedQueryable<User>) users;
             }
-            if(jobTitleId != null)
+
+            if (jobTitleId != null)
             {
                 ViewData["filter_jobTitleId"] = jobTitleId;
-                users = (IOrderedQueryable<User>)users.Where(u => u.JobTitleId == jobTitleId);
+                users = (IOrderedQueryable<User>) users;
             }
 
             int pageSize = 10;
 
-            ViewData["JobTitleId"] = new SelectList(_context.JobTitles, "Id", "Title", new { Id = jobTitleId });
-            ViewData["UnitId"] = new SelectList(_context.Units, "Id", "Title", new { Id = unitId });
             ViewBag.totalitem = users.Count();
             return View(PaginatedList<User>.Create(users.AsNoTracking(), page ?? 1, pageSize));
         }
@@ -81,8 +81,6 @@ namespace CMS.Areas.Identity.Controllers
             }
 
             var user = await _context.Users
-                .Include(u => u.JobTitle)
-                .Include(u => u.Unit)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -96,10 +94,8 @@ namespace CMS.Areas.Identity.Controllers
         [Breadcrumb("Tạo mới")]
         public IActionResult Create()
         {
-            ViewData["JobTitleId"] = new SelectList(_context.JobTitles, "Id", "Title");
-            ViewData["UnitId"] = new SelectList(_context.Units, "Id", "Title");
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Title");
-            return View(new UserForCreateDTO { Activated = true });
+            return View(new UserForCreateDTO {Activated = true});
         }
 
         // POST: Identity/Users/Create
@@ -128,6 +124,7 @@ namespace CMS.Areas.Identity.Controllers
                     });
                     return RedirectToAction(nameof(Index));
                 }
+
                 foreach (var error in result.Errors)
                 {
                     if (error.Code == "DuplicateUserName")
@@ -140,8 +137,6 @@ namespace CMS.Areas.Identity.Controllers
                     }
                 }
             }
-            ViewData["JobTitleId"] = new SelectList(_context.JobTitles, "Id", "Title", userForCreate.JobTitleId);
-            ViewData["UnitId"] = new SelectList(_context.Units, "Id", "Title", userForCreate.UnitId);
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Title", userForCreate.RoleId);
             return View(userForCreate);
         }
@@ -156,7 +151,7 @@ namespace CMS.Areas.Identity.Controllers
 
             var user = await _context.Users
                 .Include(u => u.UserRoles)
-                    .ThenInclude(ur => ur.Role)
+                .ThenInclude(ur => ur.Role)
                 .FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
@@ -165,8 +160,6 @@ namespace CMS.Areas.Identity.Controllers
 
             UserForEditDTO userForEdit = _mapper.Map<UserForEditDTO>(user);
             userForEdit.RoleId = user.UserRoles.First().Role.Id;
-            ViewData["JobTitleId"] = new SelectList(_context.JobTitles, "Id", "Title", user.JobTitleId);
-            ViewData["UnitId"] = new SelectList(_context.Units, "Id", "Title", user.UnitId);
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Title", userForEdit.RoleId);
             return View(userForEdit);
         }
@@ -189,7 +182,7 @@ namespace CMS.Areas.Identity.Controllers
                 {
                     User user = _userManager.Users
                         .Include(u => u.UserRoles)
-                            .ThenInclude(ur => ur.Role)
+                        .ThenInclude(ur => ur.Role)
                         .First(u => u.Id == id);
 
                     User userToUpdate = _mapper.Map<UserForEditDTO, User>(userForEdit, user);
@@ -209,6 +202,7 @@ namespace CMS.Areas.Identity.Controllers
                         });
                         return RedirectToAction(nameof(Index));
                     }
+
                     foreach (var error in result.Errors)
                     {
                         if (error.Code == "DuplicateUserName")
@@ -233,8 +227,7 @@ namespace CMS.Areas.Identity.Controllers
                     }
                 }
             }
-            ViewData["JobTitleId"] = new SelectList(_context.JobTitles, "Id", "Title", userForEdit.JobTitleId);
-            ViewData["UnitId"] = new SelectList(_context.Units, "Id", "Title", userForEdit.UnitId);
+
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Title", userForEdit.RoleId);
             return View(userForEdit);
         }
@@ -261,6 +254,7 @@ namespace CMS.Areas.Identity.Controllers
                     Message = "Không tìm thấy bản ghi cần xóa, vui lòng thử lại"
                 });
             }
+
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return Json(new
@@ -278,7 +272,8 @@ namespace CMS.Areas.Identity.Controllers
             await _userManager.RemovePasswordAsync(user);
             await _userManager.AddPasswordAsync(user, "123456");
 
-            return Json(new {
+            return Json(new
+            {
                 Status = true,
                 Message = "Khôi phục mật khẩu mặc định thành công"
             });

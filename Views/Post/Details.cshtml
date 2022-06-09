@@ -2,50 +2,155 @@
 @using Newtonsoft.Json
 @model CMS.Areas.PostManager.Models.Post
 @{
-    Layout = "~/Views/Shared/Public/_Layout_Post.cshtml";
+    Layout = "~/Views/Shared/Public/_Layout_Home.cshtml";
     ViewData["Title"] = Model.Title;
     ViewData["Description"] = Model.ShortDesc;
-    ViewData["Url"] = "http://daotao.mitechcenter.vn/bai-viet/" + Model.Slug;
-    ViewData["Image"] = "http://daotao.mitechcenter.vn" + Model.AvatarUrl;
-    var attachments = Model.FileAttachments != null ? (Newtonsoft.Json.Linq.JArray) Newtonsoft.Json.JsonConvert.DeserializeObject(Model.FileAttachments) : null;  
+    var attachments = Model.FileAttachments != null ? (Newtonsoft.Json.Linq.JArray) Newtonsoft.Json.JsonConvert.DeserializeObject(Model.FileAttachments) : null;
 }
 
+<section class="module-small">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="post">
+                    <div class="post-thumbnail">
+                        <img src="@Model.AvatarUrl" alt="@Model.AvatarCaption"/>
+                    </div>
+                    <div class="post-header font-alt">
+                        <h1 class="post-title">@Model.Title</h1>
+                        <div class="post-meta">
+                            By&nbsp; @Model.Author
+                        </div>
+                    </div>
+                    <div class="post-entry">
+                        @Html.DisplayFor(model => model.Content)
+                        <h5 class="author text-right">
+                            @Html.DisplayFor(model => model.Author)
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-3 col-md-offset-1 sidebar">
+                <div class="widget">
+                    <form role="form">
+                        <div class="search-box">
+                            <input class="form-control" type="text" placeholder="Search..."/>
+                            <button class="search-btn" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="widget">
+                    <h5 class="widget-title font-alt">Blog Categories</h5>
+                    <ul class="icon-list">
+                        <li>
+                            <a href="#">Photography - 7</a>
+                        </li>
+                        <li>
+                            <a href="#">Web Design - 3</a>
+                        </li>
+                        <li>
+                            <a href="#">Illustration - 12</a>
+                        </li>
+                        <li>
+                            <a href="#">Marketing - 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Wordpress - 16</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="widget">
+                    <h5 class="widget-title font-alt">Popular Posts</h5>
+                    <ul class="widget-posts">
+                        <li class="clearfix">
+                            <div class="widget-posts-image">
+                                <a href="#">
+                                    <img src="assets/images/rp-1.jpg" alt="Post Thumbnail"/>
+                                </a>
+                            </div>
+                            <div class="widget-posts-body">
+                                <div class="widget-posts-title">
+                                    <a href="#">Designer Desk Essentials</a>
+                                </div>
+                                <div class="widget-posts-meta">23 january</div>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="widget-posts-image">
+                                <a href="#">
+                                    <img src="assets/images/rp-2.jpg" alt="Post Thumbnail"/>
+                                </a>
+                            </div>
+                            <div class="widget-posts-body">
+                                <div class="widget-posts-title">
+                                    <a href="#">Realistic Business Card Mockup</a>
+                                </div>
+                                <div class="widget-posts-meta">15 February</div>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="widget-posts-image">
+                                <a href="#">
+                                    <img src="assets/images/rp-3.jpg" alt="Post Thumbnail"/>
+                                </a>
+                            </div>
+                            <div class="widget-posts-body">
+                                <div class="widget-posts-title">
+                                    <a href="#">Eco bag Mockup</a>
+                                </div>
+                                <div class="widget-posts-meta">21 February</div>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="widget-posts-image">
+                                <a href="#">
+                                    <img src="assets/images/rp-4.jpg" alt="Post Thumbnail"/>
+                                </a>
+                            </div>
+                            <div class="widget-posts-body">
+                                <div class="widget-posts-title">
+                                    <a href="#">Bottle Mockup</a>
+                                </div>
+                                <div class="widget-posts-meta">2 March</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="widget">
+                    <h5 class="widget-title font-alt">Tag</h5>
+                    <div class="tags font-serif">
+                        <a href="#" rel="tag">Blog</a><a href="#" rel="tag">Photo</a><a href="#" rel="tag">Video</a><a href="#" rel="tag">Image</a><a href="#" rel="tag">Minimal</a><a href="#" rel="tag">Post</a><a href="#" rel="tag">Theme</a><a href="#" rel="tag">Ideas</a><a href="#" rel="tag">Tags</a><a href="#" rel="tag">Bootstrap</a><a href="#" rel="tag">Popular</a><a href="#" rel="tag">English</a>
+                    </div>
+                </div>
+                <div class="widget">
+                    <h5 class="widget-title font-alt">Text</h5>The languages only differ in their grammar, their pronunciation and their most common words. Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators.
+                </div>
+                <div class="widget">
+                    <h5 class="widget-title font-alt">Recent Comments</h5>
+                    <ul class="icon-list">
+                        <li>Maria on <a href="#">Designer Desk Essentials</a></li>
+                        <li>John on <a href="#">Realistic Business Card Mockup</a></li>
+                        <li>Andy on <a href="#">Eco bag Mockup</a></li>
+                        <li>Jack on <a href="#">Bottle Mockup</a></li>
+                        <li>Mark on <a href="#">Our trip to the Alps</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <nav class="nav-breadcrumb pt-3">
     <ol class="breadcrumb">
         <li class="breadcrumb-item ">
             <a href="/">Trang chủ</a>
         </li>
         <li class="breadcrumb-item ">
-            <a href="/chuyen-muc/@Model.JoinPostCategories.Select( jp => jp.PostCategory.Slug).ToList()[0]">@Model.JoinPostCategories.Select( jp => jp.PostCategory.Name).ToList()[0]</a>
+            <a href="/chuyen-muc/@Model.JoinPostCategories.Select(jp => jp.PostCategory.Slug).ToList()[0]">@Model.JoinPostCategories.Select(jp => jp.PostCategory.Name).ToList()[0]</a>
         </li>
         <li class="breadcrumb-item active">
             <span maxlength="50">@(Model.Title.Truncate(30))</span>
         </li>
     </ol>
 </nav>
-<section class="single" id="detail">
-    <header>
-        <h1 class="title">@Model.Title</h1>
-        <span class="date"><i class="fa fa-clock"></i>@String.Format("{0:dd/MM/yyyy}", Model.CreatedAt)</span>
-        <span class="time">@String.Format("{0:HH:mm}", Model.CreatedAt)</span>
-    </header>
-    <article>
-        @Html.DisplayFor( model => model.Content)
-        <h5 class="author text-right">
-            @Html.DisplayFor(model => model.Author)
-        </h5>
-    </article>
-    @if(attachments != null && attachments.Count > 0)
-    {
-        <h6 class="author text-left">
-            Tệp đính kèm
-        </h6>
-        <div>
-            @foreach(string attach in attachments )
-            {
-                <a target="_blank" href="@attach">@System.Net.WebUtility.UrlDecode(attach.Substring(attach.LastIndexOf("/") + 1))</a> <br/>
-            }                        
-        </div>
-    }
-    
-</section>

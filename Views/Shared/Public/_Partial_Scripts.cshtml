@@ -1,26 +1,46 @@
 ﻿@{
     var flashData = new FlashData();
-    if (!String.IsNullOrEmpty((string)TempData["FlashData"]))
+    if (!String.IsNullOrEmpty((string) TempData["FlashData"]))
     {
-        flashData = Newtonsoft.Json.JsonConvert.DeserializeObject<FlashData>((string)TempData["FlashData"]);
+        flashData = Newtonsoft.Json.JsonConvert.DeserializeObject<FlashData>((string) TempData["FlashData"]);
     }
 }
-<script src="~/assets/web/libs/jquery-3.1.1.min.js"></script>
-<script src="~/assets/web/libs/rvslider/rvslider.min.js"></script>
-<script src="~/assets/web/libs/desoslide/jquery.desoslide.js"></script>
-<script src="~/assets/web/libs/popper/popper.min.js"></script>
-<script src="~/assets/web/libs/bootstrap/bootstrap.min.js"></script>
-<script src="~/assets/web/libs/lazysizes.min.js"></script>
-<script src="~/assets/web/libs/slick-master/slick/slick.js"></script>
-<script src="~/assets/web/libs/owl-carousel/owl.carousel.js"></script>
-<script src="~/assets/web/libs/aos/aos.js"></script>
-<script src="~/assets/web/libs/fancy-box/fancy-box.js"></script>
-<script src="~/assets/web/js/javascript.js"></script>
-<script src="~/assets/admin/js/noty.min.js"></script>
-<script src="~/assets/web/js/tcu.site.js"></script>
+@* <script src="~/assets/web/libs/jquery-3.1.1.min.js"></script> *@
+@* <script src="~/assets/web/libs/rvslider/rvslider.min.js"></script> *@
+@* <script src="~/assets/web/libs/desoslide/jquery.desoslide.js"></script> *@
+@* <script src="~/assets/web/libs/popper/popper.min.js"></script> *@
+@* <script src="~/assets/web/libs/bootstrap/bootstrap.min.js"></script> *@
+@* <script src="~/assets/web/libs/lazysizes.min.js"></script> *@
+@* <script src="~/assets/web/libs/slick-master/slick/slick.js"></script> *@
+@* <script src="~/assets/web/libs/owl-carousel/owl.carousel.js"></script> *@
+@* <script src="~/assets/web/libs/aos/aos.js"></script> *@
+@* <script src="~/assets/web/libs/fancy-box/fancy-box.js"></script> *@
+@* <script src="~/assets/web/js/javascript.js"></script> *@
+@* <script src="~/assets/admin/js/noty.min.js"></script> *@
+@* <script src="~/assets/web/js/tcu.site.js"></script> *@
+<!--  
+JavaScripts
+=============================================
+-->
+<script src="~/assets/web/lib/jquery/dist/jquery.js"></script>
+<script src="~/assets/web/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/assets/web/lib/wow/dist/wow.js"></script>
+<script src="~/assets/web/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js"></script>
+<script src="~/assets/web/lib/isotope/dist/isotope.pkgd.js"></script>
+<script src="~/assets/web/lib/imagesloaded/imagesloaded.pkgd.js"></script>
+<script src="~/assets/web/lib/flexslider/jquery.flexslider.js"></script>
+<script src="~/assets/web/lib/owl.carousel/dist/owl.carousel.min.js"></script>
+<script src="~/assets/web/lib/smoothscroll.js"></script>
+<script src="~/assets/web/lib/magnific-popup/dist/jquery.magnific-popup.js"></script>
+<script src="~/assets/web/lib/simple-text-rotator/jquery.simple-text-rotator.min.js"></script>
+<script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK2Axt8xiFYMBMDwwG1XzBQvEbYpzCvFU"></script>
+<script src="~/assets/web/js/plugins.js"></script>
+<script src="~/assets/web/js/main.js"></script>
+
+
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v8.0&appId=2053392824883245&autoLogAppEvents=1" nonce="kqicWuQg"></script>
-@if (!String.IsNullOrEmpty((string)TempData["FlashData"]))
+@if (!String.IsNullOrEmpty((string) TempData["FlashData"]))
 {
     <script>
                 showNotify("@flashData.Message", "@flashData.Type");
@@ -50,4 +70,4 @@
             }
         });
     });
-</script> 
+</script>

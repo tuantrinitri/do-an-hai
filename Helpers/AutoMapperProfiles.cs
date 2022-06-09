@@ -37,14 +37,7 @@ namespace CMS.Helpers
             CreateMap<UserForEditDTO, User>();
             CreateMap<User, ProfileForEditDTO>();
             CreateMap<ProfileForEditDTO, User>();
-
-            CreateMap<UnitForCreateDTO, Unit>();
-            CreateMap<Unit, UnitForEditDTO>();
-            CreateMap<UnitForEditDTO, Unit>();
-
-            CreateMap<JobTitleForCreateDTO, JobTitle>();
-            CreateMap<JobTitle, JobTitleForEditDTO>();
-            CreateMap<JobTitleForEditDTO, JobTitle>();
+            
             CreateMap<MenuItemForCreateDTO, MenuItem>();
             CreateMap<MenuItem, MenuItemForEditDTO>();
             CreateMap<MenuItemForEditDTO, MenuItem>();

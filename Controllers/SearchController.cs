@@ -24,7 +24,6 @@ namespace CMS.Controllers
             var results = _context.Posts
             .Where(p => p.Title.Contains(q))
             .Where(pc => pc.IsDeleted != true)
-            .Where(pc => pc.ApprovalStatus == ApprovalStatuses.PUBLISHED)
             .ToList().AsQueryable();
             ViewBag.q = q;
             ViewBag.results = results;

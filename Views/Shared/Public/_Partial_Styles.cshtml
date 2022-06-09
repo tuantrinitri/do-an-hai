@@ -19,9 +19,3 @@
 <link rel="stylesheet" href="~/assets/web/css/style.css" />
 <link rel="stylesheet" href="~/assets/web/css/tcu.site.css" />
 <link href="~/assets/admin/css/noty.min.css" rel="stylesheet" type="text/css">
-
-@if (!String.IsNullOrEmpty(settings.ScriptGoogleTag))
-{
-
-    @Html.Raw(System.Web.HttpUtility.HtmlDecode(settings.ScriptGoogleTag))
-}

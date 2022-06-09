@@ -22,17 +22,19 @@
             <form asp-action="Index" method="get">
                 <div class="row">
                     <div class="col-12 col-md-5">
-                        <input type="text" name="keyword" placeholder="Nhập nội dung cần tìm kiếm" class="form-control form-control-sm" value="@keyword" />
+                        <input type="text" name="keyword" placeholder="Nhập nội dung cần tìm kiếm" class="form-control form-control-sm" value="@keyword"/>
                     </div>
-                     <div class="col-12 col-md-3">
-                        @Html.DropDownList("category", categoryList, "Tất cả danh mục", new { @class = "form-control form-control-sm" })
-                    </div> 
-                    <div class="col-12 col-md-2">             
-                        @Html.DropDownList("status", statusList, "Tất cả trạng thái", new { @class = "form-control form-control-sm" })
+                    <div class="col-12 col-md-3">
+                        @Html.DropDownList("category", categoryList, "Tất cả danh mục", new {@class = "form-control form-control-sm"})
                     </div>
+
                     <div class="col-12 col-md-2 text-center">
-                        <button type="submit" class="btn btn-sm btn-info"><i class="fa fa-filter"></i></button>
-                        <a asp-action="Index" class="btn btn-sm btn-defaul ml-1"><i class="fa fa-eraser"></i></a>
+                        <button type="submit" class="btn btn-sm btn-info">
+                            <i class="fa fa-filter"></i>
+                        </button>
+                        <a asp-action="Index" class="btn btn-sm btn-defaul ml-1">
+                            <i class="fa fa-eraser"></i>
+                        </a>
                     </div>
                 </div>
             </form>
@@ -41,190 +43,76 @@
         {
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>
-                            Tiêu đề 
-                        </th>
-                        <th>
-                            Chuyên mục
-                        </th>
-                        @if(User.IsInRole(RoleTypes.ADMIN) || User.IsInRole(RoleTypes.TBT) || User.IsInRole(RoleTypes.BTV))
-                            {
-                              <th>
-                                  Tác giả
-                              </th>
-                              <th>
-                                  Đơn vị
-                              </th>
-                            }
-                            else if(User.IsInRole(RoleTypes.TT))
-                            {
-                                <th>
-                                    Tác giả
-                                </th>
-                            }               
-                        <th>
-                            Trạng thái
-                        </th>
-                        <th>
-                            Ngày tạo
-                        </th>
-                        <th class="text-center">
-                            Thao tác
-                        </th>
-                    </tr>
+                <tr>
+                    
+                    <th>
+                        Tiêu đề
+                    </th>
+
+                    <th>
+                        Chuyên mục
+                    </th>
+
+                    <th>
+                        Tác giả
+                    </th>
+
+                    <th>
+                        Ngày tạo
+                    </th>
+                    <th class="text-center">
+                        Thao tác
+                    </th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
 
-                            <td class="text-truncate" style="max-width: 150px;" title="@item.Title">
-                                @Html.DisplayFor(modelItem => item.Title)
-                            </td>
-                            @if(item.JoinPostCategories.Count > 0)
-                            {
-                                var Names = (List<string>)item.JoinPostCategories.Select( jpc => jpc.PostCategory.Name).ToList();
-                                var CategoryName = Names[0];
-                                for(int i=1; i<Names.Count; i++){
-                                    CategoryName += " - " + Names[i];
-                                }
-                                <td class="text-truncate" style="max-width: 100px;" title="@CategoryName">
-                                   @CategoryName
-                                </td>
-                            } else {
-                                 <td class="text-truncate" style="max-width: 100px;" >
-                                   Chưa có danh mục
-                                </td>
-                            }
-                            @if(User.IsInRole(RoleTypes.ADMIN) || User.IsInRole(RoleTypes.TBT) || User.IsInRole(RoleTypes.BTV))
-                            {
-                                <td class="text-truncate" style="max-width: 80px;" title="@item.CreatedBy.Fullname">
-                                    @Html.DisplayFor(modelItem => item.CreatedBy.Fullname)
-                                </td>
-                                <td class="text-truncate" style="max-width: 100px;" title="@item.CreatedBy.Unit.Title">
-                                    @Html.DisplayFor(modelItem => item.CreatedBy.Unit.Title)
-                                </td> 
-                            }
-                            else if(User.IsInRole(RoleTypes.TT))
-                            {
-                                <td class="text-truncate" style="max-width: 80px;" title="@item.CreatedBy.Fullname">
-                                    @Html.DisplayFor(modelItem => item.CreatedBy.Fullname)
-                                </td>
-                            }
-                                                                                   
-                            <td style="max-width: 25px;">
-                                @if(item.ApprovalStatus == ApprovalStatuses.PUBLISHED)
-                                {
-                                    <span class="text-success">Đã xuất bản</span>
-                                } 
-                                else if (item.ApprovalStatus == ApprovalStatuses.DRAFT)
-                                {
-                                    <span class="text-grey">Lưu nháp</span>
-                                }
-                                else if (item.ApprovalStatus == ApprovalStatuses.REFUSED)
-                                {
-                                    <span class="text-danger">Bị từ chối</span>
-                                } 
-                                else if (item.ApprovalStatus == ApprovalStatuses.PENDING_CTV)
-                                {
-                                    if(User.IsInRole(RoleTypes.CTV))
-                                    {
-                                        <span class="text-warning">Đã trình duyệt</span>
-                                    } 
-                                    else
-                                    {
-                                        <span class="text-warning">Đang chờ duyệt</span>                                        
-                                    }                                                                    
-                                }
-                                else if (item.ApprovalStatus == ApprovalStatuses.PENDING_TT)
-                                {
-                                    if(User.IsInRole(RoleTypes.CTV) || User.IsInRole(RoleTypes.TT))
-                                    {
-                                        <span class="text-warning">Đã trình duyệt</span>
-                                    } 
-                                    else
-                                    {
-                                        <span class="text-warning">Đang chờ duyệt</span>                                        
-                                    }                                                                   
-                                }
-                                else if (item.ApprovalStatus == ApprovalStatuses.PENDING_BTV)
-                                {
-                                    if(User.IsInRole(RoleTypes.CTV) || User.IsInRole(RoleTypes.TT) || User.IsInRole(RoleTypes.BTV))
-                                    {
-                                        <span class="text-warning">Đã trình duyệt</span>
-                                    } 
-                                    else
-                                    {
-                                        <span class="text-warning">Đang chờ duyệt</span>                                        
-                                    }                                                                    
-                                }
+                        <td class="text-truncate" style="max-width: 150px;" title="@item.Title">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
 
+                        @if (item.JoinPostCategories.Count > 0)
+                        {
+                            var Names = (List<string>) item.JoinPostCategories.Select(jpc => jpc.PostCategory.Name).ToList();
+                            var CategoryName = Names[0];
+                            for (int i = 1; i < Names.Count; i++)
+                            {
+                                CategoryName += " - " + Names[i];
+                            }
+                            <td class="text-truncate" style="max-width: 100px;" title="@CategoryName">
+                                @CategoryName
                             </td>
-                            <td style="max-width: 20px;">
-                                @String.Format("{0:dd/MM/yyyy}", item.CreatedAt)
+                        }
+
+                        else
+                        {
+                            <td class="text-truncate" style="max-width: 100px;">
+                                Chưa có danh mục
                             </td>
-                            <td class="text-center" style="max-width: 80px;">
-                                @if(item.ApprovalStatus == ApprovalStatuses.PUBLISHED){
-                                     if(User.IsInRole(RoleTypes.TBT) || User.IsInRole(RoleTypes.ADMIN)){
-                                         <a asp-action="Edit" asp-route-id="@item.Id" class="badge bg-dark">Sửa</a>
-                                         <a asp-action="Delete" asp-route-id="@item.Id" onclick="askToDelete(this); return false;" class="badge badge-danger">Xóa</a>
-                                     }
-                                    <a href="/bai-viet/@item.Slug" class="badge badge-primary">Xem</a>
-                                } 
-                                else if(item.ApprovalStatus == ApprovalStatuses.REFUSED || item.ApprovalStatus == ApprovalStatuses.DRAFT)
-                                { 
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="badge bg-dark">Sửa</a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" onclick="askToDelete(this); return false;" class="badge badge-danger">Xóa</a>
-                                }                              
-                                else if(item.ApprovalStatus == ApprovalStatuses.PENDING_CTV)
-                                {
-                                    if(User.IsInRole(RoleTypes.ADMIN)){
-                                        <a asp-action="Edit" asp-route-id="@item.Id" class="badge badge-success">Chi tiết</a>
-                                    }
-                                    else if(User.IsInRole(RoleTypes.TT)){
-                                        <a asp-action="Edit" asp-route-id="@item.Id" class="badge badge-success">Chi tiết</a>
-                                    }
-                                    else 
-                                    {
-                                        <a href="/bai-viet/@item.Slug" class="badge badge-info">Xem trước</a>
-                                    }   
-                                }
-                                else if(item.ApprovalStatus == ApprovalStatuses.PENDING_TT)
-                                {
-                                    if(User.IsInRole(RoleTypes.TBT) || User.IsInRole(RoleTypes.ADMIN)){
-                                        <a asp-action="Edit" asp-route-id="@item.Id" class="badge badge-success">Chi tiết</a>
-                                    }
-                                    else if(User.IsInRole(RoleTypes.CTV)){
-                                        <a href="/bai-viet/@item.Slug" class="badge badge-info">Xem Trước</a>
-                                    }
-                                    else if(User.IsInRole(RoleTypes.BTV))
-                                    {
-                                        <a asp-action="Edit" asp-route-id="@item.Id" class="badge badge-success">Chi tiết</a>
-                                    }
-                                    else 
-                                    {
-                                        <a href="/bai-viet/@item.Slug" class="badge badge-info">Xem Trước</a>
-                                    } 
-                                }
-                                else if(item.ApprovalStatus == ApprovalStatuses.PENDING_BTV)
-                                {
-                                    if(User.IsInRole(RoleTypes.BTV) ){
-                                        <a href="/bai-viet/@item.Slug" class="badge badge-info">Xem Trước</a>
-                                    }
-                                    else if(User.IsInRole(RoleTypes.ADMIN) || User.IsInRole(RoleTypes.TBT))
-                                    {
-                                        <a asp-action="Edit" asp-route-id="@item.Id" class="badge badge-success">Chi tiết</a>
-                                    }
-                                    else 
-                                    {
-                                        <a href="/bai-viet/@item.Slug" class="badge badge-info">Xem Trước</a>
-                                    } 
-                                }
-                                
-                            </td>
-                        </tr>
-                    }
+                        }
+
+                        <td class="text-truncate" style="max-width: 80px;" title="@item.CreatedBy.Fullname">
+
+                            @Html.DisplayFor(modelItem => item.CreatedBy.Fullname)
+                        </td>
+
+                        <td style="max-width: 20px;">
+                            @String.Format("{0:dd/MM/yyyy}", item.CreatedAt)
+                        </td>
+
+                        <td class="text-center" style="max-width: 80px;">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="badge bg-dark">Sửa</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" onclick="askToDelete(this); return false;" class="badge badge-danger">Xóa</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="badge badge-success">Chi tiết</a>
+                            <a href="/bai-viet/@item.Slug" class="badge badge-info">Xem Trước</a>
+                        </td>
+
+
+                    </tr>
+                }
                 </tbody>
             </table>
         }
@@ -236,8 +124,8 @@
         }
     </div>
     @if (Model.TotalPages > 0)
-        {
-             <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+    {
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
             @{
                 var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
                 var nextDisabled = !Model.HasNextPage ? "disabled" : "";
@@ -246,6 +134,6 @@
                 Hiển thị <b>@Model.Count()</b> trên tổng số <b>@totalitem</b> kết quả
             </div>
             <paginate info="@Model" page-action="Index" page-route-keyword="@keyword" page-route-status="@status" page-route-category="@category" class="pagination pagination-flat pagination-sm justify-content-between mt-2 mt-sm-0"></paginate>
-           </div>
-       }
+        </div>
+    }
 </div>

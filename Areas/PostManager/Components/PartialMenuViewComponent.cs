@@ -41,17 +41,17 @@ namespace CMS.Areas.PostManager.Components
         {
             var identity = (ClaimsIdentity)User.Identity;
             IEnumerable<Claim> claims = identity.Claims;
-            var unit = claims.Where(cl => cl.Type == "Unit").FirstOrDefault().Value;
+            var unit = claims.FirstOrDefault().Value;
             IQueryable<Post> posts = null;
             // Thu trưởng đơn vị được xem các bài viết của đơn vị
             if (User.IsInRole(RoleTypes.TT))
             {
                 posts = _context.Posts
                 .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
-                .Include(u => u.CreatedBy).ThenInclude(u => u.Unit)
+                .Include(u => u.CreatedBy)
                 .Where(p => p.IsDeleted != true)
-                .Where(p => !(p.ApprovalStatus == ApprovalStatuses.DRAFT && p.CreatedBy.UserName != User.Identity.Name))
-                .Where(p => p.CreatedBy.Unit.ShortName == unit)
+                .Where(p => !(p.CreatedBy.UserName != User.Identity.Name))
+               
                 .OrderByDescending(u => u.CreatedAt).AsNoTracking();
             }
             // Cộng tác viên chỉ xem bài viết của mình
@@ -59,9 +59,9 @@ namespace CMS.Areas.PostManager.Components
             {
                 posts = _context.Posts
                .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
-               .Include(u => u.CreatedBy).ThenInclude(u => u.Unit)
+               .Include(u => u.CreatedBy)
                .Where(p => p.IsDeleted != true)
-               .Where(p => !(p.ApprovalStatus == ApprovalStatuses.DRAFT && p.CreatedBy.UserName != User.Identity.Name))               
+               .Where(p => !(p.CreatedBy.UserName != User.Identity.Name))               
                .Where(p => p.CreatedBy.UserName == User.Identity.Name)
                .OrderByDescending(u => u.CreatedAt).AsNoTracking();
             }
@@ -70,9 +70,9 @@ namespace CMS.Areas.PostManager.Components
             {
                 posts = _context.Posts
                .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
-               .Include(u => u.CreatedBy).ThenInclude(u => u.Unit)
+               .Include(u => u.CreatedBy)
                .Where(p => p.IsDeleted != true)
-               .Where(p => !(p.ApprovalStatus == ApprovalStatuses.DRAFT && p.CreatedBy.UserName != User.Identity.Name))
+               .Where(p => !(p.CreatedBy.UserName != User.Identity.Name))
                .OrderByDescending(u => u.CreatedAt).AsNoTracking();
             }
             //int total = posts.Count();
@@ -82,9 +82,9 @@ namespace CMS.Areas.PostManager.Components
             // Menu của cộng tác viên
             if (User.IsInRole(RoleTypes.CTV))
             {
-                refusedCount = posts.Where(p => p.ApprovalStatus == ApprovalStatuses.REFUSED).Count();
+                refusedCount = posts.Count();
 
-                pendingCount = posts.Where(p => p.ApprovalStatus.Contains(ApprovalStatuses.PENDING)).Count();
+                pendingCount = posts.Count();
                 menuList.Add(new PartialMenuDTO()
                 {
                     MiController = "Posts",
@@ -104,79 +104,14 @@ namespace CMS.Areas.PostManager.Components
                     MiColor = "danger"
                 });
             }
-            // Menu của Thủ trưởng
-            else if (User.IsInRole(RoleTypes.TT))
-            {
-                refusedCount = posts
-                .Where(p => p.ApprovalStatus == ApprovalStatuses.REFUSED && p.CreatedBy.UserName == User.Identity.Name)
-                .Count();
-
-                pendingCount = posts.Where(p => p.ApprovalStatus == ApprovalStatuses.PENDING_CTV).Count();
-                menuList.Add(new PartialMenuDTO()
-                {
-                    MiController = "Posts",
-                    MiAction = "Index",
-                    MiRoute = ApprovalStatuses.PENDING,
-                    MiTitle = "Bài viết chờ duyệt",
-                    MiTotal = pendingCount,
-                    MiColor = "warning"
-                });
-                menuList.Add(new PartialMenuDTO()
-                {
-                    MiController = "Posts",
-                    MiAction = "Index",
-                    MiRoute = ApprovalStatuses.REFUSED,
-                    MiTitle = "Bài viết bị từ chối",
-                    MiTotal = refusedCount,
-                    MiColor = "danger"
-                });
-            }
-            // Menu của biên tập viên
-            else if (User.IsInRole(RoleTypes.BTV))
-            {
-                pendingCount = posts.Where(p => p.ApprovalStatus == ApprovalStatuses.PENDING_TT).Count();
-
-                refusedCount = posts.Where(p => (p.CreatedBy.UserName == User.Identity.Name && p.ApprovalStatus == ApprovalStatuses.REFUSED)).Count();
-                menuList.Add(new PartialMenuDTO()
-                {
-                    MiController = "Posts",
-                    MiAction = "Index",
-                    MiRoute = ApprovalStatuses.PENDING,
-                    MiTitle = "Bài viết chờ duyệt",
-                    MiTotal = pendingCount,
-                    MiColor = "warning"
-                });
-                menuList.Add(new PartialMenuDTO()
-                {
-                    MiController = "Posts",
-                    MiAction = "Index",
-                    MiRoute = ApprovalStatuses.REFUSED,
-                    MiTitle = "Bài viết bị từ chối",
-                    MiTotal = refusedCount,
-                    MiColor = "danger"
-                });
-            }
-            // Menu của tổng biên tập
-            else if (User.IsInRole(RoleTypes.TBT))
-            {
-                pendingCount = posts.Where(p => (p.ApprovalStatus == ApprovalStatuses.PENDING_TT || p.ApprovalStatus == ApprovalStatuses.PENDING_BTV)).Count();
-                menuList.Add(new PartialMenuDTO()
-                {
-                    MiController = "Posts",
-                    MiAction = "Index",
-                    MiRoute = ApprovalStatuses.PENDING,
-                    MiTitle = "Bài viết chờ duyệt",
-                    MiTotal = pendingCount,
-                    MiColor = "warning"
-                });
-            }
+           
             // Menu của admin
             else
             {
-                pendingCount = await posts.Where(p => p.ApprovalStatus.Contains(ApprovalStatuses.PENDING)).CountAsync();
-                refusedCount = await posts.Where(p => p.CreatedBy.UserName == User.Identity.Name && p.ApprovalStatus == ApprovalStatuses.REFUSED).CountAsync();
-                int publishedCount = await posts.Where(p => p.ApprovalStatus == ApprovalStatuses.PUBLISHED).CountAsync();
-                int draftCount = await posts.Where(p => p.ApprovalStatus == ApprovalStatuses.DRAFT).CountAsync();
+                pendingCount = await posts.CountAsync();
+                refusedCount = await posts.Where(p => p.CreatedBy.UserName == User.Identity.Name).CountAsync();
+                int publishedCount = await posts.CountAsync();
+                int draftCount = await posts.CountAsync();
                 menuList.Add(new PartialMenuDTO()
                 {
                     MiController = "Posts",

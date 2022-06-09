@@ -140,10 +140,6 @@ namespace CMS
                     name: "chuyen-muc",
                     defaults: new { controller = "Category", action = "Index" },
                     pattern: "chuyen-muc/{*slug}");
-                endpoints.MapControllerRoute(
-                    name: "tai-lieu",
-                    defaults: new { controller = "Document", action = "Details" },
-                    pattern: "tai-lieu/{*slug}");
 
                 endpoints.MapControllerRoute(
                     name: "areas",

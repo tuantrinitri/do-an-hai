@@ -4,7 +4,6 @@ using CMS.Areas.PostManager.Models;
 using CMS.Areas.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using CMS.Areas.StaticPages.Models;
-using CMS.Areas.NotificationManager.Models;
 using CMS.Areas.SettingManager.Models;
 using CMS.Areas.ContactManager.Models;
 using CMS.Areas.GalleryManager.Models;
@@ -32,21 +31,16 @@ namespace CMS.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostCategory> PostCategories { get; set; }
         public DbSet<JoinPostCategory> JoinPostCategories { get; set; }
-        public DbSet<JobTitle> JobTitles { get; set; }
-        public DbSet<Unit> Units { get; set; }
         public DbSet<StaticPage> StaticPages { get; set; }
-
 
         public DbSet<Contact> Contacts { get; set; }
 
         public DbSet<Gallery> Galleries { get; set; }
         public DbSet<GalleryItem> GalleryItems { get; set; }
 
-
         public DbSet<Menu> Menus { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
 
-        public DbSet<Notification> Notifications { get; set; }
 
         public DbSet<GlobalSetting> GlobalSettings { get; set; }
 

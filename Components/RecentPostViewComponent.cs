@@ -37,7 +37,7 @@ namespace CMS.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var model = await _context.Posts
-            .Where(p => p.IsDeleted != true && p.ApprovalStatus == ApprovalStatuses.PUBLISHED)
+            .Where(p => p.IsDeleted != true)
             .Where( p => (p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now)|| p.EndDate == null || p.StartDate == null)
             .OrderByDescending(p => p.CreatedAt)
             .Take(10).ToListAsync();

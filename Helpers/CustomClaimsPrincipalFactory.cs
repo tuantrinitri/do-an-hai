@@ -23,7 +23,7 @@ namespace CMS.Helpers
         public async override Task<ClaimsPrincipal> CreateAsync(User user)
         {
             var principal = await base.CreateAsync(user);
-            user = _userManager.Users.Include(u => u.Unit).FirstOrDefault(u => u.Id == user.Id);
+            user = _userManager.Users.FirstOrDefault(u => u.Id == user.Id);
             // Add your claims here
             var claims = new List<Claim>();
             var roles = await _userManager.GetRolesAsync(user);
@@ -33,7 +33,7 @@ namespace CMS.Helpers
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
             claims.Add(new Claim("Fullname", user.Fullname));
-            claims.Add(new Claim("Unit", user.Unit.ShortName));
+         
             ((ClaimsIdentity)principal.Identity).AddClaims(claims);
             return principal;
         }

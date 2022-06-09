@@ -134,7 +134,7 @@
             <a asp-action="Index" class="btn btn-outline bg-indigo-400 border-dark"> Quay lại danh sách</a>
             <div class="d-flex justify-content-end align-items-center">
                 <button name="submitBtn" type="submit" class="btn btn-outline bg-indigo-400 border-dark" value="Draft" >Lưu nháp</button>
-                @if(User.IsInRole(RoleTypes.TBT) || User.IsInRole(RoleTypes.ADMIN)){
+                @if(User.IsInRole(RoleTypes.ADMIN)){
                     <span> &nbsp; &nbsp;</span>
                     <button name="submitBtn" type="submit" class="btn bg-blue bg-indigo-400 legitRipple" value="Published">Xuất bản</button>
                 }
@@ -157,7 +157,7 @@
     <script src="~/assets/admin/js/plugins/pickers/pickadate/picker.js"></script>
     <script src="~/assets/admin/js/plugins/pickers/pickadate/picker.date.js"></script>
     <script src="~/assets/admin/js/plugins/pickers/pickadate/picker.time.js"></script>
-     <script>     
+    <script>     
         $(document).ready(function() {
          $('.tokenfield').tokenfield();
          $('.pickadate').pickadate({
@@ -186,12 +186,12 @@
             });
         });
      </script>
+    
     <script>
         CKEDITOR.replace("rtxPageContent", {
             height: 500,
             extraPlugins: ['videoembed', 'confighelper','image2','tableresize', 'table', 'preview','imageresize'],
             filebrowserBrowseUrl: "/AdminCP/file-manager/ckeditor-browse"
         });
-
     </script>   
 }

@@ -41,12 +41,7 @@
                         <th>
                             Phân quyền
                         </th>
-                        <th>
-                            Đơn vị
-                        </th>
-                        <th>
-                            Chức vụ
-                        </th>
+                       
                         <th>
                             Tài khoản
                         </th>
@@ -66,12 +61,8 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.UserRoles.FirstOrDefault().Role.Title)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Unit.Title)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.JobTitle.Title)
-                            </td>
+                          
+                          
                             <td>
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>

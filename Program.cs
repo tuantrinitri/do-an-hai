@@ -84,7 +84,7 @@ namespace CMS
         /// 
 
         /*
-        * Function khai báo với win chương trình sẽ lấy port 5000 làm port chạy chương trình
+        * Function khai báo với hthong chương trình sẽ lấy port 5000 làm port chạy chương trình
         */
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
@@ -97,7 +97,7 @@ namespace CMS
                     webBuilder.UseUrls("https://localhost:5000");
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                     webBuilder.UseIISIntegration();
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>(); //DI
 
                 });
     }

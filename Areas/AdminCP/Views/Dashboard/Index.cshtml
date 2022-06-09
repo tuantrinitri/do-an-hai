@@ -114,12 +114,6 @@
                                         @Html.DisplayFor(modelItem => item.CreatedBy.Fullname)
                                     </td>
                                 }
-                               @if(User.IsInRole(RoleTypes.BTV) || User.IsInRole(RoleTypes.TBT)) 
-                               {  
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CreatedBy.Unit.Title)
-                                    </td>
-                                }
                                 <td>
                                     @String.Format("{0:dd/MM/yyyy}", item.CreatedAt)
                                 </td>
@@ -129,14 +123,10 @@
                                     </td>
                                 }                                
                                 <td class="text-center">
-                                    @if(item.ApprovalStatus == ApprovalStatuses.REFUSED){
+                               
                                         <a asp-area="PostManager" asp-controller="Posts" asp-action="Edit" asp-route-id="@item.Id" class="badge badge-success">Sửa</a>
                                         <a asp-area="PostManager" asp-controller="Posts" asp-action="Delete" asp-route-id="@item.Id" onclick="askToDelete(this); return false;" class="badge badge-danger">Xóa</a>
-                                    }
-                                    else 
-                                    {
-                                        <a asp-area="PostManager" asp-controller="Posts" asp-action="Edit" asp-route-id="@item.Id" class="badge badge-success">Chi tiết</a>
-                                    }
+                                  
                                     
                                 </td>
                             </tr>

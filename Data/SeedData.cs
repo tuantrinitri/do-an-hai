@@ -55,8 +55,6 @@ namespace CMS.Data
                     var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                     var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
                     SeedRoles(roleMgr);
-                    SeedUnits(context);
-                    SeedJobTitles(context);
                     SeedUser(userMgr, context);
                     SeedMenu(context);
                     SeedGalleries(context);
@@ -73,7 +71,6 @@ namespace CMS.Data
                     new Role { Name="admin", Title="Administrator"},
                     new Role { Name="btv", Title="Biên tập viên"},
                     new Role { Name="ctv", Title="Cộng tác viên"},
-                    new Role { Name="tbt", Title="Tổng biên tập"}
                 };
 
                 foreach (var role in roles)
@@ -83,40 +80,7 @@ namespace CMS.Data
                 }
             }
         }
-
-        private static void SeedJobTitles(ApplicationDbContext _dataContext)
-        {
-            if (!_dataContext.JobTitles.Any())
-            {
-                var dataJson = System.IO.File.ReadAllText("Areas/Identity/Data/jobtitle.json");
-                var jobTtitles = JsonConvert.DeserializeObject<List<JobTitle>>(dataJson);
-
-                foreach (var jobTitle in jobTtitles)
-                {
-                    jobTitle.Activated = true;
-                    _dataContext.JobTitles.Add(jobTitle);
-                    Log.Debug("JobTitle " + jobTitle.ShortName + " - " + jobTitle.Title + " created");
-                }
-                _dataContext.SaveChanges();
-            }
-        }
-
-        private static void SeedUnits(ApplicationDbContext _dataContext)
-        {
-            if (!_dataContext.Units.Any())
-            {
-                var dataJson = System.IO.File.ReadAllText("Areas/Identity/Data/unit.json");
-                var units = JsonConvert.DeserializeObject<List<Unit>>(dataJson);
         
-                foreach (var unit in units)
-                {
-                    unit.Activated = true;
-                    _dataContext.Units.Add(unit);
-                    Log.Debug("Unit " + unit.ShortName + " - " + unit.Title + " created");
-                }
-                _dataContext.SaveChanges();
-            }
-        }
         private static void SeedUser(UserManager<User> _userManager, ApplicationDbContext _dataContext)
         {
             if (!_userManager.Users.Any())
@@ -126,8 +90,6 @@ namespace CMS.Data
 
                 foreach (var user in users)
                 {
-                    user.Unit = _dataContext.Units.FirstOrDefault(u => u.ShortName == user.Unit.ShortName);
-                    user.JobTitle = _dataContext.JobTitles.FirstOrDefault(j => j.ShortName == user.JobTitle.ShortName);
                     _userManager.CreateAsync(user, "123456").Wait();
                     _userManager.AddToRoleAsync(user, user.Role).Wait();
                     Log.Debug("User " + user.UserName + " - " + user.Fullname + " created");

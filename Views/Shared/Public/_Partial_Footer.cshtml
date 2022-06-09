@@ -8,142 +8,38 @@
     var right_menu = ctxHelper._context.Menus.Where(m => m.Alias == "FOOTER_MENU_RIGHT").First();
     var left_menu_items = ctxHelper._context.MenuItems.Where(i => i.MenuId == left_menu.Id && i.Published == true).OrderBy(i => i.Order).ToList();
     var right_menu_items = ctxHelper._context.MenuItems.Where(i => i.MenuId == right_menu.Id && i.Published == true).OrderBy(i => i.Order).ToList();
-
-    
 }
+<hr class="divider-d">
 
-<footer id="footer" class="footer">
-    <div class="connect-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-lg-9">
-                   
-                </div>
-                <div class="col-md-4 col-lg-3 d-flex align-items-center">
-                    <div class="box-select">
-                        <h2 id="nav">LIÊN KẾT WEBSITE<span><i class="fas fa-chevron-down"></i></span></h2>
-                        <ul class="select">
-                          
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class=" footer__info">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-md-4 col-lg-6">
-                    <div class="row ">
-                        <div class="col-xs-12 col-md-12 col-lg-3">
-                            <div class="heading">
-                                <h2>Liên hệ</h2>
-                            </div>
-                            <div class="footer__logo text-center">
-                                @if (!String.IsNullOrEmpty(settings.LogoFooter))
-                                {
-                                    <img src="@settings.LogoFooter" alt="@settings.SiteType - @settings.UnitName">
-                                }
-                                else
-                                {
-                                    <img src="/assets/web/images/logo.png" alt="@settings.SiteType - @settings.UnitName">
-                                }
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-md-12 col-lg-9">
-                            <h3 class="title">@settings.UnitName</h3>
-                            <ul class="footer__contact-list">
-                                <li class="footer__contact-list mb-1">Địa chỉ: @settings.Address</li>
-                                <li class="footer__contact-list mb-1">Điện thoại: @Html.Raw(System.Web.HttpUtility.HtmlDecode(settings.PhoneNumber))</li>
-                                <li class="footer__contact-list mb-1">Fax: @settings.Fax</li>
-                                <li class="footer__contact-list mb-1">Email: <a href="mailto:@settings.Email.Split(';')[0].Trim()">@settings.Email.Split(';')[0].Trim()</a></li>
-                                <li class="footer__contact-list mb-1">
-                                    @Html.Raw(System.Web.HttpUtility.HtmlDecode(settings.MoreInfo))
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+<div class="scroll-up">
+    <a href="#totop">
+        <i class="fa fa-angle-double-up"></i>
+    </a>
+</div>
 
-                </div>
-                <div class="col-xs-12 col-md-4 col-lg-3">
-                    <div class="heading">
-                        <h2>Thông tin</h2>
-                    </div>
-                    <ul class="list-item">
-                        @foreach (var mItem in left_menu_items)
-                        {
-                            <li>
-                                @if (!String.IsNullOrEmpty(mItem.OpenType))
-                                {
-                                    <a href="@mItem.Link" target="@mItem.OpenType" title="@mItem.Title">@mItem.Title</a>
-                                }
-                                else
-                                {
-                                    <a href="@mItem.Link" title="@mItem.Title">@mItem.Title</a>
-                                }
-                            </li>
-                        }
-                    </ul>
-                </div>
-                <div class="col-xs-12 col-md-4 col-lg-3">
-                    <div class="heading">
-                        <h2>Liên kết nhanh</h2>
-                    </div>
-                    <ul class="list-item">
-                        @foreach (var mItem in right_menu_items)
-                        {
-                            <li>
-                                @if (!String.IsNullOrEmpty(mItem.OpenType))
-                                {
-                                    <a href="@mItem.Link" target="@mItem.OpenType" title="@mItem.Title">@mItem.Title</a>
-                                }
-                                else
-                                {
-                                    <a href="@mItem.Link" title="@mItem.Title">@mItem.Title</a>
-                                }
-                            </li>
-                        }
-                    </ul>
-                </div>
+<footer class="footer bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <p class="copyright font-alt">&copy; 2022 &nbsp;<a href="index.html">Thu Hải</a>, All Copy Rights</p>
             </div>
-        </div>
-    </div>
-    <div class="footer__copyright">
-        <div class="container">
-            <div class="footer__copyright-content">
-                <p class="text-white  mb-0">Thiết kế bởi <a href="http://mitechcenter.vn" target="_blank" rel="noopener noreferrer">Mitech Center</a></p>
-                <ul class="notification__content statisticl">
-                    <li class="statisticl-item">
-                        <div class="statisticl-item__info">
-                            <span class="icon">
-                                <img src="/assets/web/images/entypo_flash.png" alt="icon">
-                            </span>
-                            <p class="statisticl__text">Đang truy cập:</p>
-                        </div>
-                        <div class="statisticl-item__total">
-                            <p class="statisticl__text ml-1">1</p>
-                        </div>
-                    </li>
-                    <li class="statisticl-item">
-                        <div class="statisticl-item__info">
-                            <span class="icon mr-1">
-                                <img src="/assets/web/images/bx_bx-bar-chart-alt-2.png" alt="icon">
-                            </span>
-                            <p class="statisticl__text">Tổng lượt truy cập:</p>
-                        </div>
-                        <div class="statisticl-item__total">
-                            <p class="statisticl__text ml-1">425</p>
-                        </div>
-                    </li>
-                </ul>
+            <div class="col-sm-6">
+                <div class="footer-social-links">
+                    <a href="#">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-dribbble"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-skype"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </footer>
 
-@if (!String.IsNullOrEmpty(settings.ScriptChatBot))
-{
-
-    @Html.Raw(System.Web.HttpUtility.HtmlDecode(settings.ScriptChatBot))
-}
-<a id="to-top" class="show"><i class="fas fa-arrow-up"></i></a>

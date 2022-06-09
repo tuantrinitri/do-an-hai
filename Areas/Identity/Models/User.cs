@@ -16,14 +16,6 @@ namespace CMS.Areas.Identity.Models
 
         public string Role { get; set; }
 
-        public int? UnitId { get; set; }
-
-        public int? JobTitleId { get; set; }
-
-        public Unit Unit { get; set; }
-
-        public JobTitle JobTitle { get; set; }
-
         public ICollection<UserRole> UserRoles { get; set; }
     }
 }

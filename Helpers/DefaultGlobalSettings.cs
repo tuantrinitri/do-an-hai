@@ -16,7 +16,7 @@ namespace CMS.Helpers
         private const string _PhoneNumber = "0583-801-805";
         private const string _Fax = "058-832-055";
         private const string _MoreInfo = "® Ghi rõ nguồn <a href=\"http://www.tcu.edu.vn/\" class=\"link\">www.tcu.edu.vn</a> khi phát hành lại <br> thông tin từ <strong> Cổng TTÐT Trường ĐẠI HỌC THÔNG TIN LIÊN LẠC</strong>.";
-        private const string _EmbedMapURL = "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15592.901528392935!2d109.19989735!3d12.300603350000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317067fb4e284bd7%3A0x66bee30fdf4d2331!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBUaMO0bmcgdGluIExpw6puIGzhuqFj!5e0!3m2!1svi!2s!4v1597380845858!5m2!1svi!2s\" width=\"400\" height=\"300\" frameborder=\"0\" style=\"border:0;\" allowfullscreen=\"\" aria-hidden=\"false\" tabindex=\"0\"></iframe>";
+        private const string _EmbedMapURL = "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15592.901528392935!2d109.19989735!3d12.300603350000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317067fb4e284bd7%3A0x66bee30fdf4d2331!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBUaMO0bmcgdGluIExpw6puIGzhuqFj!5e0!3m2!1svi!2s!4v1597380845858!5m2!1svi!2s\" width=\"100%\" height=\"452\" frameborder=\"0\" style=\"border:0;\" allowfullscreen=\"\" aria-hidden=\"false\" tabindex=\"0\"></iframe>";
         private const string _ScriptChatBot = "";
         private const string _ScriptGoogleTag = "";
         public static GlobalSetting _DefaultSettings = new GlobalSetting()

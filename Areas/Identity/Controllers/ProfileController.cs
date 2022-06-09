@@ -43,8 +43,6 @@ namespace CMS.Areas.Identity.Controllers
             var user = await _context.Users
                 .Include(u => u.UserRoles)
                     .ThenInclude(ur => ur.Role)
-                .Include(u => u.Unit)
-                .Include(u => u.JobTitle)
                 .FirstOrDefaultAsync(u => u.Id == User.GetId());
 
             ProfileForEditDTO userForEdit = _mapper.Map<ProfileForEditDTO>(user);
@@ -64,8 +62,6 @@ namespace CMS.Areas.Identity.Controllers
             var user = await _context.Users
                 .Include(u => u.UserRoles)
                     .ThenInclude(ur => ur.Role)
-                .Include(u => u.Unit)
-                .Include(u => u.JobTitle)
                 .FirstOrDefaultAsync(u => u.Id == User.GetId());
 
             //foreach (var error in result.Errors)

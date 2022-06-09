@@ -29,6 +29,10 @@ namespace CMS.Areas.PostManager.Models
         [Display(Name = "Hoạt động")]
         public bool Activated { get; set; }
 
+        [DefaultValue(null)]
+        [Display(Name = "Hình ảnh danh mục")]
+        public string ImageCategory { get; set; }
+        
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
 

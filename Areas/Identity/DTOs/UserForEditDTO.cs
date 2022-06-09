@@ -14,12 +14,6 @@ namespace CMS.Areas.Identity.DTOs
         [Required(ErrorMessage = "Chưa nhập họ tên")]
         public string Fullname { get; set; }
 
-        [Required(ErrorMessage = "Chưa chọn đơn vị")]
-        public int UnitId { get; set; }
-
-        [Required(ErrorMessage = "Chưa chọn chức vụ")]
-        public int JobTitleId { get; set; }
-
         [Required(ErrorMessage = "Chưa nhập tài khoản")]
         public string UserName { get; set; }
 

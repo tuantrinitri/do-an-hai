@@ -3,322 +3,333 @@
 @{
     ViewData["Title"] = "Trang chủ";
     Layout = "~/Views/Shared/Public/_Layout_Home.cshtml";
-    var context = ctxHelper._context;
-
-
+    var globalSettings = ctxHelper._context.GlobalSettings.FirstOrDefault();
+    if (globalSettings == null) globalSettings = DefaultGlobalSettings._DefaultSettings;
+    else globalSettings = globalSettings.MapSettings();
 }
-
-<section class="slider">
-    <div class="multiple-items">
-        @foreach (var item in ViewBag.sliderhome)
-        {
-            <div class="item">
-                <img src="@item.Image" alt="alt-slide">
-            </div>
-        }
-    </div>
-</section>
-<section class="connect-page">
-    <div class="container">
-        <ul>
-            <li class="item">
-                <a href="http://elearning.mitechcenter.vn" target="_blank" title="E-Learning">
-                    <span class="icon">
-                        <img src="/assets/web/images/E-Learning-Icon.png" alt="alt-image">
-                    </span>
-                    <span class="title">E-Learning</span>
-                </a>
-            </li>
-            <li class="item">
-                <a href="http://thisinh.thithptquocgia.edu.vn/" title="Tra Cứu Điểm Tuyển Sinh" target="_blank">
-                    <span class="icon">
-                        <img src="/assets/web/images/ion_search-outline.png" alt="alt-image">
-                    </span>
-                    <span class="title">Tra Cứu Điểm Tuyển Sinh</span>
-                </a>
-            </li>
-            <li class="item">
-                <a href="https://mitechcenter.vn" target="_blank" title="TRUNG TÂM CNTT Và NGOẠI NGỮ">
-                    <span class="icon">
-                        <img src="/assets/web/images/cil_building.png" alt="alt-image">
-                    </span>
-                    <span class="title">
-                        TRUNG TÂM CNTT Và NGOẠI NGỮ
-                    </span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</section>
-@if (ViewBag.HomepageBlock1.Count > 0)
-{
-    <section class="article-post">
+@* header *@
+<section class="home-section bg-dark-30" id="home" data-background="~/assets/web//images/finance/finance_header_bg.png">
+    <div class="video-player" data-property="{videoURL:'https://youtu.be/o2X0FGEmtb8', containment:'.home-section', startAt:30, mute:false, autoPlay:true, loop:true, opacity:1, showControls:false, showYTLogo:false, vol:0}"></div>
+    <div class="video-controls-box">
         <div class="container">
-            <div class="article-post__wrapper">
-                <div class="row">
-                    @foreach (HomepageItemViewModel item1 in ViewBag.HomepageBlock1)
-                    {
-                        if (item1.Type == HomepageBlockTypes.DATE)
-                        {
-                            <div class="col-xs-12 col-md-6 col-lg-6">
-                                <div class="article-post__slide">
-                                    <div class="d-flex justify-content-between">
-                                        <h2 class="heading-featured m-0">
-                                            <span>@item1.Title</span>
-                                        </h2>
-                                        <div class="align-self-center">
-                                            <a class="read-more" href="/chuyen-muc/@item1.CategorySlug" title="@item1.Title">Xem thêm<span>[+]</span></a>
-                                        </div>
-                                    </div>
-                                    @if (item1.Posts.Count > 0)
-                                    {
-                                        <div class="article-new">
-                                            <div class="items-slider-container js-items-slider-container">
-                                                <div class="slider slider-for">
-                                                    @foreach (var post in item1.Posts)
-                                                    {
-                                                        <article class="slider-nav__anchor">
-                                                            <a href="/bai-viet/@post.Slug" title="@post.Title">
-                                                                <div class="image">
-                                                                    <img src="@post.AvatarUrl" alt="@post.Title">
-                                                                </div>
-                                                                <div class="item-informations-container left-top">
-                                                                    <h3 class="item-slide-title">
-                                                                        @(post.Title.Truncate(90))
-                                                                    </h3>
-                                                                </div>
-                                                            </a>
-                                                        </article>
-                                                    }
-                                                </div>
-                                                <div class="slider slider-nav">
-                                                    @foreach (var post in item1.Posts)
-                                                    {
-                                                        <div class="slider-nav__info">
-                                                            <span class="slider-nav__heading">@String.Format("{0:dd}", post.CreatedAt)</span>
-                                                            <span class="slider-nav__text">Tháng @String.Format("{0:MM}", post.CreatedAt)</span>
-                                                        </div>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="col-xs-12 col-md-6 col-lg-6">
-                                <div class="article-post__info">
-                                    <div class="d-flex justify-content-between">
-                                        <h2 class="heading-featured">
-                                            <span>@item1.Title</span>
-                                        </h2>
-                                    </div>
-                                    @if (item1.Posts.Count > 0)
-                                    {
-                                        <div class="article-feature">
-                                            <div class="slider slider-for">
-                                                @foreach (var post in item1.Posts)
-                                                {
-                                                    <article class="item">
-                                                        <div class="image">
-                                                            <a href="/bai-viet/@post.Slug" title="@post.Title">
-                                                                <img src="@post.AvatarUrl" alt="@post.Title">
-                                                            </a>
-                                                        </div>
-                                                        <div class="description">
-                                                            <h3>
-                                                                <a href="/bai-viet/@post.Slug" title="@post.Title">
-                                                                    @(post.Title.Truncate(90))
-                                                                </a>
-                                                            </h3>
-                                                            <span class="date">
-                                                                <i class="fa fa-clock"></i>@String.Format("{0:dd/MM/yyyy}", post.CreatedAt)
-                                                            </span>
-                                                            <span class="time">@String.Format("{0:HH:mm}", post.CreatedAt)</span>
-                                                            <p>
-                                                                @(post.ShortDesc.Truncate(90))
-                                                            </p>
-                                                        </div>
-                                                    </article>
-                                                }
-                                            </div>
-                                            <div class="slider slider-nav">
-                                                @foreach (var post in item1.Posts)
-                                                {
-                                                    <article class="item">
-                                                        <div class="image">
-                                                            <a href="/bai-viet/@post.Slug" title="@(post.Title.Truncate(90))">
-                                                                <img src="@post.AvatarUrl" alt="@post.Title">
-                                                            </a>
-                                                        </div>
-                                                        <div class="title">
-                                                            <h3>
-                                                                <a href="/bai-viet/@post.Slug" title="@post.Title">
-                                                                    @(post.Title.Truncate(90))
-                                                                </a>
-                                                            </h3>
-                                                        </div>
-                                                    </article>
-                                                }
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        }
-                    }
+            <div class="video-controls">
+                <a class="fa fa-volume-up" id="video-volume" href="#">&nbsp;</a><a class="fa fa-pause" id="video-play" href="#">&nbsp;</a>
+            </div>
+        </div>
+    </div>
+    <div class="titan-caption">
+        <div class="caption-content">
+            <div class="font-alt mb-30 titan-title-size-1">Chào &amp; mừng</div>
+            <div class="font-alt mb-40 titan-title-size-4">Bạn tới với Quảng Ninh</div><a class="section-scroll btn btn-border-w btn-round" href="#about">Tìm hiểu thêm</a>
+        </div>
+    </div>
+</section>
+
+<section class="module-extra-small bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-md-8 col-lg-6 col-lg-offset-2">
+                <div class="callout-text font-alt">
+                    <h4 style="margin-top: 0px;">tìm kiếm một chuyến du lịch Quảng Ninh?</h4>
+                    <p style="margin-bottom: 0px;">Chúng tôi ở đây để giúp bạn</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <div class="callout-btn-box">
+                    <a class="btn btn-w btn-round"asp-action="Index" asp-controller="Contacts">Liên hệ</a>
                 </div>
             </div>
         </div>
-    </section>
-}
-@if (ViewBag.HomepageBlock2.Count > 0)
-{
-    <section class="information">
-        <div class="container">
-            <div class="row">
-                @foreach (HomepageItemViewModel item2 in ViewBag.HomepageBlock2)
+    </div>
+</section>
+
+<section class="module sliding-portfolio">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <h2 class="module-title font-alt">Nổi bật cùng Quảng Ninh</h2>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="owl-carousel text-center" data-items="4" data-pagination="false" data-navigation="false">
+
+                @foreach (var postFeatured in ViewBag.PostFeatured)
                 {
-                    if (item2.Type == HomepageBlockTypes.DATE)
-                    {
-                        <div class="col-md-6 col-lg-4">
-                            <div class="heading-category mb-4">
-                                <h2 class="heading-2 heading-2--information">@item2.Title</h2>
-                                <a href="chuyen-muc/@item2.CategorySlug" class="view-more" title="">Xem thêm<span>[+]</span></a>
+                    <div class="owl-item">
+                        <div class="col-sm-12">
+                            <div class="work-item">
+                                <a href="/bai-viet/@postFeatured.Slug">
+                                    <div class="work-image">
+                                        <img src="@(postFeatured.AvatarUrl)" alt="@(postFeatured.Title)"/>
+                                    </div>
+                                    <div class="work-caption font-alt">
+                                        <h3 class="work-title">@postFeatured.Title</h3>
+                                        <div class="work-descr">@postFeatured.ShortDesc</div>
+                                    </div>
+                                </a>
                             </div>
-                            @if (item2.Posts.Count > 0)
-                            {
-                                <div class="list-item">
-                                    @foreach (var post in item2.Posts)
-                                    {
-                                        <article class="category-text__item">
-                                            <div class="category-text__time">
-                                                <p class="category-text__day">@String.Format("{0:dd}", post.CreatedAt)</p>
-                                                <p class="category-text__month">Tháng @String.Format("{0:MM}", post.CreatedAt)</p>
-                                            </div>
-                                            <div class="category-text__content">
-                                                <h3>
-                                                    <a href="/bai-viet/@post.Slug" target="" title="@post.Title">
-                                                        @(post.Title.Truncate(90))
-                                                    </a>
-                                                </h3>
-                                            </div>
-                                        </article>
-                                    }
-                                </div>
-                            }
                         </div>
-                    }
-                    else
-                    {
-                        <div class="col-md-6 col-lg-4">
-                            <div class="heading-category mb-4">
-                                <h2 class="heading-2 heading-2--information">@item2.Title</h2>
-                                <a href="chuyen-muc/@item2.CategorySlug" class="view-more" title="">Xem thêm<span>[+]</span></a>
-                            </div>
-                            @if (item2.Posts.Count > 0)
-                            {
-                                <div class="list-post">
-                                    @foreach (var post in item2.Posts)
-                                    {
-                                        <article class="item">
-                                            <div class="image">
-                                                <a href="/bai-viet/@post.Slug" title="">
-                                                    <img data-src="@post.AvatarUrl" class="lazyload" alt="@post.Title">
-                                                </a>
-                                            </div>
-                                            <div class="title">
-                                                <h3>
-                                                    <a href="/bai-viet/@post.Slug" target="" title="@post.Title">
-                                                        @(post.Title.Truncate(90))
-                                                    </a>
-                                                </h3>
-                                            </div>
-                                        </article>
-                                    }
-                                </div>
-                            }
-                        </div>
-                    }
+                    </div>
                 }
-
+            </div>
+            <div class="col-sm-12">
+                <div class="text-center">
+                    <a class="btn btn-border-d btn-circle mt-50" asp-action="Index" asp-controller="Category">Xem thêm</a>
+                </div>
             </div>
         </div>
-    </section>
-}
+    </div>
+</section>
 
-<section class="mutilmedia">
+<section class="module bg-dark-60 parallax-bg" data-background="../assets/web/images/finance/finance_funfact_bg.jpg" style="background-position: 50% 15%;">
     <div class="container">
-        <ul class="tabs">
-            <li>
-                <a href="#gallery">Thư viện hình ảnh</a>
-            </li>
-            <li>
-                <a href="#video">Thư viện video</a>
-            </li>
-        </ul>
-        <div class="box-panel">
-            <div id="gallery" class="panel">
-                <div class="main">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="slider slider-for">
-                                @foreach (var img in ViewBag.photo)
-                                {
-                                    <div class="item">
-                                        <a href="@img.Image" data-fancybox="images" data-caption="@img.Title">
-                                            <img data-src="@img.Image" class="lazyload" alt="gallery">
-                                            <div class="title">
-                                                <h3>@img.Title</h3>
-                                            </div>
-                                        </a>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="slider slider-nav">
-                                @foreach (var img in ViewBag.photo)
-                                {
-                                    <div class="item">
-                                        <img data-src="@img.Image" class="lazyload" alt="gallery">
-                                    </div>
-                                }
-                            </div>
-                        </div>
+        <div class="row multi-columns-row">
+            <div class="col-sm-6 col-md-3 col-lg-3">
+                <div class="count-item mb-sm-40">
+                    <div class="count-icon">
+                        <span class="icon-target"></span>
                     </div>
+                    <h3 class="count-to font-alt" data-countto="85"></h3>
+                    <h5 class="count-title font-serif">Sự tin tưởng đến với chúng tôi</h5>
                 </div>
             </div>
-            <div id="video" class="panel">
-                <div class="rvs-container">
-                    <div class="rvs-item-container">
-                        <div class="rvs-item-stage">
-                            @foreach (var video in ViewBag.video)
-                            {
-                                <div class="rvs-item" style="background-image: url(@video.Image)">
-                                    <p class="rvs-item-text">@video.Title</p>
-                                    <a href="@video.Video" class="rvs-play-video"></a>
+            <div class="col-sm-6 col-md-3 col-lg-3">
+                <div class="count-item mb-sm-40">
+                    <div class="count-icon">
+                        <span class="icon-bargraph"></span>
+                    </div>
+                    <h3 class="count-to font-alt" data-countto="134"></h3>
+                    <h5 class="count-title font-serif">Phân tích nơi du lịch</h5>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 col-lg-3">
+                <div class="count-item mb-sm-40">
+                    <div class="count-icon">
+                        <span class="icon-trophy"></span>
+                    </div>
+                    <h3 class="count-to font-alt" data-countto="26"></h3>
+                    <h5 class="count-title font-serif">Các địa điểm đáng đến</h5>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 col-lg-3">
+                <div class="count-item mb-sm-40">
+                    <div class="count-icon">
+                        <span class="icon-happy"></span>
+                    </div>
+                    <h3 class="count-to font-alt" data-countto="790"></h3>
+                    <h5 class="count-title font-serif">Số lượng khách hàng đến với chúng tôi</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="module pt-0 pb-0">
+    <div class="row position-relative m-0">
+        <div class="col-xs-12 col-md-6 side-image" data-background="../assets/web/images/section-14.jpg"></div>
+        <div class="col-xs-12 col-md-6 col-md-offset-6">
+            <div class="row finance-image-content">
+                <div class="col-md-10 col-md-offset-1">
+                    <h2 class="module-title font-alt align-left">Practice Areas</h2>
+                    <div class="row multi-columns-row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon">
+                                    <span class="icon-briefcase"></span>
                                 </div>
-                            }
+                                <h3 class="alt-features-title font-alt">Business consulting</h3>A wonderful serenity has taken possession of my entire soul like these sweet mornings.
+                            </div>
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon">
+                                    <span class="icon-puzzle"></span>
+                                </div>
+                                <h3 class="alt-features-title font-alt">Marketing Strategy</h3>A wonderful serenity has taken possession of my entire soul like these sweet mornings.
+                            </div>
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon">
+                                    <span class="icon-pricetags"></span>
+                                </div>
+                                <h3 class="alt-features-title font-alt">Taxes Advisory</h3>A wonderful serenity has taken possession of my entire soul like these sweet mornings.
+                            </div>
                         </div>
-                    </div>
-                    <div class="rvs-nav-container">
-                        <a class="rvs-nav-prev"></a>
-                        <div class="rvs-nav-stage">
-                            @foreach (var video in ViewBag.video)
-                            {
-                                <a class="rvs-nav-item">
-                                    <span class="rvs-nav-item-thumb" style="background-image: url(@video.Image)"></span>
-                                    <h4 class="rvs-nav-item-title">@video.Title</h4>
-                                </a>
-                            }
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon">
+                                    <span class="icon-wallet"></span>
+                                </div>
+                                <h3 class="alt-features-title font-alt">Investment planning</h3>A wonderful serenity has taken possession of my entire soul like these sweet mornings.
+                            </div>
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon">
+                                    <span class="icon-laptop"></span>
+                                </div>
+                                <h3 class="alt-features-title font-alt">IT management</h3>A wonderful serenity has taken possession of my entire soul like these sweet mornings.
+                            </div>
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon">
+                                    <span class="icon-linegraph"></span>
+                                </div>
+                                <h3 class="alt-features-title font-alt">Data Analytics</h3>A wonderful serenity has taken possession of my entire soul like these sweet mornings.
+                            </div>
                         </div>
-                        <a class="rvs-nav-next"></a>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="module" id="news">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <h2 class="module-title font-alt">Các bài đăng trên blog mới nhất </h2>
+                <div class="module-subtitle font-serif">Gọi nơi Hạ Long tọa lạc và vịnh bởi vùng ấy biển ăn sâu vào đất liền. Hạ Long nằm ở phần bở Tây của vịnh Bắc Bộ, khu vực biển Đông Bắc Việt Nam. Nơi đây có 1969 hòn đảo lớn nhỏ, trong đó có những hòn đảo với những bãi tắm và hang động là địa điểm du lịch thu hút nhiều du khách nhất tại đây. Những hòn đảo này, không chỉ khác với những hòn đảo khác trên đất nước Việt Nam mà giữa chúng cũng có sự khác biệt rất rõ.</div>
+            </div>
+        </div>
+
+        @* render các bài post mới nhất  *@
+        <div class="row multi-columns-row post-columns">
+
+            @foreach (var post in   ViewBag.NewPost)
+            {
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="post mb-20">
+                        <div class="post-thumbnail">
+                            <a href="/bai-viet/@post.Slug">
+                                <img src="@post.AvatarUrl" alt="@post.Title"/>
+                            </a>
+                        </div>
+                        <div class="post-header font-alt">
+                            <h2 class="post-title">
+                                <a href="/bai-viet/@post.Slug">@post.Title</a>
+                            </h2>
+                            <div class="post-meta">
+                                Tác giả &nbsp;<a href="/bai-viet/@post.Slug">@post.Author</a>
+                            </div>
+                        </div>
+                        <div class="post-entry">
+                            <p> @post.ShortDesc</p>
+                        </div>
+                        <div class="post-more">
+                            <a class="more-link" href="/bai-viet/@post.Slug">Xem thêm</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+@* đối tác *@
+<section class="module-small bg-dark p-0">
+    <div class="container">
+        <div class="row client">
+            <div class="owl-carousel text-center" data-items="6" data-pagination="false" data-navigation="false">
+                <div class="owl-item">
+                    <div class="col-sm-12">
+                        <div class="client-logo">
+                            <img src="~/assets/web/images/client-logo-1.png" alt="Client Logo"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-item">
+                    <div class="col-sm-12">
+                        <div class="client-logo">
+                            <img src="~/assets/web/images/client-logo-2.png" alt="Client Logo"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-item">
+                    <div class="col-sm-12">
+                        <div class="client-logo">
+                            <img src="~/assets/web/images/client-logo-3.png" alt="Client Logo"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-item">
+                    <div class="col-sm-12">
+                        <div class="client-logo">
+                            <img src="~/assets/web/images/client-logo-4.png" alt="Client Logo"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-item">
+                    <div class="col-sm-12">
+                        <div class="client-logo">
+                            <img src="~/assets/web/images/client-logo-5.png" alt="Client Logo"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-item">
+                    <div class="col-sm-12">
+                        <div class="client-logo">
+                            <img src="~/assets/web/images/client-logo-1.png" alt="Client Logo"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-item">
+                    <div class="col-sm-12">
+                        <div class="client-logo">
+                            <img src="~/assets/web/images/client-logo-2.png" alt="Client Logo"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-item">
+                    <div class="col-sm-12">
+                        <div class="client-logo">
+                            <img src="~/assets/web/images/client-logo-3.png" alt="Client Logo"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-item">
+                    <div class="col-sm-12">
+                        <div class="client-logo">
+                            <img src="~/assets/web/images/client-logo-4.png" alt="Client Logo"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="module pt-0 pb-0" id="contact">
+    <div class="row position-relative m-0">
+        <div class="col-xs-12 col-md-6">
+            <div class="row finance-image-content">
+                <div class="col-md-10 col-md-offset-1">
+                    <h2 class="module-title font-alt align-left">Thông tin liên hệ </h2>
+                    <form id="contactForm" role="form" method="post" action="php/contact.php">
+                        <div class="form-group">
+                            <label class="sr-only" for="name">Họ và tên</label>
+                            <input class="form-control" type="text" id="name" name="name" placeholder="Họ và tên*" required="required" data-validation-required-message="Vui lòng nhập họ tên."/>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="email">Email</label>
+                            <input class="form-control" type="email" id="email" name="email" placeholder="Email*" required="required" data-validation-required-message="Vui lòng nhập địa chỉ."/>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="7" id="message" name="message" placeholder="Nội dung*" required="required" data-validation-required-message="Vui lòng nhập nội dung."></textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-block btn-round btn-d" id="cfsubmit" type="submit">Gủi</button>
+                        </div>
+                    </form>
+                    <div class="ajax-response font-alt" id="contactFormResponse"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-md-offset-6 side-image p-0">
+         
+                <div class="contact-map">
+                    <div class="box-text">
+                        @Html.Raw(System.Web.HttpUtility.HtmlDecode(globalSettings.EmbedMapURL))
+                    </div>
+                </div>
+          
         </div>
     </div>
 </section>
