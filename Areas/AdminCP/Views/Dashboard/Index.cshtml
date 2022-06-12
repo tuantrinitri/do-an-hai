@@ -41,7 +41,7 @@
         </div>
     </div>
  </div>  
-<!-- danh sach bai viet -->
+@* <!-- danh sach bai viet -->
 @if(!User.IsInRole(RoleTypes.ADMIN))
 {
     <div class="card">
@@ -60,7 +60,7 @@
                             <th style="width:30%;">
                                 Chuyên mục
                             </th>
-                             @if(User.IsInRole(RoleTypes.BTV) || User.IsInRole(RoleTypes.TBT)|| User.IsInRole(RoleTypes.TT))
+                             @if(User.IsInRole(RoleTypes.BTV) || User.IsInRole(RoleTypes.TBT))
                              {
                                 <th >
                                     Tác giả
@@ -152,4 +152,4 @@
             }
         </div>
     </div>
-}
+} *@
