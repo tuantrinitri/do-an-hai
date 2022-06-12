@@ -331,8 +331,8 @@ namespace CMS.Areas.PostManager.Controllers
             }
 
             var postToDelete = await _context.Posts.FindAsync(id);
-            postToDelete.IsDeleted = true;
-            _context.Update(postToDelete);
+      
+            _context.Remove(postToDelete);
             await _context.SaveChangesAsync();
             return Json(new
             {

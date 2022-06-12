@@ -17,10 +17,11 @@
         </li>
     </ol>
 </nav>
-
-<section class="page" id="detail">
-    <h1 style="font-size: 18px;color: #dc2f27;line-height: 22px;">
-        <strong>@Html.DisplayFor(model => model.Title)</strong>
-    </h1>
-    @Html.DisplayFor(model => model.Content)
-</section>
+<div class="container">
+    <section class="page" id="detail">
+        <h1 style="font-size: 18px;color: #dc2f27;line-height: 22px;">
+            <strong>@Html.DisplayFor(model => model.Title)</strong>
+        </h1>
+        @Html.DisplayFor(model => model.Content)
+    </section>
+</div>

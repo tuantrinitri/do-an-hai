@@ -36,11 +36,11 @@
                                 <a  href="/bai-viet/@item.Slug">@item.Title"</a>
                             </h2>
                             <div class="post-meta">
-                                By&nbsp;<a href="/bai-viet/@item.Slug">@item.Title</a>|
+                                By&nbsp;<a href="/bai-viet/@item.Slug">@(item.Author ?? "QTV")</a>|
                             </div>
                         </div>
                         <div class="post-entry">
-                            <p> @item.ShortDesc</p>
+                            <p>@item.ShortDesc.Truncate(90)</p>
                         </div>
                         <div class="post-more">
                             <a class="more-link" href="/bai-viet/@item.Slug">Chi tiết</a>

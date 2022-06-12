@@ -29,7 +29,7 @@ namespace CMS.Controllers
         public async Task<IActionResult> Index()
         {
             // khởi chạy lần đầu cho toàn bộ các thông tin website
-            var globalSetting = await _context.GlobalSettings.FirstOrDefaultAsync();
+            var globalSetting = await _context.GlobalSettings.OrderByDescending(z =>z.Id).FirstOrDefaultAsync();
             if (globalSetting == null)
             {
                 globalSetting = new GlobalSetting
@@ -45,42 +45,12 @@ namespace CMS.Controllers
                 _context.GlobalSettings.Add(globalSetting);
                 _context.SaveChanges();
             }
-
             // lấy danh sách bài viết
-            var posts = await _context.Posts
-                .Include(p => p.JoinPostCategories)
-                .ThenInclude(p => p.PostCategory)
-                .Where(pc => pc.IsDeleted != true)
-                .AsNoTracking().ToListAsync();
-
+            var posts =  _context.Posts.OrderByDescending(x => x.CreatedAt).AsNoTracking();
+            
             // lấy danh sách category
-            ViewBag.NewPost = await _context.Posts.OrderByDescending(x =>x.CreatedAt).AsNoTracking().ToListAsync();
-            
-            // lấy danh sách bài viết nổi bật 
-
-            ViewBag.PostFeatured = posts.Where(x => x.IsFeatured == true);
-            
-            
-            //   var homepageItems = await _context.HomepageItems.Where(hi => hi.Published == true).Include(item => item.Block).ToListAsync();
-            // // Get homepage block 1 item
-            // var homepageBlock1 = new List<HomepageItemViewModel>();
-            // var block1Items = homepageItems.Where(i => i.Block.Alias == "BLOCK_HOME_1").OrderBy(i => i.Order).ToList();
-            // foreach (var item in block1Items)
-            //     homepageBlock1.Add(new HomepageItemViewModel()
-            //     {
-            //         CategorySlug = item.Slug,
-            //         Title = item.Title,
-            //         Type = item.Type,
-            //         Posts = item.Slug == null ? posts.Where(p => p.IsFeatured == true).OrderByDescending(p => p.CreatedAt).Take(item.NoPosts).ToList()
-            //                 : posts.Where(p => p.JoinPostCategories.Any(j => j.PostCategory.Slug == item.Slug)).OrderBy(p => p.IsFeatured).OrderByDescending(p => p.CreatedAt).Take(item.NoPosts).ToList()
-            //
-            //     });
-            // ViewBag.HomepageBlock1 = homepageBlock1;
-            // Get homepage block 2 item 
-            // ViewBag.photo = await _context.GalleryItems.Where(s => s.Gallery.Alias == GalleriesAlias.PHOTO).Where(s => s.Published == true).OrderBy(s => s.Order).ToListAsync();
-            // ViewBag.video = await _context.GalleryItems.Where(s => s.Gallery.Alias == GalleriesAlias.VIDEO).Where(s => s.Published == true).OrderBy(s => s.Order).ToListAsync();
-           
-            
+            ViewBag.NewPost =  posts.Take(3).ToList();
+            ViewBag.PostFeatured =  posts.Where(x => x.IsFeatured == true).ToList();
             return await Task.FromResult((IActionResult) View("Index"));
         }
 

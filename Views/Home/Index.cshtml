@@ -1,11 +1,13 @@
 ﻿@using CMS.Helpers
 @inject ContextHelper ctxHelper
+
 @{
     ViewData["Title"] = "Trang chủ";
     Layout = "~/Views/Shared/Public/_Layout_Home.cshtml";
     var globalSettings = ctxHelper._context.GlobalSettings.FirstOrDefault();
     if (globalSettings == null) globalSettings = DefaultGlobalSettings._DefaultSettings;
     else globalSettings = globalSettings.MapSettings();
+
 }
 @* header *@
 <section class="home-section bg-dark-30" id="home" data-background="~/assets/web//images/finance/finance_header_bg.png">
@@ -209,7 +211,7 @@
                             </div>
                         </div>
                         <div class="post-entry">
-                            <p> @post.ShortDesc</p>
+                            <p>@(post.ShortDesc != null ?  post.ShortDesc.ToString().Substring(90) + "..." : "")</p>
                         </div>
                         <div class="post-more">
                             <a class="more-link" href="/bai-viet/@post.Slug">Xem thêm</a>
