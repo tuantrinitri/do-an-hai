@@ -69,7 +69,6 @@ namespace CMS.Data
                 var roles = new List<Role>
                 {
                     new Role { Name="admin", Title="Administrator"},
-                    new Role { Name="btv", Title="Biên tập viên"},
                     new Role { Name="ctv", Title="Cộng tác viên"},
                 };
 

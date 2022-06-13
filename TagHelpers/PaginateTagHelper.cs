@@ -227,12 +227,11 @@ namespace CMS.TagHelpers
             }
             var prevDisabled = !HasPreviousPage ? "disabled" : "";
             var nextDisabled = !HasNextPage ? "disabled" : "";
-
             output.Content.SetHtmlContent(
-                "<li data-popup=\"tooltip\" title=\"Trang đầu\" class=\"page-item " + prevDisabled + "\">" + GenerateTag("<i class=\"fas fa-angle-double-left\"></i>", "page-link", "1") + "</li>&nbsp;" +
-                "<li data-popup=\"tooltip\" title=\"Trước\" class=\"page-item " + prevDisabled + "\">" + GenerateTag("<i class=\"fas fa-angle-left\"></i>", "page-link", (PageIndex - 1).ToString()) + "</li>" + item +
-                "<li data-popup=\"tooltip\" title=\"Sau\" class=\"page-item " + nextDisabled + "\">" + GenerateTag("<i class=\"fas fa-angle-right\"></i>", "page-link", (PageIndex + 1).ToString()) + "</li>&nbsp;" +
-                "<li data-popup=\"tooltip\" title=\"Trang cuối\" class=\"page-item " + nextDisabled + "\">" + GenerateTag("<i class=\"fas fa-angle-double-right\"></i>", "page-link", TotalPages.ToString()) + "</li>"
+                "<li data-popup=\"tooltip\" title=\"Trang đầu\" class=\"page-item " + prevDisabled + "\">" + GenerateTag("<i class=\"fa fa-angle-double-left\"></i>", "page-link", "1") + "</li>&nbsp;" +
+                "<li data-popup=\"tooltip\" title=\"Trước\" class=\"page-item " + prevDisabled + "\">" + GenerateTag("<i class=\"fa fa-angle-left\"></i>", "page-link", (PageIndex - 1).ToString()) + "</li>" + item +
+                "<li data-popup=\"tooltip\" title=\"Sau\" class=\"page-item " + nextDisabled + "\">" + GenerateTag("<i class=\"fa fa-angle-right\"></i>", "page-link", (PageIndex + 1).ToString()) + "</li>&nbsp;" +
+                "<li data-popup=\"tooltip\" title=\"Trang cuối\" class=\"page-item " + nextDisabled + "\">" + GenerateTag("<i class=\"fa fa-angle-double-right\"></i>", "page-link", TotalPages.ToString()) + "</li>"
                 );
 
 

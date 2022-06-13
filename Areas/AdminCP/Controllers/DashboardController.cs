@@ -44,63 +44,9 @@ namespace CMS.Areas.AdminCP.Controllers
             int contacts = 0;
             int questions = 0;
 
-            // Thu trưởng đơn vị được xem các bài viết của đơn vị
-            if (User.IsInRole(RoleTypes.TT))
-            {
-                posts = _context.Posts
-                .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
-                .Include(u => u.CreatedBy)
-                .Where(p => p.IsDeleted != true)
-                .Where(p => !(p.CreatedBy.UserName != User.Identity.Name))
-                .OrderByDescending(u => u.CreatedAt)
-                .AsNoTracking();
-                ViewData["ActionTitle"] = "Chức năng";
-                ViewData["TableTitle"] = "Danh sách bài viết chờ duyệt";
-                ViewData["DashBoard"] = new List<DashboardItemDTO>()
-                {
-                    // card bai viet mới
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Create",
-                       Route = "",
-                       IconClass = "icon-plus3",
-                       Title = "Bài viết mới",
-                       Total = "Tạo",
-                       BgColorClass = "bg-info-400"
-                   },
-                    // tất cả bài viết
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = "",
-                       IconClass = "icon-file-text2",
-                       Title = "Tất cả bài viết",
-                       Total = posts.Count().ToString(),
-                       BgColorClass = "bg-indigo-300"
-                   },
-                    // bài viết đã trình duyệt
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.PENDING,
-                       IconClass = "icon-file-text2",
-                       Title = "Bài viết đã trình duyệt",
-                       Total = posts.Count().ToString(),
-                       BgColorClass = "bg-teal-400"
-                   }                   ,
-                  
-                };
-            
-            }
-
+      
             // Cộng tác viên chỉ xem bài viết của mình
-            else if (User.IsInRole(RoleTypes.CTV))
+             if (User.IsInRole(RoleTypes.CTV))
             {
                 posts = _context.Posts
                .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
@@ -109,8 +55,9 @@ namespace CMS.Areas.AdminCP.Controllers
                .Where(p => p.CreatedBy.UserName == User.Identity.Name)
                .OrderByDescending(u => u.ApprovalAt)
                .AsNoTracking();
-                ViewData["ActionTitle"] = "Chức năng";
-                ViewData["TableTitle"] = "Danh sách bài viết bị từ chối";
+                    ViewData["ActionTitle"] = "Chức năng";
+                    ViewData["TableTitle"] = "Danh sách bài viết bị từ chối";
+                contacts = _context.Contacts.Count();
                 ViewData["DashBoard"] = new List<DashboardItemDTO>()
                 {
                     // card bai viet mới
@@ -137,158 +84,35 @@ namespace CMS.Areas.AdminCP.Controllers
                        Total = posts.Count().ToString(),
                        BgColorClass = "bg-indigo-300"
                    },
+                   new DashboardItemDTO()
+                   {
+                       Area = "ContactManager",
+                       Controller = "Contacts",
+                       Action = "Index",
+                       Route = "",
+                       IconClass = "icon-envelop2",
+                       Title = "Liên hệ",
+                       Total = contacts.ToString(),
+                       BgColorClass = "bg-blue-400"
+                   }
                   
                 };
    
             }
-            // BTV 
-            else if (User.IsInRole(RoleTypes.BTV))
-            {
-                posts = _context.Posts
-               .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
-               .Include(u => u.CreatedBy)
-               .Where(p => p.IsDeleted != true)
-               
-               .Where(p => !(p.CreatedBy.UserName != User.Identity.Name))
-               .OrderByDescending(u => u.CreatedAt)
-               .AsNoTracking();
-                ViewData["ActionTitle"] = "Chức năng";
-                ViewData["TableTitle"] = "Danh sách bài viết chờ duyệt";
-                ViewData["DashBoard"] = new List<DashboardItemDTO>()
-                {
-                     // card bai viet mới
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Create",
-                       Route = "",
-                       IconClass = "icon-plus3",
-                       Title = "Bài viết mới",
-                       Total = "TẠO",
-                       BgColorClass = "bg-info-400"
-                   },
-                    // tất cả bài viết
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = "",
-                       IconClass = "icon-file-text2",
-                       Title = "Tất cả bài viết",
-                       Total = posts.Count().ToString(),
-                       BgColorClass = "bg-indigo-300"
-                   },
-                    // bài viết đã trình duyệt
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.PENDING,
-                       IconClass = "icon-file-text2",
-                       Title = "Bài viết đã trình duyệt",
-                       Total = posts.Count().ToString(),
-                       BgColorClass = "bg-teal-400"
-                   }                   ,
-        
-                };
-            
-            }
-            // menu của tổng biên tập
-            else if (User.IsInRole(RoleTypes.TBT))
-            {
-                posts = _context.Posts
-               .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
-               .Include(u => u.CreatedBy)
-               .Where(p => p.IsDeleted != true)
-               .Where(p =>p.CreatedBy.UserName != User.Identity.Name)
-               .OrderByDescending(u => u.CreatedAt)
-               .AsNoTracking();
-                ViewData["ActionTitle"] = "Chức năng";
-                ViewData["TableTitle"] = "Danh sách bài viết chờ duyệt";
-                ViewData["DashBoard"] = new List<DashboardItemDTO>()
-                {
-                    // bài viết mới
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Create",
-                       Route = "",
-                       IconClass = "icon-plus3",
-                       Title = "Bài viết mới",
-                       Total = "TẠO",
-                       BgColorClass = "bg-info-400"
-                   },
-                    // tất cả bài viết
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = "",
-                       IconClass = "icon-file-text2",
-                       Title = "Tất cả bài viết",
-                       Total = posts.Count().ToString(),
-                       BgColorClass = "bg-indigo-300"
-                   },
-                    // bài viết đã xuất bản
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.PUBLISHED,
-                       IconClass = "icon-file-text2",
-                       Title = "Bài viết đã xuất bản",
-                       Total = posts.Count().ToString(),
-                       BgColorClass = "bg-teal-400"
-                   }                   ,
-                    // bài viết nháp
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.DRAFT,
-                       IconClass = "icon-file-text2",
-                       Title = "Bài viết nháp",
-                       Total = posts.Count().ToString(),
-                       BgColorClass = "bg-blue-400"
-                   },
-                    // bài viết chờ duyệt
-                   new DashboardItemDTO()
-                   {
-                       Area = "PostManager",
-                       Controller = "Posts",
-                       Action = "Index",
-                       Route = ApprovalStatuses.PENDING,
-                       IconClass = "icon-file-text2",
-                       Title = "Bài viết chờ duyệt",
-                       Total = posts.Count().ToString(),
-                       BgColorClass = "bg-orange-400"
-                   }
-                };
-               
-            }
-            // menu của admin
+             // menu của admin
             else
             {
                 posts = _context.Posts
-               //  .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
-               //  .Include(u => u.CreatedBy)
+               .Include(d => d.JoinPostCategories).ThenInclude(jpc => jpc.PostCategory)
+               .Include(u => u.CreatedBy)
                .Where(p => p.IsDeleted != true)
                .Where(p => p.CreatedBy.UserName != User.Identity.Name)
                //   .OrderByDescending(u => u.Id)
                .AsNoTracking();
-
-             
                 contacts = _context.Contacts.Count();
                 users = _context.Users.Count();
+               var counterPosts = _context.Posts.Count();
                 ViewData["ActionTitle"] = "Thống kê";
-                
                 ViewData["DashBoard"] = new List<DashboardItemDTO>()
                 {
                     // card bai viet
@@ -300,7 +124,7 @@ namespace CMS.Areas.AdminCP.Controllers
                        Route = "",
                        IconClass = "icon-file-text2",
                        Title = "Bài viết",
-                       Total = posts.Count().ToString(),
+                       Total = counterPosts.ToString(),
                        BgColorClass = "bg-indigo-300"
                    },
                  
@@ -326,19 +150,7 @@ namespace CMS.Areas.AdminCP.Controllers
                        Title = "Liên hệ",
                        Total = contacts.ToString(),
                        BgColorClass = "bg-blue-400"
-                   },
-                     // card cau hoi
-                   // new DashboardItemDTO()
-                   // {
-                   //     Area = "QAManager",
-                   //     Controller = "QAAdmin",
-                   //     Action = "Index",
-                   //     Route = "",
-                   //     IconClass = "icon-question7",
-                   //     Title = "Nội dung hỏi đáp",
-                   //     Total = questions.ToString(),
-                   //     BgColorClass = "bg-indigo-400"
-                   // },
+                   }
                 };
             }
             return View(model);

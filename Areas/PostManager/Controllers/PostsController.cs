@@ -22,7 +22,7 @@ using System.Security.Claims;
 namespace CMS.Areas.PostManager.Controllers
 {
     [Area("PostManager")]
-    [Route("AdminCP/Posts/{action=index}/{id?}")]
+    [Route("Posts/{action=index}/{id?}")]
     [Authorize]
     public class PostsController : Controller
     {
@@ -147,6 +147,7 @@ namespace CMS.Areas.PostManager.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Breadcrumb("Tạo mới")]
         public async Task<IActionResult> Create(CreatePostDTO postDTO, string submitBtn)
         {
             if (ModelState.IsValid)

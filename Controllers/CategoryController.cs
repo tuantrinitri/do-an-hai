@@ -58,7 +58,7 @@ namespace CMS.Controllers
                 return NotFound();
             }
 
-            var pagination = PaginatedList<Post>.Create(posts, page, 10);
+            var pagination = PaginatedList<Post>.Create(posts, page, 12);
             ViewData["Category"] = category;
             return View(pagination);
         }

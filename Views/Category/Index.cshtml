@@ -8,6 +8,7 @@
     ViewData["Url"] = "http://daotao.mitechcenter.vn/chuyen-muc/" + category.Slug;
 
 }
+<div class="main">
 <section class="module bg-dark-60 blog-page-header"
          data-background="@category.ImageCategory">
     <div class="container">
@@ -19,36 +20,58 @@
         </div>
     </div>
 </section>
-<section class="module">
-    <div class="container">
-        <div class="row multi-columns-row post-columns">
-            @foreach (var item in Model)
-            {
-                <div class="col-sm-6 col-md-4 col-lg-4">
-                    <div class="post">
-                        <div class="post-thumbnail">
-                            <a href="/bai-viet/@item.Slug">
-                                <img src="@item.AvatarUrl" alt="@item.Title"/>
-                            </a>
-                        </div>
-                        <div class="post-header font-alt">
-                            <h2 class="post-title">
-                                <a  href="/bai-viet/@item.Slug">@item.Title"</a>
-                            </h2>
-                            <div class="post-meta">
-                                By&nbsp;<a href="/bai-viet/@item.Slug">@(item.Author ?? "QTV")</a>|
+
+    <section class="module">
+        <div class="container">
+            <div class="row multi-columns-row post-columns">
+                @foreach (var item in Model)
+                {
+                    
+                    <div class="col-sm-6 col-md-3 col-lg-3">
+                        <div class="post">
+                            <div class="post-thumbnail" style="width: 262px !important;  height: 172px !important;">
+                                <a href="/bai-viet/@item.Slug"><img style="max-width: 100% !important; max-height: 100% !important;" src="@(item.AvatarUrl)" alt=""/></a>
                             </div>
-                        </div>
-                        <div class="post-entry">
-                            <p>@item.ShortDesc.Truncate(90)</p>
-                        </div>
-                        <div class="post-more">
-                            <a class="more-link" href="/bai-viet/@item.Slug">Chi tiết</a>
+                            <div class="post-header font-alt">
+                                <h2 class="post-title"><a href="/bai-viet/@item.Slug">@item.Title</a></h2>
+                            </div>
+                            <div class="post-entry">
+                                <p>@item.ShortDesc.Truncate(200)</p>
+                            </div>
+                            <div class="post-more"><a class="more-link" href="/bai-viet/@item.Slug">Read more</a></div>
                         </div>
                     </div>
-                </div>
-            }
+                    
+                    
+                    
+                    
+                    @* <div class="col-sm-6 col-md-3 col-lg-3"> *@
+                    @*     <div class="post"> *@
+                    @*         <div class="post-thumbnail" style="width: 262px !important;  height: 172px !important;"> *@
+                    @*             <a href="/bai-viet/@item.Slug"> *@
+                    @*                 <img style="max-width: 100%;max-height: 100%" src="@item.AvatarUrl" alt="@item.Title"/> *@
+                    @*             </a> *@
+                    @*         </div> *@
+                    @*         <div class="post-header font-alt"> *@
+                    @*             <h2 class="post-title"> *@
+                    @*                 <a href="/bai-viet/@item.Slug">@item.Title"</a> *@
+                    @*             </h2> *@
+                    @*             <div class="post-meta"> *@
+                    @*                 By&nbsp;<a href="/bai-viet/@item.Slug">@(item.Author ?? "QTV")</a>| *@
+                    @*             </div> *@
+                    @*         </div> *@
+                    @*         <div class="post-entry"> *@
+                    @*             <p>@item.ShortDesc.Truncate(90)</p> *@
+                    @*         </div> *@
+                    @*         <div class="post-more"> *@
+                    @*             <a class="more-link" href="/bai-viet/@item.Slug">Chi tiết</a> *@
+                    @*         </div> *@
+                    @*     </div> *@
+                    @* </div> *@
+                }
+            </div>
+            
+            <paginate info="@Model" page-action="Index" class="pagination"></paginate>
         </div>
-        <paginate info="@Model" page-action="Index" class="pagination"></paginate>
-    </div>
-</section>
+    </section>
+</div>

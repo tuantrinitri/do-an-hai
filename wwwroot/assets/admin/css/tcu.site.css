@@ -20,8 +20,8 @@
 }
 
 .navbar-dark {
-    background-image: linear-gradient(to right, #bd0e01, #f44336);
-    border-bottom: 1px solid #cd1d10;
+    background-image: linear-gradient(to right, #326eac, #f44336);
+    border-bottom: 1px solid rgba(7, 133, 203, 0.76);
     box-shadow: none;
 }
 
