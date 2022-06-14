@@ -436,7 +436,5 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-/Migrations/20200709025544_QAModel.cs
-/Migrations/20200709025544_QAModel.Designer.cs
-wwwroot/public/
-wwwroot/public/*
+
+appsetting.*
