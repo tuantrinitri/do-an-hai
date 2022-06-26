@@ -13,6 +13,7 @@ using CMS.Models;
 using AutoMapper;
 using System.IO;
 using System.Data;
+using CMS.Areas.ContactManager.Models;
 
 namespace CMS
 {
@@ -92,6 +93,8 @@ namespace CMS
             services.AddAutoMapper(typeof(Startup));
             //----- Render các lớp hỗ trợ cho hệ thống or lập trình ngắn gọn 
             services.AddTransient<ContextHelper>();
+            // -- Render contacr
+            services.AddTransient<Contact>();
 
             // Render ra menu ngoài trang public
             services.AddTransient<MenuExtensions>();

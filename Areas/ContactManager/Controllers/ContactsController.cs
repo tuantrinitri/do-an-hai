@@ -33,12 +33,6 @@ namespace CMS.Areas.ContactManager.Controllers
         {
             var contacts = _context.Contacts.OrderByDescending(u => u.Id);
 
-            if (!String.IsNullOrEmpty(q))
-            {
-                ViewData["filter_q"] = q;
-                contacts = (IOrderedQueryable<Contact>)contacts.Where(c => c.Title.Contains(q));
-            }
-
             ViewBag.totalitem = contacts.Count();
 
             return View(PaginatedList<Contact>.Create(contacts.AsNoTracking(), page ?? 1, 10));

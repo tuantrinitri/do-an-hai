@@ -43,10 +43,7 @@ namespace CMS.Areas.ContactManager.Controllers
             if (ModelState.IsValid)
             {
                 contact.CreatedAt = DateTime.Now;
-                var token = Request.Form["g-recaptcha-response"];
-                var ggRecapt = _reCAPTCHAService.VerifyCaptchaAsync(token, 2);
-                if (ggRecapt.Result.success)
-                {
+               
                     _context.Add(contact);
                     await _context.SaveChangesAsync();
                     TempData["FlashData"] = JsonConvert.SerializeObject(new FlashData
@@ -55,16 +52,6 @@ namespace CMS.Areas.ContactManager.Controllers
                         Message = "Gửi liên hệ thành công"
                     });
                     return View();
-                }
-                else
-                {
-                    TempData["FlashData"] = JsonConvert.SerializeObject(new FlashData
-                    {
-                        Type = "error",
-                        Message = "Vui lòng chọn \"Tôi không phải là người máy\""
-                    });
-                    return View();
-                }
             }
             TempData["FlashData"] = JsonConvert.SerializeObject(new FlashData
             {

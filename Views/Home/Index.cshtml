@@ -1,6 +1,6 @@
 ﻿@using CMS.Helpers
+@model CMS.Areas.ContactManager.Models.Contact
 @inject ContextHelper ctxHelper
-
 @{
     ViewData["Title"] = "Trang chủ";
     Layout = "~/Views/Shared/Public/_Layout_Home.cshtml";
@@ -156,7 +156,7 @@
                             </div>
                         </div>
                         <div class="post-entry">
-                            <p>@(post.ShortDesc != null ?  post.ShortDesc.ToString().Substring(90) + "..." : "")</p>
+                            <p>@(post.ShortDesc != null ? post.ShortDesc.ToString().Substring(90) + "..." : "")</p>
                         </div>
                         <div class="post-more">
                             <a class="more-link" href="/bai-viet/@post.Slug">Xem thêm</a>
@@ -246,37 +246,38 @@
             <div class="row finance-image-content">
                 <div class="col-md-10 col-md-offset-1">
                     <h2 class="module-title font-alt align-left">Thông tin liên hệ </h2>
-                    <form id="contactForm" role="form" method="post" action="php/contact.php">
+                    <form role="form" asp-area="ContactManager" asp-controller="ContactsPublic" asp-action="Index" method="post">
+                        <input type="hidden" asp-for="Title" value="Gửi liên hệ">
+                        <input type="hidden" asp-for="PhoneNumber" value="123456789">
                         <div class="form-group">
                             <label class="sr-only" for="name">Họ và tên</label>
-                            <input class="form-control" type="text" id="name" name="name" placeholder="Họ và tên*" required="required" data-validation-required-message="Vui lòng nhập họ tên."/>
-                            <p class="help-block text-danger"></p>
+                            <input class="form-control" type="text" id="name" asp-for="@Model.Fullname" placeholder="Họ và tên*" required="required" data-validation-required-message="Vui lòng nhập họ tên."/>
+                            <span asp-validation-for="@Model.Fullname" class="help-block text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="email">Email</label>
-                            <input class="form-control" type="email" id="email" name="email" placeholder="Email*" required="required" data-validation-required-message="Vui lòng nhập địa chỉ."/>
+                            <input class="form-control" type="email" id="email" asp-for="@Model.Email" placeholder="Email*" required="required" data-validation-required-message="Vui lòng nhập địa chỉ."/>
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" rows="7" id="message" name="message" placeholder="Nội dung*" required="required" data-validation-required-message="Vui lòng nhập nội dung."></textarea>
+                            <textarea class="form-control" rows="7" id="message"  asp-for="@Model.Content" placeholder="Nội dung*" required="required" data-validation-required-message="Vui lòng nhập nội dung."></textarea>
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="text-center">
-                            <button class="btn btn-block btn-round btn-d" id="cfsubmit" type="submit">Gủi</button>
+                            <button class="btn btn-block btn-round btn-d" type="submit">Gủi</button>
                         </div>
                     </form>
-                    <div class="ajax-response font-alt" id="contactFormResponse"></div>
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-md-6 col-md-offset-6 side-image p-0">
-         
-                <div class="contact-map">
-                    <div class="box-text">
-                        @Html.Raw(System.Web.HttpUtility.HtmlDecode(globalSettings.EmbedMapURL))
-                    </div>
+
+            <div class="contact-map">
+                <div class="box-text">
+                    @Html.Raw(System.Web.HttpUtility.HtmlDecode(globalSettings.EmbedMapURL))
                 </div>
-          
+            </div>
+
         </div>
     </div>
 </section>
